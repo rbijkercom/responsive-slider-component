@@ -8,8 +8,8 @@ The responsive slider component system will be implemented as a configurable, mu
 
 The slider system consists of four main components:
 
-1. **Data Source Lists**: Original list elements marked with `data-slider-element="list"` and `data-list-instance` attributes
-2. **Slider Containers**: Empty div elements marked with `data-slider-element="slider"` that will contain generated sliders
+1. **Data Source Lists**: Original list elements marked with `rb-slider-element="list"` and `rb-slider-instance` attributes
+2. **Slider Containers**: Empty div elements marked with `rb-slider-element="slider"` that will contain generated sliders
 3. **Initialization System**: JavaScript that detects data sources and generates slider markup
 4. **CSS Framework**: Responsive styling system that handles layout, scrolling, and responsive behavior
 
@@ -21,8 +21,8 @@ The architecture follows a data-driven approach where configuration is declarati
 
 - **Purpose**: Original markup containing items to be converted into slider content
 - **Data Attributes**:
-  - `data-slider-element="list"` - Identifies element as a data source
-  - `data-list-instance="[name]"` - Unique identifier for the list instance
+  - `rb-slider-element="list"` - Identifies element as a data source
+  - `rb-slider-instance="[name]"` - Unique identifier for the list instance
 - **HTML Structure**: Any list structure (ul, ol, div with children)
 - **Processing**: Items extracted and cloned into slider containers
 
@@ -30,12 +30,12 @@ The architecture follows a data-driven approach where configuration is declarati
 
 - **Purpose**: Target containers where sliders will be generated
 - **Data Attributes**:
-  - `data-slider-element="slider"` - Identifies element as a slider target
-  - `data-slides-per-view="[number]"` - Desktop slides visible (default: 4)
-  - `data-slides-per-view-tablet="[number]"` - Tablet slides visible (default: 3)
-  - `data-slides-per-view-mobile="[number]"` - Mobile slides visible (default: 1)
+  - `rb-slider-element="slider"` - Identifies element as a slider target
+  - `rb-slides-per-view="[number]"` - Desktop slides visible (default: 4)
+  - `rb-slides-per-view-tablet="[number]"` - Tablet slides visible (default: 3)
+  - `rb-slides-per-view-mobile="[number]"` - Mobile slides visible (default: 1)
   - `data-gap="[css-value]"` - Gap between slides (default: 1.5rem)
-  - `data-list-instance="[name;name2]"` - Semicolon-separated list of source instances
+  - `rb-slider-instance="[name;name2]"` - Semicolon-separated list of source instances
 - **Generated Structure**: Becomes `.slider-container` with appropriate CSS custom properties
 
 ### Generated Slider Components
@@ -75,34 +75,34 @@ The architecture follows a data-driven approach where configuration is declarati
 
 ```html
 <!-- Data Source Lists -->
-<ul data-slider-element="list" data-list-instance="products">
+<ul rb-slider-element="list" rb-slider-instance="products">
   <li>Product 1 content</li>
   <li>Product 2 content</li>
   <li>Product 3 content</li>
 </ul>
 
-<div data-slider-element="list" data-list-instance="gallery">
+<div rb-slider-element="list" rb-slider-instance="gallery">
   <div class="gallery-item">Gallery item 1</div>
   <div class="gallery-item">Gallery item 2</div>
 </div>
 
 <!-- Slider Target Containers -->
 <div
-  data-slider-element="slider"
-  data-slides-per-view="4"
-  data-slides-per-view-tablet="3"
-  data-slides-per-view-mobile="1"
+  rb-slider-element="slider"
+  rb-slides-per-view="4"
+  rb-slides-per-view-tablet="3"
+  rb-slides-per-view-mobile="1"
   data-gap="1.5rem"
-  data-list-instance="products"
+  rb-slider-instance="products"
 ></div>
 
 <div
-  data-slider-element="slider"
-  data-slides-per-view="3"
-  data-slides-per-view-tablet="2"
-  data-slides-per-view-mobile="1"
+  rb-slider-element="slider"
+  rb-slides-per-view="3"
+  rb-slides-per-view-tablet="2"
+  rb-slides-per-view-mobile="1"
   data-gap="2rem"
-  data-list-instance="products;gallery"
+  rb-slider-instance="products;gallery"
 ></div>
 ```
 

@@ -9,19 +9,19 @@
     <link rel="stylesheet" href="slider-style.css">
     <style>
         /* Basic content styling for testing - not part of slider framework */
-        div[data-slider-element="slider"]>div {
+        div[rb-slider-element="slider"]>div {
             background: white;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             padding: 1.5rem;
         }
 
-        div[data-slider-element="slider"]>div h3 {
+        div[rb-slider-element="slider"]>div h3 {
             margin: 0 0 0.5rem 0;
             color: #2c3e50;
         }
 
-        div[data-slider-element="slider"]>div p {
+        div[rb-slider-element="slider"]>div p {
             margin: 0;
             color: #666;
         }
@@ -34,7 +34,7 @@
 
         <!-- Test 1: Default configuration -->
         <h2>Default Configuration (4-3-1 slides)</h2>
-        <div data-slider-element="slider"
+        <div rb-slider-element="slider"
             style="--slides-per-view-desktop: 4; --slides-per-view-tablet: 3; --slides-per-view-mobile: 1; --slide-gap: 1.5rem;">
             <div>
                 <h3>Slide 1</h3>
@@ -60,7 +60,7 @@
 
         <!-- Test 2: Custom configuration -->
         <h2>Custom Configuration (2-2-1 slides, larger gap)</h2>
-        <div data-slider-element="slider"
+        <div rb-slider-element="slider"
             style="--slides-per-view-desktop: 2; --slides-per-view-tablet: 2; --slides-per-view-mobile: 1; --slide-gap: 2rem;">
             <div>
                 <h3>Custom 1</h3>
@@ -82,7 +82,7 @@
 
         <!-- Test 3: Single slide mobile -->
         <h2>Mobile-First Configuration (5-3-1 slides)</h2>
-        <div data-slider-element="slider"
+        <div rb-slider-element="slider"
             style="--slides-per-view-desktop: 5; --slides-per-view-tablet: 3; --slides-per-view-mobile: 1; --slide-gap: 1rem;">
             <div>
                 <h3>Mobile 1</h3>

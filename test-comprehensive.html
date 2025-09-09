@@ -24,7 +24,7 @@
             border: 1px solid #ddd;
         }
 
-        [data-slider-element="list"] {
+        [rb-slider-element="list"] {
             display: none;
         }
     </style>
@@ -37,7 +37,7 @@
         <h2>Test 1: Single List Instance</h2>
 
         <!-- Data Source -->
-        <ul data-slider-element="list" data-list-instance="products">
+        <ul rb-slider-element="list" rb-slider-instance="products">
             <li><strong>Product A</strong><br>Description for product A</li>
             <li><strong>Product B</strong><br>Description for product B</li>
             <li><strong>Product C</strong><br>Description for product C</li>
@@ -46,8 +46,8 @@
         </ul>
 
         <!-- Slider Target -->
-        <div data-slider-element="slider" data-slides-per-view="3" data-slides-per-view-tablet="2"
-            data-slides-per-view-mobile="1" data-gap="1rem" data-list-instance="products">
+        <div rb-slider-element="slider" rb-slides-per-view="3" rb-slides-per-view-tablet="2"
+            rb-slides-per-view-mobile="1" data-gap="1rem" rb-slider-instance="products">
         </div>
     </div>
 
@@ -55,20 +55,20 @@
         <h2>Test 2: Multiple List Instances (Semicolon-separated)</h2>
 
         <!-- Data Sources -->
-        <div data-slider-element="list" data-list-instance="gallery">
+        <div rb-slider-element="list" rb-slider-instance="gallery">
             <div><strong>Gallery 1</strong><br>Beautiful image gallery item</div>
             <div><strong>Gallery 2</strong><br>Another gallery item</div>
             <div><strong>Gallery 3</strong><br>Third gallery item</div>
         </div>
 
-        <ol data-slider-element="list" data-list-instance="features">
+        <ol rb-slider-element="list" rb-slider-instance="features">
             <li><strong>Feature X</strong><br>Amazing feature description</li>
             <li><strong>Feature Y</strong><br>Another great feature</li>
         </ol>
 
         <!-- Combined Slider -->
-        <div data-slider-element="slider" data-slides-per-view="4" data-slides-per-view-tablet="3"
-            data-slides-per-view-mobile="1" data-gap="1.5rem" data-list-instance="products;gallery;features">
+        <div rb-slider-element="slider" rb-slides-per-view="4" rb-slides-per-view-tablet="3"
+            rb-slides-per-view-mobile="1" data-gap="1.5rem" rb-slider-instance="products;gallery;features">
         </div>
     </div>
 
@@ -76,8 +76,8 @@
         <h2>Test 3: Different Configurations</h2>
 
         <!-- Same data source, different config -->
-        <div data-slider-element="slider" data-slides-per-view="2" data-slides-per-view-tablet="1"
-            data-slides-per-view-mobile="1" data-gap="2rem" data-list-instance="gallery">
+        <div rb-slider-element="slider" rb-slides-per-view="2" rb-slides-per-view-tablet="1"
+            rb-slides-per-view-mobile="1" data-gap="2rem" rb-slider-instance="gallery">
         </div>
     </div>
 
@@ -85,7 +85,7 @@
         <h2>Test 4: Default Values</h2>
 
         <!-- Minimal configuration (should use defaults) -->
-        <div data-slider-element="slider" data-list-instance="features">
+        <div rb-slider-element="slider" rb-slider-instance="features">
         </div>
     </div>
 

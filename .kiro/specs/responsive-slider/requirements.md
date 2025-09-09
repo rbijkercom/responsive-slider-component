@@ -12,9 +12,9 @@ This feature involves creating a configurable responsive slider component system
 
 #### Acceptance Criteria
 
-1. WHEN a slider element has data-slides-per-view attribute THEN the system SHALL display that number of slides visible at desktop resolution
-2. WHEN a slider element has data-slides-per-view-tablet attribute THEN the system SHALL display that number of slides on tablet screens
-3. WHEN a slider element has data-slides-per-view-mobile attribute THEN the system SHALL display that number of slides on mobile screens
+1. WHEN a slider element has rb-slides-per-view attribute THEN the system SHALL display that number of slides visible at desktop resolution
+2. WHEN a slider element has rb-slides-per-view-tablet attribute THEN the system SHALL display that number of slides on tablet screens
+3. WHEN a slider element has rb-slides-per-view-mobile attribute THEN the system SHALL display that number of slides on mobile screens
 4. WHEN the container width changes between breakpoints THEN the slides SHALL automatically adjust their count and width proportionally
 5. WHEN no responsive attributes are provided THEN the system SHALL use sensible defaults (4 desktop, 3 tablet, 1 mobile)
 
@@ -24,8 +24,8 @@ This feature involves creating a configurable responsive slider component system
 
 #### Acceptance Criteria
 
-1. WHEN list elements have data-slider-element="list" and data-list-instance attributes THEN the system SHALL identify them as data sources
-2. WHEN slider elements have data-slider-element="slider" and data-list-instance attributes THEN the system SHALL generate sliders from matching list instances
+1. WHEN list elements have rb-slider-element="list" and rb-slider-instance attributes THEN the system SHALL identify them as data sources
+2. WHEN slider elements have rb-slider-element="slider" and rb-slider-instance attributes THEN the system SHALL generate sliders from matching list instances
 3. WHEN multiple list instances are specified (semicolon-separated) THEN the system SHALL combine items from all specified instances
 4. WHEN multiple sliders exist on the same page THEN each SHALL operate independently with their own configuration
 5. WHEN a list instance is referenced by multiple sliders THEN the system SHALL handle this without conflicts

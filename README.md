@@ -50,7 +50,7 @@ Transform any list into a configurable slider using data attributes:
 
 ```html
 <!-- 1. Define your data source -->
-<ul data-slider-element="list" data-list-instance="products">
+<ul rb-slider-element="list" rb-slider-instance="products">
   <li><strong>Product A</strong><br />Great product description</li>
   <li><strong>Product B</strong><br />Another amazing product</li>
   <li><strong>Product C</strong><br />Third fantastic product</li>
@@ -59,12 +59,12 @@ Transform any list into a configurable slider using data attributes:
 
 <!-- 2. Create slider with configuration -->
 <div
-  data-slider-element="slider"
-  data-slides-per-view="3"
-  data-slides-per-view-tablet="2"
-  data-slides-per-view-mobile="1"
+  rb-slider-element="slider"
+  rb-slides-per-view="3"
+  rb-slides-per-view-tablet="2"
+  rb-slides-per-view-mobile="1"
   data-gap="1.5rem"
-  data-list-instance="products"
+  rb-slider-instance="products"
 ></div>
 
 <!-- 3. Include CSS and JS -->
@@ -75,11 +75,11 @@ Transform any list into a configurable slider using data attributes:
 
 ### Configuration Options
 
-- `data-slides-per-view`: Desktop slides (1-10+, default: 4)
-- `data-slides-per-view-tablet`: Tablet slides (1-10+, default: 3)
-- `data-slides-per-view-mobile`: Mobile slides (1-10+, default: 1)
+- `rb-slides-per-view`: Desktop slides (1-10+, default: 4)
+- `rb-slides-per-view-tablet`: Tablet slides (1-10+, default: 3)
+- `rb-slides-per-view-mobile`: Mobile slides (1-10+, default: 1)
 - `data-gap`: Space between slides (CSS length, default: 1.5rem)
-- `data-list-instance`: Reference to data source (required)
+- `rb-slider-instance`: Reference to data source (required)
 
 ### Multiple Data Sources
 
@@ -88,20 +88,20 @@ Combine multiple lists into one slider:
 ```html
 <!-- Responsive product showcase: 4 desktop, 3 tablet, 2 mobile -->
 <div
-  data-slider
-  data-slides-per-view="4"
-  data-slides-per-view-tablet="3"
-  data-slides-per-view-mobile="2"
+  rb-slider
+  rb-slides-per-view="4"
+  rb-slides-per-view-tablet="3"
+  rb-slides-per-view-mobile="2"
   data-gap="1.5rem"
 >
-  <div data-slide-item>Product 1 content...</div>
-  <div data-slide-item>Product 2 content...</div>
-  <div data-slide-item>Product 3 content...</div>
+  <div rb-slider-item>Product 1 content...</div>
+  <div rb-slider-item>Product 2 content...</div>
+  <div rb-slider-item>Product 3 content...</div>
   <!-- More items... -->
 </div>
 
 <!-- Testimonials: 2 desktop/tablet, 1 mobile -->
-<ul data-slider data-slides-per-view="2" data-slides-per-view-mobile="1">
+<ul rb-slider rb-slides-per-view="2" rb-slides-per-view-mobile="1">
   <li>Testimonial 1...</li>
   <li>Testimonial 2...</li>
   <li>Testimonial 3...</li>
@@ -110,10 +110,10 @@ Combine multiple lists into one slider:
 
 ### Data Attributes
 
-- `data-slider`: Enables auto-initialization
-- `data-slides-per-view`: Number of slides visible on desktop (default: 3)
-- `data-slides-per-view-tablet`: Number of slides on tablet ≤768px (default: same as desktop)
-- `data-slides-per-view-mobile`: Number of slides on mobile ≤480px (default: min(tablet, 2))
+- `rb-slider`: Enables auto-initialization
+- `rb-slides-per-view`: Number of slides visible on desktop (default: 3)
+- `rb-slides-per-view-tablet`: Number of slides on tablet ≤768px (default: same as desktop)
+- `rb-slides-per-view-mobile`: Number of slides on mobile ≤480px (default: min(tablet, 2))
 - `data-gap`: Gap between slides (default: 1rem)
 - `data-auto-init`: Set to "false" to prevent auto-initialization
 

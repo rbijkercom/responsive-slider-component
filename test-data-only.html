@@ -19,19 +19,19 @@
         }
 
         /* Hide data source lists */
-        [data-slider-element="list"] {
+        [rb-slider-element="list"] {
             display: none;
         }
 
         /* Basic styling for demo */
-        [data-slider-element="slider"] {
+        [rb-slider-element="slider"] {
             border: 2px solid #ddd;
             padding: 1rem;
             margin: 1rem 0;
             border-radius: 8px;
         }
 
-        [data-slide] {
+        [rb-slide] {
             background: #f8f9fa;
             border: 1px solid #dee2e6;
             border-radius: 4px;
@@ -46,14 +46,14 @@
     <h2>Test: Products Slider</h2>
 
     <!-- Data Source -->
-    <ul data-slider-element="list" data-list-instance="products">
+    <ul rb-slider-element="list" rb-slider-instance="products">
         <li><strong>Product A</strong><br>Great product description</li>
         <li><strong>Product B</strong><br>Another amazing product</li>
         <li><strong>Product C</strong><br>Third fantastic product</li>
         <li><strong>Product D</strong><br>Fourth incredible product</li>
         <li><strong>Product E</strong><br>Fifth outstanding product</li>
     </ul>
-    <ul data-slider-element="list" data-list-instance="Gallery">
+    <ul rb-slider-element="list" rb-slider-instance="Gallery">
         <li><strong>Gallery A</strong><br>Great product description</li>
         <li><strong>Gallery B</strong><br>Another amazing product</li>
         <li><strong>Gallery C</strong><br>Third fantastic product</li>
@@ -61,7 +61,7 @@
         <li><strong>Gallery E</strong><br>Fifth outstanding product</li>
     </ul>
 
-    <ul data-slider-element="list" data-list-instance="lala">
+    <ul rb-slider-element="list" rb-slider-instance="lala">
         <li><strong>Lal A</strong><br>Great product description</li>
         <li><strong>lala B</strong><br>Another amazing product</li>
         <li><strong>lala C</strong><br>Third fantastic product</li>
@@ -70,8 +70,8 @@
     </ul>
 
     <!-- Slider Target - styled purely with data attributes -->
-    <div data-slider-element="slider" data-slides-per-view="3" data-slides-per-view-tablet="2"
-        data-slides-per-view-mobile="1" data-gap="1rem" data-list-instance="products;Gallery">
+    <div rb-slider-element="slider" rb-slides-per-view="3" rb-slides-per-view-tablet="2" rb-slides-per-view-mobile="1"
+        data-gap="1rem" rb-slider-instance="products;Gallery">
     </div>
 
     <p><strong>Note:</strong> This slider is styled entirely with data attribute selectors - no classes added by
@@ -83,11 +83,11 @@
         // Verify no classes are being added
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
-                const slider = document.querySelector('[data-slider-element="slider"]');
+                const slider = document.querySelector('[rb-slider-element="slider"]');
                 console.log('Slider classes:', slider.className || 'NONE - Good!');
 
-                const slides = slider.querySelectorAll('[data-slide]');
-                console.log(`Found ${slides.length} slides with data-slide attribute`);
+                const slides = slider.querySelectorAll('[rb-slide]');
+                console.log(`Found ${slides.length} slides with rb-slide attribute`);
 
                 slides.forEach((slide, i) => {
                     console.log(`Slide ${i + 1} classes:`, slide.className || 'NONE - Good!');

@@ -11,18 +11,18 @@ class ResponsiveSlider {
     this.generateSliders();
   }
 
-  // Detect and parse data-slider-element="list" elements
+  // Detect and parse rb-slider-element="list" elements
   detectDataSources() {
     const listElements = document.querySelectorAll(
-      '[data-slider-element="list"]',
+      '[rb-slider-element="list"]',
     );
 
     listElements.forEach((listElement) => {
-      const listInstance = listElement.dataset.listInstance;
+      const listInstance = listElement.getAttribute('rb-slider-instance');
 
       if (!listInstance) {
         console.warn(
-          'List element missing data-list-instance attribute:',
+          'List element missing rb-slider-instance attribute:',
           listElement,
         );
         return;
@@ -56,7 +56,7 @@ class ResponsiveSlider {
   // Detect and parse slider target containers
   detectSliderTargets() {
     const sliderElements = document.querySelectorAll(
-      '[data-slider-element="slider"]',
+      '[rb-slider-element="slider"]',
     );
 
     sliderElements.forEach((sliderElement) => {
@@ -70,11 +70,11 @@ class ResponsiveSlider {
 
   // Parse slider configuration from data attributes
   parseSliderConfiguration(sliderElement) {
-    const listInstancesAttr = sliderElement.dataset.listInstance;
+    const listInstancesAttr = sliderElement.getAttribute('rb-slider-instance');
 
     if (!listInstancesAttr) {
       console.warn(
-        'Slider element missing data-list-instance attribute:',
+        'Slider element missing rb-slider-instance attribute:',
         sliderElement,
       );
       return null;
@@ -89,11 +89,12 @@ class ResponsiveSlider {
     const config = {
       element: sliderElement,
       listInstances: listInstances,
-      slidesPerView: parseInt(sliderElement.dataset.slidesPerView) || 4,
+      slidesPerView:
+        parseInt(sliderElement.getAttribute('rb-slides-per-view')) || 4,
       slidesPerViewTablet:
-        parseInt(sliderElement.dataset.slidesPerViewTablet) || 3,
+        parseInt(sliderElement.getAttribute('rb-slides-per-view-tablet')) || 3,
       slidesPerViewMobile:
-        parseInt(sliderElement.dataset.slidesPerViewMobile) || 1,
+        parseInt(sliderElement.getAttribute('rb-slides-per-view-mobile')) || 1,
       gap: sliderElement.dataset.gap || '1.5rem',
     };
 
@@ -240,7 +241,7 @@ class ResponsiveSlider {
     items.forEach((item, index) => {
       // Create slide wrapper with data attribute
       const slide = document.createElement('div');
-      slide.setAttribute('data-slide', '');
+      slide.setAttribute('rb-slide', '');
       slide.setAttribute('role', 'group');
       slide.setAttribute('aria-roledescription', 'slide');
       slide.setAttribute('aria-label', `Slide ${index + 1} of ${items.length}`);
@@ -248,7 +249,7 @@ class ResponsiveSlider {
 
       // Create slide content wrapper with data attribute
       const slideContent = document.createElement('div');
-      slideContent.setAttribute('data-slide-content', '');
+      slideContent.setAttribute('rb-slider-content', '');
 
       // Clone and append the original item content
       const clonedItem = item.cloneNode(true);
@@ -295,7 +296,7 @@ class ResponsiveSlider {
 
   // Restore scroll snap behavior after drag interaction
   restoreScrollSnap(container) {
-    const slideWidth = container.querySelector('[data-slide]').offsetWidth;
+    const slideWidth = container.querySelector('[rb-slide]').offsetWidth;
     const gap = parseInt(getComputedStyle(container).gap) || 16;
     const slideStep = slideWidth + gap;
     const nearestIndex = Math.round(container.scrollLeft / slideStep);

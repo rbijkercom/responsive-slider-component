@@ -1,5 +1,5 @@
 /* CSS Custom Properties Framework for Dynamic Configuration */
-[data-slider-element="slider"] {
+[rb-slider-element="slider"] {
     /* Default configuration values - can be overridden via inline styles */
     --slides-per-view-desktop: 4;
     --slides-per-view-tablet: 3;
@@ -11,7 +11,7 @@
 }
 
 /* Base Slider Container Styles */
-[data-slider-element="slider"] {
+[rb-slider-element="slider"] {
     display: flex;
     overflow-x: auto;
     gap: var(--slide-gap);
@@ -21,7 +21,7 @@
 }
 
 /* Slide Layout with Dynamic Width Calculations */
-[data-slider-element="slider"] [data-slide] {
+[rb-slider-element="slider"] [rb-slide] {
     flex: 0 0 calc((100% - (var(--current-slides-per-view) - 1) * var(--slide-gap)) / var(--current-slides-per-view));
     min-width: calc((100% - (var(--current-slides-per-view) - 1) * var(--slide-gap)) / var(--current-slides-per-view));
     max-width: calc((100% - (var(--current-slides-per-view) - 1) * var(--slide-gap)) / var(--current-slides-per-view));
@@ -29,14 +29,14 @@
 }
 
 /* Slide Content Styling */
-[data-slide-content] {
+[rb-slider-content] {
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
 /* Dragging State */
-[data-slider-element="slider"][data-dragging] {
+[rb-slider-element="slider"][data-dragging] {
     cursor: grabbing;
     user-select: none;
 }
@@ -56,19 +56,19 @@
 
 /* Responsive Breakpoints with Custom Property Updates */
 @media (min-width: 1024px) {
-    [data-slider-element="slider"] {
+    [rb-slider-element="slider"] {
         --current-slides-per-view: var(--slides-per-view-desktop);
     }
 }
 
 @media (max-width: 1023px) and (min-width: 768px) {
-    [data-slider-element="slider"] {
+    [rb-slider-element="slider"] {
         --current-slides-per-view: var(--slides-per-view-tablet);
     }
 }
 
 @media (max-width: 767px) {
-    [data-slider-element="slider"] {
+    [rb-slider-element="slider"] {
         --current-slides-per-view: var(--slides-per-view-mobile);
     }
 }

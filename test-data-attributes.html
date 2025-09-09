@@ -14,7 +14,7 @@
         <h1>Responsive Slider - Data Attribute System Test</h1>
 
         <!-- Data Source Lists -->
-        <ul data-slider-element="list" data-list-instance="products" style="display: none;">
+        <ul rb-slider-element="list" rb-slider-instance="products" style="display: none;">
             <li>
                 <h2>Product 1</h2>
                 <p>This is the first product with sample content. The slider displays exactly 4 slides at once using
@@ -51,7 +51,7 @@
             </li>
         </ul>
 
-        <div data-slider-element="list" data-list-instance="gallery" style="display: none;">
+        <div rb-slider-element="list" rb-slider-instance="gallery" style="display: none;">
             <div class="gallery-item">
                 <h2>Gallery Item 1</h2>
                 <p>Beautiful gallery content with extended information.</p>
@@ -71,18 +71,18 @@
 
         <!-- Slider Target Containers -->
         <h2>Products Slider (4 desktop, 3 tablet, 1 mobile)</h2>
-        <div data-slider-element="slider" data-slides-per-view="4" data-slides-per-view-tablet="3"
-            data-slides-per-view-mobile="1" data-gap="1.5rem" data-list-instance="products">
+        <div rb-slider-element="slider" rb-slides-per-view="4" rb-slides-per-view-tablet="3"
+            rb-slides-per-view-mobile="1" data-gap="1.5rem" rb-slider-instance="products">
         </div>
 
         <h2>Gallery Slider (3 desktop, 2 tablet, 1 mobile)</h2>
-        <div data-slider-element="slider" data-slides-per-view="3" data-slides-per-view-tablet="2"
-            data-slides-per-view-mobile="1" data-gap="2rem" data-list-instance="gallery">
+        <div rb-slider-element="slider" rb-slides-per-view="3" rb-slides-per-view-tablet="2"
+            rb-slides-per-view-mobile="1" data-gap="2rem" rb-slider-instance="gallery">
         </div>
 
         <h2>Combined Slider (Products + Gallery)</h2>
-        <div data-slider-element="slider" data-slides-per-view="3" data-slides-per-view-tablet="2"
-            data-slides-per-view-mobile="1" data-gap="1rem" data-list-instance="products;gallery">
+        <div rb-slider-element="slider" rb-slides-per-view="3" rb-slides-per-view-tablet="2"
+            rb-slides-per-view-mobile="1" data-gap="1rem" rb-slider-instance="products;gallery">
         </div>
 
         <div class="keyboard-instructions" aria-live="polite">

@@ -11,7 +11,7 @@
 
 - [x] 2. Implement JavaScript initialization system for data attribute processing
 
-  - Create function to detect and parse data-slider-element="list" elements
+  - Create function to detect and parse rb-slider-element="list" elements
   - Implement data attribute parsing for slider configuration (slides-per-view, gap, list-instance)
   - Build content extraction and cloning system from source lists to slider containers
   - Add support for multiple list instances (semicolon-separated values)
