@@ -38,40 +38,30 @@ class ResponsiveSlider {
     );
     this.container.style.setProperty('--slide-gap', this.gap);
 
-    // Convert existing list items to slides if needed
+    // Convert all direct children to slides
     this.convertListToSlides();
 
     // Add slider classes
     this.container.classList.add('responsive-slider');
-
-    // Setup CSS for dynamic slide width
-    const slides = this.container.querySelectorAll('.slide, [data-slide]');
-    slides.forEach((slide) => {
-      slide.classList.add('slide');
-      if (!slide.querySelector('.slide-content')) {
-        slide.innerHTML = `<div class="slide-content">${slide.innerHTML}</div>`;
-      }
-    });
   }
 
   convertListToSlides() {
-    // Handle various list structures
-    const listItems = this.container.querySelectorAll(
-      'li, .item, [data-slide-item]',
-    );
-    if (listItems.length > 0) {
-      listItems.forEach((item, index) => {
-        item.classList.add('slide');
-        item.setAttribute('role', 'group');
-        item.setAttribute('aria-roledescription', 'slide');
-        item.setAttribute(
-          'aria-label',
-          `Slide ${index + 1} of ${listItems.length}`,
-        );
-        item.setAttribute('tabindex', '-1');
+    // Get all direct children of the slider container
+    const children = Array.from(this.container.children);
 
-        if (!item.querySelector('.slide-content')) {
-          item.innerHTML = `<div class="slide-content">${item.innerHTML}</div>`;
+    if (children.length > 0) {
+      children.forEach((child, index) => {
+        child.classList.add('slide');
+        child.setAttribute('role', 'group');
+        child.setAttribute('aria-roledescription', 'slide');
+        child.setAttribute(
+          'aria-label',
+          `Slide ${index + 1} of ${children.length}`,
+        );
+        child.setAttribute('tabindex', '-1');
+
+        if (!child.querySelector('.slide-content')) {
+          child.innerHTML = `<div class="slide-content">${child.innerHTML}</div>`;
         }
       });
     }

@@ -87,32 +87,32 @@
 
             <div data-slider data-slides-per-view="4" data-slides-per-view-tablet="3" data-slides-per-view-mobile="1"
                 data-gap="1.5rem" id="products-slider">
-                <div data-slide-item class="product-card">
+                <div class="product-card">
                     <img src="https://via.placeholder.com/200x150/3498db/white?text=Product+1" alt="Product 1">
                     <h3>Wireless Headphones</h3>
                     <p class="price">$99.99</p>
                 </div>
-                <div data-slide-item class="product-card">
+                <div class="product-card">
                     <img src="https://via.placeholder.com/200x150/e74c3c/white?text=Product+2" alt="Product 2">
                     <h3>Smart Watch</h3>
                     <p class="price">$199.99</p>
                 </div>
-                <div data-slide-item class="product-card">
+                <div class="product-card">
                     <img src="https://via.placeholder.com/200x150/2ecc71/white?text=Product+3" alt="Product 3">
                     <h3>Bluetooth Speaker</h3>
                     <p class="price">$79.99</p>
                 </div>
-                <div data-slide-item class="product-card">
+                <div class="product-card">
                     <img src="https://via.placeholder.com/200x150/f39c12/white?text=Product+4" alt="Product 4">
                     <h3>Phone Case</h3>
                     <p class="price">$24.99</p>
                 </div>
-                <div data-slide-item class="product-card">
+                <div class="product-card">
                     <img src="https://via.placeholder.com/200x150/9b59b6/white?text=Product+5" alt="Product 5">
                     <h3>Laptop Stand</h3>
                     <p class="price">$49.99</p>
                 </div>
-                <div data-slide-item class="product-card">
+                <div class="product-card">
                     <img src="https://via.placeholder.com/200x150/1abc9c/white?text=Product+6" alt="Product 6">
                     <h3>USB Cable</h3>
                     <p class="price">$12.99</p>
@@ -159,31 +159,31 @@
             </div>
 
             <div data-slider data-slides-per-view="5" data-gap="0.5rem" id="gallery-slider">
-                <div data-slide-item>
+                <div>
                     <img src="https://via.placeholder.com/300x200/ff6b6b/white?text=Photo+1" alt="Gallery photo 1"
                         style="width: 100%; height: 120px; object-fit: cover; border-radius: 4px;">
                 </div>
-                <div data-slide-item>
+                <div>
                     <img src="https://via.placeholder.com/300x200/4ecdc4/white?text=Photo+2" alt="Gallery photo 2"
                         style="width: 100%; height: 120px; object-fit: cover; border-radius: 4px;">
                 </div>
-                <div data-slide-item>
+                <div>
                     <img src="https://via.placeholder.com/300x200/45b7d1/white?text=Photo+3" alt="Gallery photo 3"
                         style="width: 100%; height: 120px; object-fit: cover; border-radius: 4px;">
                 </div>
-                <div data-slide-item>
+                <div>
                     <img src="https://via.placeholder.com/300x200/f9ca24/white?text=Photo+4" alt="Gallery photo 4"
                         style="width: 100%; height: 120px; object-fit: cover; border-radius: 4px;">
                 </div>
-                <div data-slide-item>
+                <div>
                     <img src="https://via.placeholder.com/300x200/6c5ce7/white?text=Photo+5" alt="Gallery photo 5"
                         style="width: 100%; height: 120px; object-fit: cover; border-radius: 4px;">
                 </div>
-                <div data-slide-item>
+                <div>
                     <img src="https://via.placeholder.com/300x200/a55eea/white?text=Photo+6" alt="Gallery photo 6"
                         style="width: 100%; height: 120px; object-fit: cover; border-radius: 4px;">
                 </div>
-                <div data-slide-item>
+                <div>
                     <img src="https://via.placeholder.com/300x200/26de81/white?text=Photo+7" alt="Gallery photo 7"
                         style="width: 100%; height: 120px; object-fit: cover; border-radius: 4px;">
                 </div>
@@ -239,10 +239,10 @@
                 • data-auto-init: Set to "false" to prevent auto-init<br><br>
 
                 <strong>Supported HTML structures:</strong><br>
-                • &lt;div data-slider&gt;&lt;div data-slide-item&gt;...&lt;/div&gt;&lt;/div&gt;<br>
+                • &lt;div data-slider&gt;&lt;div&gt;...&lt;/div&gt;&lt;/div&gt;<br>
                 • &lt;ul data-slider&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ul&gt;<br>
                 • &lt;div data-slider&gt;&lt;div class="item"&gt;...&lt;/div&gt;&lt;/div&gt;<br>
-                • Any container with child elements
+                • Any container with child elements (all direct children become slides)
             </div>
         </div>
     </main>
