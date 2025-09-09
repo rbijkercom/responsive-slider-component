@@ -34,7 +34,7 @@ The architecture follows a data-driven approach where configuration is declarati
   - `rb-slides-per-view="[number]"` - Desktop slides visible (default: 4)
   - `rb-slides-per-view-tablet="[number]"` - Tablet slides visible (default: 3)
   - `rb-slides-per-view-mobile="[number]"` - Mobile slides visible (default: 1)
-  - `data-gap="[css-value]"` - Gap between slides (default: 1.5rem)
+  - `rb-slider-gap="[css-value]"` - Gap between slides (default: 1.5rem)
   - `rb-slider-instance="[name;name2]"` - Semicolon-separated list of source instances
 - **Generated Structure**: Becomes `.slider-container` with appropriate CSS custom properties
 
@@ -92,7 +92,7 @@ The architecture follows a data-driven approach where configuration is declarati
   rb-slides-per-view="4"
   rb-slides-per-view-tablet="3"
   rb-slides-per-view-mobile="1"
-  data-gap="1.5rem"
+  rb-slider-gap="1.5rem"
   rb-slider-instance="products"
 ></div>
 
@@ -101,7 +101,7 @@ The architecture follows a data-driven approach where configuration is declarati
   rb-slides-per-view="3"
   rb-slides-per-view-tablet="2"
   rb-slides-per-view-mobile="1"
-  data-gap="2rem"
+  rb-slider-gap="2rem"
   rb-slider-instance="products;gallery"
 ></div>
 ```

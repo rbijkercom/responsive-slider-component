@@ -80,13 +80,13 @@
                 rb-slides-per-view="4"
                 rb-slides-per-view-tablet="3"
                 rb-slides-per-view-mobile="2"
-                data-gap="1.5rem"&gt;
+                rb-slider-gap="1.5rem"&gt;
             </div>
             <p><strong>Desktop:</strong> 4 slides | <strong>Tablet:</strong> 3 slides | <strong>Mobile:</strong> 2
                 slides</p>
 
             <div rb-slider rb-slides-per-view="4" rb-slides-per-view-tablet="3" rb-slides-per-view-mobile="1"
-                data-gap="1.5rem" id="products-slider">
+                rb-slider-gap="1.5rem" id="products-slider">
                 <div class="product-card">
                     <img src="https://via.placeholder.com/200x150/3498db/white?text=Product+1" alt="Product 1">
                     <h3>Wireless Headphones</h3>
@@ -127,12 +127,12 @@
                 rb-slides-per-view="2"
                 rb-slides-per-view-tablet="2"
                 rb-slides-per-view-mobile="1"
-                data-gap="2rem"&gt;
+                rb-slider-gap="2rem"&gt;
             </div>
             <p><strong>Desktop/Tablet:</strong> 2 slides | <strong>Mobile:</strong> 1 slide</p>
 
             <ul rb-slider rb-slides-per-view="2" rb-slides-per-view-tablet="2" rb-slides-per-view-mobile="1"
-                data-gap="2rem" id="testimonials-slider">
+                rb-slider-gap="2rem" id="testimonials-slider">
                 <li class="testimonial">
                     <blockquote>"This product completely changed how we work. Highly recommended!"</blockquote>
                     <cite>- Sarah Johnson, CEO</cite>
@@ -155,10 +155,10 @@
         <div class="example-section">
             <h2>Example 3: Image Gallery (5 slides per view)</h2>
             <div class="code-example">
-                &lt;div rb-slider rb-slides-per-view="5" data-gap="0.5rem"&gt;
+                &lt;div rb-slider rb-slides-per-view="5" rb-slider-gap="0.5rem"&gt;
             </div>
 
-            <div rb-slider rb-slides-per-view="5" data-gap="0.5rem" id="gallery-slider">
+            <div rb-slider rb-slides-per-view="5" rb-slider-gap="0.5rem" id="gallery-slider">
                 <div>
                     <img src="https://via.placeholder.com/300x200/ff6b6b/white?text=Photo+1" alt="Gallery photo 1"
                         style="width: 100%; height: 120px; object-fit: cover; border-radius: 4px;">
@@ -235,7 +235,7 @@
                 • rb-slides-per-view: Number of slides visible on desktop (default: 3)<br>
                 • rb-slides-per-view-tablet: Number of slides on tablet ≤768px (default: same as desktop)<br>
                 • rb-slides-per-view-mobile: Number of slides on mobile ≤480px (default: min(tablet, 2))<br>
-                • data-gap: Gap between slides (default: 1rem)<br>
+                • rb-slider-gap: Gap between slides (default: 1rem)<br>
                 • data-auto-init: Set to "false" to prevent auto-init<br><br>
 
                 <strong>Supported HTML structures:</strong><br>

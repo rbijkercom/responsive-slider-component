@@ -26,7 +26,7 @@
         /* Basic styling for demo */
         [rb-slider-element="slider"] {
             border: 2px solid #ddd;
-            padding: 1rem;
+            /* padding: 1rem; */
             margin: 1rem 0;
             border-radius: 8px;
         }
@@ -71,7 +71,7 @@
 
     <!-- Slider Target - styled purely with data attributes -->
     <div rb-slider-element="slider" rb-slides-per-view="3" rb-slides-per-view-tablet="2" rb-slides-per-view-mobile="1"
-        data-gap="1rem" rb-slider-instance="products;Gallery">
+        rb-slider-gap="1rem" rb-slider-instance="products;Gallery">
     </div>
 
     <p><strong>Note:</strong> This slider is styled entirely with data attribute selectors - no classes added by

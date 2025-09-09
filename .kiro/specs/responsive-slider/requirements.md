@@ -36,7 +36,7 @@ This feature involves creating a configurable responsive slider component system
 
 #### Acceptance Criteria
 
-1. WHEN a slider element has data-gap attribute THEN the system SHALL apply that spacing between slides
+1. WHEN a slider element has rb-slider-gap attribute THEN the system SHALL apply that spacing between slides
 2. WHEN gap values use CSS units (rem, px, %) THEN the system SHALL respect those units
 3. WHEN no gap is specified THEN the system SHALL use a default gap value
 4. WHEN gap changes responsively THEN the slide calculations SHALL adjust accordingly

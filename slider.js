@@ -95,7 +95,7 @@ class ResponsiveSlider {
         parseInt(sliderElement.getAttribute('rb-slides-per-view-tablet')) || 3,
       slidesPerViewMobile:
         parseInt(sliderElement.getAttribute('rb-slides-per-view-mobile')) || 1,
-      gap: sliderElement.dataset.gap || '1.5rem',
+      gap: sliderElement.getAttribute('rb-slider-gap') || '1.5rem',
     };
 
     return config;

@@ -63,7 +63,7 @@ Transform any list into a configurable slider using data attributes:
   rb-slides-per-view="3"
   rb-slides-per-view-tablet="2"
   rb-slides-per-view-mobile="1"
-  data-gap="1.5rem"
+  rb-slider-gap="1.5rem"
   rb-slider-instance="products"
 ></div>
 
@@ -78,7 +78,7 @@ Transform any list into a configurable slider using data attributes:
 - `rb-slides-per-view`: Desktop slides (1-10+, default: 4)
 - `rb-slides-per-view-tablet`: Tablet slides (1-10+, default: 3)
 - `rb-slides-per-view-mobile`: Mobile slides (1-10+, default: 1)
-- `data-gap`: Space between slides (CSS length, default: 1.5rem)
+- `rb-slider-gap`: Space between slides (CSS length, default: 1.5rem)
 - `rb-slider-instance`: Reference to data source (required)
 
 ### Multiple Data Sources
@@ -92,7 +92,7 @@ Combine multiple lists into one slider:
   rb-slides-per-view="4"
   rb-slides-per-view-tablet="3"
   rb-slides-per-view-mobile="2"
-  data-gap="1.5rem"
+  rb-slider-gap="1.5rem"
 >
   <div rb-slider-item>Product 1 content...</div>
   <div rb-slider-item>Product 2 content...</div>
@@ -114,7 +114,7 @@ Combine multiple lists into one slider:
 - `rb-slides-per-view`: Number of slides visible on desktop (default: 3)
 - `rb-slides-per-view-tablet`: Number of slides on tablet ≤768px (default: same as desktop)
 - `rb-slides-per-view-mobile`: Number of slides on mobile ≤480px (default: min(tablet, 2))
-- `data-gap`: Gap between slides (default: 1rem)
+- `rb-slider-gap`: Gap between slides (default: 1rem)
 - `data-auto-init`: Set to "false" to prevent auto-initialization
 
 ### Manual Initialization
