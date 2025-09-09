@@ -243,6 +243,89 @@
             horizontally through the content.
         </div>
     </main>
+
+    <script>
+        // Smooth drag with CSS scroll-snap integration
+        document.querySelectorAll('.slider-container').forEach(slider => {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            slider.addEventListener('mousedown', (e) => {
+                isDown = true;
+                slider.classList.add('dragging');
+                startX = e.pageX;
+                scrollLeft = slider.scrollLeft;
+
+                // Temporarily disable scroll-snap for smooth dragging
+                slider.style.scrollSnapType = 'none';
+                slider.style.scrollBehavior = 'auto';
+            });
+
+            slider.addEventListener('mouseleave', () => {
+                if (isDown) {
+                    isDown = false;
+                    slider.classList.remove('dragging');
+                    restoreScrollSnap();
+                }
+            });
+
+            slider.addEventListener('mouseup', () => {
+                if (isDown) {
+                    isDown = false;
+                    slider.classList.remove('dragging');
+                    restoreScrollSnap();
+                }
+            });
+
+            slider.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+
+                const x = e.pageX;
+                const walk = x - startX;
+                slider.scrollLeft = scrollLeft - walk;
+            });
+
+            function restoreScrollSnap() {
+                // Calculate nearest snap point
+                const slideWidth = slider.querySelector('.slide').offsetWidth;
+                const gap = parseInt(getComputedStyle(slider).gap) || 16;
+                const slideStep = slideWidth + gap;
+                const currentScroll = slider.scrollLeft;
+                const nearestIndex = Math.round(currentScroll / slideStep);
+                const targetScroll = nearestIndex * slideStep;
+
+                // Create smooth animation using requestAnimationFrame
+                const startScroll = currentScroll;
+                const distance = targetScroll - startScroll;
+                const duration = 300; // 300ms animation
+                const startTime = performance.now();
+
+                function animateScroll(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+
+                    // Easing function for smooth animation (ease-out)
+                    const easeOut = 1 - Math.pow(1 - progress, 3);
+
+                    const newScrollLeft = startScroll + (distance * easeOut);
+                    slider.scrollLeft = newScrollLeft;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(animateScroll);
+                    } else {
+                        // Re-enable scroll-snap after animation completes
+                        slider.style.scrollSnapType = 'x mandatory';
+                        slider.style.scrollBehavior = 'smooth';
+                    }
+                }
+
+                // Start the animation
+                requestAnimationFrame(animateScroll);
+            }
+        });
+    </script>
 </body>
 
 </html>

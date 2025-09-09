@@ -35,7 +35,7 @@ h1 {
     /* Ensure container shows exactly 3 slides */
     width: 100%;
 
-    /* Smooth scrolling */
+    /* Enhanced smooth scrolling with custom timing */
     scroll-behavior: smooth;
 
     /* CSS Scroll-snap functionality */
@@ -186,13 +186,52 @@ h2 {
     border-radius: 4px;
 }
 
-/* Keyboard navigation support */
+/* Mouse drag support */
 .slider-container[tabindex="0"] {
     cursor: grab;
+    user-select: none;
 }
 
 .slider-container[tabindex="0"]:active {
     cursor: grabbing;
+}
+
+.slider-container.dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+    /* Disable smooth scrolling during drag */
+}
+
+.slider-container.dragging * {
+    pointer-events: none;
+    /* Prevent clicks during drag */
+}
+
+/* Enhanced smooth transition back to snap points after drag */
+.slider-container:not(.dragging) {
+    scroll-behavior: smooth;
+    /* Custom scroll timing for smoother snap animations */
+    scroll-snap-stop: normal;
+}
+
+/* Smoother scroll-snap transitions */
+@supports (scroll-timeline: auto) {
+    .slider-container {
+        scroll-timeline: --slider-scroll inline;
+    }
+}
+
+/* Enhanced scroll-snap behavior */
+.slider-container {
+    /* Improved scroll-snap with better timing */
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0;
+}
+
+.slide {
+    /* Enhanced snap alignment */
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
 }
 
 /* CSS-only keyboard navigation using focus */
