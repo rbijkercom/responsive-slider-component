@@ -31,11 +31,20 @@ class ResponsiveSlider {
       // Extract content from the list
       const items = this.extractListItems(listElement);
 
-      // Store the data source
-      this.dataSources.set(listInstance, {
-        element: listElement,
-        items: items,
-      });
+      // Check if we already have data for this instance
+      if (this.dataSources.has(listInstance)) {
+        // Append items to existing instance
+        const existingData = this.dataSources.get(listInstance);
+        existingData.items.push(...items);
+        existingData.elements = existingData.elements || [];
+        existingData.elements.push(listElement);
+      } else {
+        // Create new instance data
+        this.dataSources.set(listInstance, {
+          elements: [listElement],
+          items: items,
+        });
+      }
     });
   }
 
@@ -133,7 +142,11 @@ class ResponsiveSlider {
         return;
       }
 
-      // Add items from this data source
+      console.log(
+        `Instance "${instanceName}" has ${dataSource.items.length} items from ${dataSource.elements.length} list(s)`,
+      );
+
+      // Add items from this data source (now contains items from all lists with this instance name)
       allItems.push(...dataSource.items);
     });
 
