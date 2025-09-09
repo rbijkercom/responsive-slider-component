@@ -1,171 +1,307 @@
 class ResponsiveSlider {
-  constructor(element) {
-    this.container = element;
-    this.slidesPerView = parseInt(element.dataset.slidesPerView) || 3;
-    this.slidesPerViewTablet =
-      parseInt(element.dataset.slidesPerViewTablet) || this.slidesPerView;
-    this.slidesPerViewMobile =
-      parseInt(element.dataset.slidesPerViewMobile) ||
-      Math.min(this.slidesPerViewTablet, 2);
-    this.gap = element.dataset.gap || '1rem';
-    this.autoInit = element.dataset.autoInit !== 'false';
-
-    if (this.autoInit) {
-      this.init();
-    }
+  constructor() {
+    this.dataSources = new Map(); // Store list instances
+    this.sliderConfigs = []; // Store slider configurations
   }
 
+  // Initialize the slider system by detecting and processing data attributes
   init() {
-    this.setupSlider();
-    this.setupResponsiveBreakpoints();
-    this.setupDragInteraction();
-    this.setupAccessibility();
+    this.detectDataSources();
+    this.detectSliderTargets();
+    this.generateSliders();
   }
 
-  setupSlider() {
-    // Apply CSS custom properties for dynamic configuration
-    this.container.style.setProperty(
-      '--slides-per-view-desktop',
-      this.slidesPerView,
+  // Detect and parse data-slider-element="list" elements
+  detectDataSources() {
+    const listElements = document.querySelectorAll(
+      '[data-slider-element="list"]',
     );
-    this.container.style.setProperty(
-      '--slides-per-view-tablet',
-      this.slidesPerViewTablet,
-    );
-    this.container.style.setProperty(
-      '--slides-per-view-mobile',
-      this.slidesPerViewMobile,
-    );
-    this.container.style.setProperty('--slide-gap', this.gap);
 
-    // Convert all direct children to slides
-    this.convertListToSlides();
+    listElements.forEach((listElement) => {
+      const listInstance = listElement.dataset.listInstance;
 
-    // Add slider classes
-    this.container.classList.add('responsive-slider');
-  }
-
-  convertListToSlides() {
-    // Get all direct children of the slider container
-    const children = Array.from(this.container.children);
-
-    if (children.length > 0) {
-      children.forEach((child, index) => {
-        child.classList.add('slide');
-        child.setAttribute('role', 'group');
-        child.setAttribute('aria-roledescription', 'slide');
-        child.setAttribute(
-          'aria-label',
-          `Slide ${index + 1} of ${children.length}`,
+      if (!listInstance) {
+        console.warn(
+          'List element missing data-list-instance attribute:',
+          listElement,
         );
-        child.setAttribute('tabindex', '-1');
-
-        if (!child.querySelector('.slide-content')) {
-          child.innerHTML = `<div class="slide-content">${child.innerHTML}</div>`;
-        }
-      });
-    }
-  }
-
-  setupResponsiveBreakpoints() {
-    // Update ARIA label based on current viewport
-    const updateAriaLabel = () => {
-      const slides = this.container.querySelectorAll('.slide');
-      const totalSlides = slides.length;
-      let currentSlidesPerView = this.slidesPerView;
-
-      if (window.matchMedia('(max-width: 480px)').matches) {
-        currentSlidesPerView = this.slidesPerViewMobile;
-      } else if (window.matchMedia('(max-width: 768px)').matches) {
-        currentSlidesPerView = this.slidesPerViewTablet;
+        return;
       }
 
-      this.container.setAttribute(
+      // Extract content from the list
+      const items = this.extractListItems(listElement);
+
+      // Store the data source
+      this.dataSources.set(listInstance, {
+        element: listElement,
+        items: items,
+      });
+    });
+  }
+
+  // Extract items from a list element
+  extractListItems(listElement) {
+    const items = [];
+    const children = Array.from(listElement.children);
+
+    children.forEach((child) => {
+      // Clone the element to preserve original structure
+      const clonedItem = child.cloneNode(true);
+      items.push(clonedItem);
+    });
+
+    return items;
+  }
+
+  // Detect and parse slider target containers
+  detectSliderTargets() {
+    const sliderElements = document.querySelectorAll(
+      '[data-slider-element="slider"]',
+    );
+
+    sliderElements.forEach((sliderElement) => {
+      const config = this.parseSliderConfiguration(sliderElement);
+
+      if (config) {
+        this.sliderConfigs.push(config);
+      }
+    });
+  }
+
+  // Parse slider configuration from data attributes
+  parseSliderConfiguration(sliderElement) {
+    const listInstancesAttr = sliderElement.dataset.listInstance;
+
+    if (!listInstancesAttr) {
+      console.warn(
+        'Slider element missing data-list-instance attribute:',
+        sliderElement,
+      );
+      return null;
+    }
+
+    // Support multiple list instances (semicolon-separated values)
+    const listInstances = listInstancesAttr
+      .split(';')
+      .map((instance) => instance.trim());
+
+    // Parse configuration with defaults
+    const config = {
+      element: sliderElement,
+      listInstances: listInstances,
+      slidesPerView: parseInt(sliderElement.dataset.slidesPerView) || 4,
+      slidesPerViewTablet:
+        parseInt(sliderElement.dataset.slidesPerViewTablet) || 3,
+      slidesPerViewMobile:
+        parseInt(sliderElement.dataset.slidesPerViewMobile) || 1,
+      gap: sliderElement.dataset.gap || '1.5rem',
+    };
+
+    return config;
+  }
+
+  // Generate sliders from configurations
+  generateSliders() {
+    this.sliderConfigs.forEach((config) => {
+      this.createSlider(config);
+    });
+  }
+
+  // Create a single slider from configuration
+  createSlider(config) {
+    const {
+      element,
+      listInstances,
+      slidesPerView,
+      slidesPerViewTablet,
+      slidesPerViewMobile,
+      gap,
+    } = config;
+
+    // Collect items from all specified list instances
+    const allItems = [];
+
+    listInstances.forEach((instanceName) => {
+      const dataSource = this.dataSources.get(instanceName);
+
+      if (!dataSource) {
+        console.warn(
+          `List instance "${instanceName}" not found for slider:`,
+          element,
+        );
+        return;
+      }
+
+      // Add items from this data source
+      allItems.push(...dataSource.items);
+    });
+
+    if (allItems.length === 0) {
+      console.warn('No items found for slider:', element);
+      return;
+    }
+
+    // Apply CSS custom properties for dynamic configuration
+    this.applySliderConfiguration(element, {
+      slidesPerView,
+      slidesPerViewTablet,
+      slidesPerViewMobile,
+      gap,
+    });
+
+    // Generate slider content
+    this.generateSliderContent(element, allItems);
+
+    // Setup additional functionality
+    this.setupAccessibility(element, allItems.length);
+    this.setupDragInteraction(element);
+  }
+
+  // Apply configuration via CSS custom properties
+  applySliderConfiguration(element, config) {
+    element.style.setProperty(
+      '--slides-per-view-desktop',
+      config.slidesPerView,
+    );
+    element.style.setProperty(
+      '--slides-per-view-tablet',
+      config.slidesPerViewTablet,
+    );
+    element.style.setProperty(
+      '--slides-per-view-mobile',
+      config.slidesPerViewMobile,
+    );
+    element.style.setProperty('--slide-gap', config.gap);
+  }
+
+  // Generate slider content from items
+  generateSliderContent(container, items) {
+    // Clear existing content
+    container.innerHTML = '';
+
+    items.forEach((item, index) => {
+      // Create slide wrapper with data attribute
+      const slide = document.createElement('div');
+      slide.setAttribute('data-slide', '');
+      slide.setAttribute('role', 'group');
+      slide.setAttribute('aria-roledescription', 'slide');
+      slide.setAttribute('aria-label', `Slide ${index + 1} of ${items.length}`);
+      slide.setAttribute('tabindex', '-1');
+
+      // Create slide content wrapper with data attribute
+      const slideContent = document.createElement('div');
+      slideContent.setAttribute('data-slide-content', '');
+
+      // Clone and append the original item content
+      const clonedItem = item.cloneNode(true);
+      slideContent.appendChild(clonedItem);
+
+      slide.appendChild(slideContent);
+      container.appendChild(slide);
+    });
+  }
+
+  // Setup accessibility features for a slider
+  setupAccessibility(container, totalSlides) {
+    // Get configuration from CSS custom properties
+    const slidesPerViewDesktop =
+      parseInt(container.style.getPropertyValue('--slides-per-view-desktop')) ||
+      4;
+    const slidesPerViewTablet =
+      parseInt(container.style.getPropertyValue('--slides-per-view-tablet')) ||
+      3;
+    const slidesPerViewMobile =
+      parseInt(container.style.getPropertyValue('--slides-per-view-mobile')) ||
+      1;
+
+    // Update container ARIA attributes
+    container.setAttribute('role', 'region');
+    container.setAttribute('tabindex', '0');
+
+    // Create unique ID for instructions if container doesn't have one
+    if (!container.id) {
+      container.id = `slider-${Date.now()}-${Math.random()
+        .toString(36)
+        .substring(2, 11)}`;
+    }
+
+    // Create or update instructions
+    let instructions = document.getElementById(`${container.id}-instructions`);
+    if (!instructions) {
+      instructions = document.createElement('div');
+      instructions.id = `${container.id}-instructions`;
+      instructions.setAttribute('data-sr-only', '');
+      instructions.textContent =
+        'Horizontal scrolling slider. Use Tab to focus on the slider, then use arrow keys or scroll horizontally to navigate between slides.';
+      container.parentNode.insertBefore(instructions, container.nextSibling);
+    }
+
+    container.setAttribute('aria-describedby', instructions.id);
+
+    // Setup responsive ARIA label updates
+    const updateAriaLabel = () => {
+      let currentSlidesPerView = slidesPerViewDesktop;
+
+      if (window.matchMedia('(max-width: 480px)').matches) {
+        currentSlidesPerView = slidesPerViewMobile;
+      } else if (window.matchMedia('(max-width: 768px)').matches) {
+        currentSlidesPerView = slidesPerViewTablet;
+      }
+
+      container.setAttribute(
         'aria-label',
         `Content slider with ${totalSlides} slides, showing ${currentSlidesPerView} at a time`,
       );
     };
 
-    // Initial update
+    // Initial update and resize listener
     updateAriaLabel();
-
-    // Listen for resize events
     window.addEventListener('resize', updateAriaLabel);
   }
 
-  setupAccessibility() {
-    const slides = this.container.querySelectorAll('.slide');
-    const totalSlides = slides.length;
-
-    // Update container ARIA attributes
-    this.container.setAttribute('role', 'region');
-    this.container.setAttribute(
-      'aria-label',
-      `Content slider with ${totalSlides} slides, showing ${this.slidesPerView} at a time`,
-    );
-    this.container.setAttribute('tabindex', '0');
-
-    // Create or update instructions
-    let instructions = document.getElementById(
-      `${this.container.id}-instructions`,
-    );
-    if (!instructions) {
-      instructions = document.createElement('div');
-      instructions.id =
-        `${this.container.id}-instructions` || 'slider-instructions';
-      instructions.className = 'sr-only';
-      instructions.textContent =
-        'Horizontal scrolling slider. Use Tab to focus on the slider, then use arrow keys or scroll horizontally to navigate between slides.';
-      this.container.parentNode.insertBefore(
-        instructions,
-        this.container.nextSibling,
-      );
-    }
-
-    this.container.setAttribute('aria-describedby', instructions.id);
-  }
-
-  setupDragInteraction() {
+  // Setup drag interaction for a slider
+  setupDragInteraction(container) {
     let isDown = false;
     let startX, scrollLeft;
 
     const handleMouseDown = (e) => {
       isDown = true;
-      this.container.classList.add('dragging');
+      container.setAttribute('data-dragging', '');
       startX = e.pageX;
-      scrollLeft = this.container.scrollLeft;
-      this.container.style.scrollSnapType = 'none';
-      this.container.style.scrollBehavior = 'auto';
+      scrollLeft = container.scrollLeft;
+      container.style.scrollSnapType = 'none';
+      container.style.scrollBehavior = 'auto';
     };
 
     const handleMouseUp = () => {
       if (!isDown) return;
       isDown = false;
-      this.container.classList.remove('dragging');
-      this.restoreScrollSnap();
+      container.removeAttribute('data-dragging');
+      this.restoreScrollSnap(container);
     };
 
     const handleMouseMove = (e) => {
       if (!isDown) return;
       e.preventDefault();
       const walk = e.pageX - startX;
-      this.container.scrollLeft = scrollLeft - walk;
+      container.scrollLeft = scrollLeft - walk;
     };
 
-    this.container.addEventListener('mousedown', handleMouseDown);
-    this.container.addEventListener('mouseleave', handleMouseUp);
-    this.container.addEventListener('mouseup', handleMouseUp);
-    this.container.addEventListener('mousemove', handleMouseMove);
+    container.addEventListener('mousedown', handleMouseDown);
+    container.addEventListener('mouseleave', handleMouseUp);
+    container.addEventListener('mouseup', handleMouseUp);
+    container.addEventListener('mousemove', handleMouseMove);
   }
 
-  restoreScrollSnap() {
-    const slideWidth = this.container.querySelector('.slide').offsetWidth;
-    const gap = parseInt(getComputedStyle(this.container).gap) || 16;
+  // Restore scroll snap behavior after drag interaction
+  restoreScrollSnap(container) {
+    const slideWidth = container.querySelector('[data-slide]').offsetWidth;
+    const gap = parseInt(getComputedStyle(container).gap) || 16;
     const slideStep = slideWidth + gap;
-    const nearestIndex = Math.round(this.container.scrollLeft / slideStep);
+    const nearestIndex = Math.round(container.scrollLeft / slideStep);
     const targetScroll = nearestIndex * slideStep;
 
-    const startScroll = this.container.scrollLeft;
+    const startScroll = container.scrollLeft;
     const distance = targetScroll - startScroll;
     const startTime = performance.now();
 
@@ -174,13 +310,13 @@ class ResponsiveSlider {
       const progress = Math.min(elapsed / 300, 1);
       const easeOut = 1 - Math.pow(1 - progress, 3);
 
-      this.container.scrollLeft = startScroll + distance * easeOut;
+      container.scrollLeft = startScroll + distance * easeOut;
 
       if (progress < 1) {
         requestAnimationFrame(animateScroll);
       } else {
-        this.container.style.scrollSnapType = 'x mandatory';
-        this.container.style.scrollBehavior = 'smooth';
+        container.style.scrollSnapType = 'x mandatory';
+        container.style.scrollBehavior = 'smooth';
       }
     };
 
@@ -188,19 +324,10 @@ class ResponsiveSlider {
   }
 }
 
-// Auto-initialize sliders with data-slider attribute
+// Initialize the slider system when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('[data-slider]').forEach((element) => {
-    new ResponsiveSlider(element);
-  });
-
-  // Backward compatibility - initialize existing .slider-container elements
-  document
-    .querySelectorAll('.slider-container:not([data-slider])')
-    .forEach((element) => {
-      element.setAttribute('data-slider', '');
-      new ResponsiveSlider(element);
-    });
+  const sliderSystem = new ResponsiveSlider();
+  sliderSystem.init();
 });
 
 // Export for manual initialization

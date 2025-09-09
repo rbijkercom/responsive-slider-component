@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Framework Test</title>
+    <link rel="stylesheet" href="base-style.css">
+    <link rel="stylesheet" href="slider-style.css">
+    <style>
+        /* Basic content styling for testing - not part of slider framework */
+        div[data-slider-element="slider"]>div {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+        }
+
+        div[data-slider-element="slider"]>div h3 {
+            margin: 0 0 0.5rem 0;
+            color: #2c3e50;
+        }
+
+        div[data-slider-element="slider"]>div p {
+            margin: 0;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <h1>CSS Framework Test</h1>
+
+        <!-- Test 1: Default configuration -->
+        <h2>Default Configuration (4-3-1 slides)</h2>
+        <div data-slider-element="slider"
+            style="--slides-per-view-desktop: 4; --slides-per-view-tablet: 3; --slides-per-view-mobile: 1; --slide-gap: 1.5rem;">
+            <div>
+                <h3>Slide 1</h3>
+                <p>Default configuration test</p>
+            </div>
+            <div>
+                <h3>Slide 2</h3>
+                <p>Testing responsive behavior</p>
+            </div>
+            <div>
+                <h3>Slide 3</h3>
+                <p>CSS custom properties</p>
+            </div>
+            <div>
+                <h3>Slide 4</h3>
+                <p>Scroll snap functionality</p>
+            </div>
+            <div>
+                <h3>Slide 5</h3>
+                <p>Gap configuration</p>
+            </div>
+        </div>
+
+        <!-- Test 2: Custom configuration -->
+        <h2>Custom Configuration (2-2-1 slides, larger gap)</h2>
+        <div data-slider-element="slider"
+            style="--slides-per-view-desktop: 2; --slides-per-view-tablet: 2; --slides-per-view-mobile: 1; --slide-gap: 2rem;">
+            <div>
+                <h3>Custom 1</h3>
+                <p>2 slides per view on desktop</p>
+            </div>
+            <div>
+                <h3>Custom 2</h3>
+                <p>Larger gap between slides</p>
+            </div>
+            <div>
+                <h3>Custom 3</h3>
+                <p>Testing custom properties</p>
+            </div>
+            <div>
+                <h3>Custom 4</h3>
+                <p>Responsive breakpoints</p>
+            </div>
+        </div>
+
+        <!-- Test 3: Single slide mobile -->
+        <h2>Mobile-First Configuration (5-3-1 slides)</h2>
+        <div data-slider-element="slider"
+            style="--slides-per-view-desktop: 5; --slides-per-view-tablet: 3; --slides-per-view-mobile: 1; --slide-gap: 1rem;">
+            <div>
+                <h3>Mobile 1</h3>
+                <p>5 slides on desktop</p>
+            </div>
+            <div>
+                <h3>Mobile 2</h3>
+                <p>3 slides on tablet</p>
+            </div>
+            <div>
+                <h3>Mobile 3</h3>
+                <p>1 slide on mobile</p>
+            </div>
+            <div>
+                <h3>Mobile 4</h3>
+                <p>Scroll snap alignment</p>
+            </div>
+            <div>
+                <h3>Mobile 5</h3>
+                <p>Touch-friendly scrolling</p>
+            </div>
+            <div>
+                <h3>Mobile 6</h3>
+                <p>Flexible content support</p>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

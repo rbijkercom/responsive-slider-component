@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Slider - Data Attribute Test</title>
+    <link rel="stylesheet" href="base-style.css">
+    <link rel="stylesheet" href="slider-style.css">
+</head>
+
+<body>
+    <main>
+        <h1>Responsive Slider - Data Attribute System Test</h1>
+
+        <!-- Data Source Lists -->
+        <ul data-slider-element="list" data-list-instance="products" style="display: none;">
+            <li>
+                <h2>Product 1</h2>
+                <p>This is the first product with sample content. The slider displays exactly 4 slides at once using
+                    flexible layouts.</p>
+                <img src="https://via.placeholder.com/300x200/4CAF50/white?text=Product+1"
+                    alt="Sample image for product 1">
+            </li>
+            <li>
+                <h2>Product 2</h2>
+                <p>Second product content with different information. The width adjusts proportionally based on the
+                    container size.</p>
+                <img src="https://via.placeholder.com/300x200/2196F3/white?text=Product+2"
+                    alt="Sample image for product 2">
+            </li>
+            <li>
+                <h2>Product 3</h2>
+                <p>Third product showcasing the responsive behavior. No fixed pixel values are used for slide widths.
+                </p>
+                <img src="https://via.placeholder.com/300x200/FF9800/white?text=Product+3"
+                    alt="Sample image for product 3">
+            </li>
+            <li>
+                <h2>Product 4</h2>
+                <p>Fourth product to demonstrate scrolling functionality with more than 4 slides.</p>
+                <img src="https://via.placeholder.com/300x200/9C27B0/white?text=Product+4"
+                    alt="Sample image for product 4">
+            </li>
+            <li>
+                <h2>Product 5</h2>
+                <p>Fifth product showing support for variable number of slides while maintaining the 4-slide display.
+                </p>
+                <img src="https://via.placeholder.com/300x200/F44336/white?text=Product+5"
+                    alt="Sample image for product 5">
+            </li>
+        </ul>
+
+        <div data-slider-element="list" data-list-instance="gallery" style="display: none;">
+            <div class="gallery-item">
+                <h2>Gallery Item 1</h2>
+                <p>Beautiful gallery content with extended information.</p>
+                <img src="https://via.placeholder.com/300x200/795548/white?text=Gallery+1" alt="Gallery image 1">
+            </div>
+            <div class="gallery-item">
+                <h2>Gallery Item 2</h2>
+                <p>Second gallery item demonstrating smooth navigation through multiple slides.</p>
+                <img src="https://via.placeholder.com/300x200/607D8B/white?text=Gallery+2" alt="Gallery image 2">
+            </div>
+            <div class="gallery-item">
+                <h2>Gallery Item 3</h2>
+                <p>Third gallery item showing how the slider maintains its responsive behavior.</p>
+                <img src="https://via.placeholder.com/300x200/E91E63/white?text=Gallery+3" alt="Gallery image 3">
+            </div>
+        </div>
+
+        <!-- Slider Target Containers -->
+        <h2>Products Slider (4 desktop, 3 tablet, 1 mobile)</h2>
+        <div data-slider-element="slider" data-slides-per-view="4" data-slides-per-view-tablet="3"
+            data-slides-per-view-mobile="1" data-gap="1.5rem" data-list-instance="products">
+        </div>
+
+        <h2>Gallery Slider (3 desktop, 2 tablet, 1 mobile)</h2>
+        <div data-slider-element="slider" data-slides-per-view="3" data-slides-per-view-tablet="2"
+            data-slides-per-view-mobile="1" data-gap="2rem" data-list-instance="gallery">
+        </div>
+
+        <h2>Combined Slider (Products + Gallery)</h2>
+        <div data-slider-element="slider" data-slides-per-view="3" data-slides-per-view-tablet="2"
+            data-slides-per-view-mobile="1" data-gap="1rem" data-list-instance="products;gallery">
+        </div>
+
+        <div class="keyboard-instructions" aria-live="polite">
+            <strong>Keyboard Navigation:</strong> Tab to focus slider, then use arrow keys or scroll to navigate.
+        </div>
+    </main>
+
+    <script src="slider.js"></script>
+</body>
+
+</html>

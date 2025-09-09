@@ -1,116 +1,74 @@
-/* Essential slider functionality */
-.slider-container,
-.responsive-slider,
-[data-slider] {
+/* CSS Custom Properties Framework for Dynamic Configuration */
+[data-slider-element="slider"] {
+    /* Default configuration values - can be overridden via inline styles */
+    --slides-per-view-desktop: 4;
+    --slides-per-view-tablet: 3;
+    --slides-per-view-mobile: 1;
+    --slide-gap: 1.5rem;
+
+    /* Current active slides per view (updated by media queries) */
+    --current-slides-per-view: var(--slides-per-view-desktop);
+}
+
+/* Base Slider Container Styles */
+[data-slider-element="slider"] {
     display: flex;
     overflow-x: auto;
-    gap: var(--slide-gap, 1rem);
-    padding: 1rem 0;
+    gap: var(--slide-gap);
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
-    scrollbar-width: thin;
-    scrollbar-color: #ccc transparent;
     -webkit-overflow-scrolling: touch;
-    touch-action: pan-x;
-    cursor: grab;
-    user-select: none;
 }
 
-.slider-container::-webkit-scrollbar,
-.responsive-slider::-webkit-scrollbar,
-[data-slider]::-webkit-scrollbar {
-    height: 8px;
-}
-
-.slider-container::-webkit-scrollbar-track,
-.responsive-slider::-webkit-scrollbar-track,
-[data-slider]::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 4px;
-}
-
-.slider-container::-webkit-scrollbar-thumb,
-.responsive-slider::-webkit-scrollbar-thumb,
-[data-slider]::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 4px;
-}
-
-.slider-container::-webkit-scrollbar-thumb:hover,
-.responsive-slider::-webkit-scrollbar-thumb:hover,
-[data-slider]::-webkit-scrollbar-thumb:hover {
-    background: #999;
-}
-
-.slider-container:active,
-.responsive-slider:active,
-[data-slider]:active {
-    cursor: grabbing;
-}
-
-.slider-container.dragging,
-.responsive-slider.dragging,
-[data-slider].dragging {
-    cursor: grabbing;
-    scroll-behavior: auto;
-}
-
-.slider-container.dragging *,
-.responsive-slider.dragging *,
-[data-slider].dragging * {
-    pointer-events: none;
-}
-
-/* Dynamic slide layout using CSS custom properties */
-.responsive-slider {
-    --slides-per-view-desktop: 3;
-    --slides-per-view-tablet: 3;
-    --slides-per-view-mobile: 2;
-    --slide-gap: 1rem;
-}
-
-.slide {
-    flex: 0 0 calc((100% - (var(--slides-per-view-desktop) - 1) * var(--slide-gap)) / var(--slides-per-view-desktop));
-    min-width: calc((100% - (var(--slides-per-view-desktop) - 1) * var(--slide-gap)) / var(--slides-per-view-desktop));
+/* Slide Layout with Dynamic Width Calculations */
+[data-slider-element="slider"] [data-slide] {
+    flex: 0 0 calc((100% - (var(--current-slides-per-view) - 1) * var(--slide-gap)) / var(--current-slides-per-view));
+    min-width: calc((100% - (var(--current-slides-per-view) - 1) * var(--slide-gap)) / var(--current-slides-per-view));
+    max-width: calc((100% - (var(--current-slides-per-view) - 1) * var(--slide-gap)) / var(--current-slides-per-view));
     scroll-snap-align: start;
 }
 
-/* Responsive slider layout */
-@media (max-width: 768px) {
+/* Slide Content Styling */
+[data-slide-content] {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
 
-    .slider-container,
-    .responsive-slider,
-    [data-slider] {
-        --slide-gap: 0.75rem;
-    }
+/* Dragging State */
+[data-slider-element="slider"][data-dragging] {
+    cursor: grabbing;
+    user-select: none;
+}
 
-    .slide {
-        flex: 0 0 calc((100% - (var(--slides-per-view-tablet) - 1) * var(--slide-gap)) / var(--slides-per-view-tablet));
-        min-width: calc((100% - (var(--slides-per-view-tablet) - 1) * var(--slide-gap)) / var(--slides-per-view-tablet));
+/* Screen Reader Only Content */
+[data-sr-only] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Responsive Breakpoints with Custom Property Updates */
+@media (min-width: 1024px) {
+    [data-slider-element="slider"] {
+        --current-slides-per-view: var(--slides-per-view-desktop);
     }
 }
 
-@media (max-width: 480px) {
-
-    .slider-container,
-    .responsive-slider,
-    [data-slider] {
-        --slide-gap: 0.5rem;
-        padding: 0.75rem 0;
-    }
-
-    .slide {
-        flex: 0 0 calc((100% - (var(--slides-per-view-mobile) - 1) * var(--slide-gap)) / var(--slides-per-view-mobile));
-        min-width: calc((100% - (var(--slides-per-view-mobile) - 1) * var(--slide-gap)) / var(--slides-per-view-mobile));
+@media (max-width: 1023px) and (min-width: 768px) {
+    [data-slider-element="slider"] {
+        --current-slides-per-view: var(--slides-per-view-tablet);
     }
 }
 
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-
-    .slider-container,
-    .responsive-slider,
-    [data-slider] {
-        scroll-behavior: auto;
+@media (max-width: 767px) {
+    [data-slider-element="slider"] {
+        --current-slides-per-view: var(--slides-per-view-mobile);
     }
 }

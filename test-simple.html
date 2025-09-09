@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Test</title>
+    <style>
+        .slider-container {
+            --slides-per-view-desktop: 4;
+            --slides-per-view-tablet: 3;
+            --slides-per-view-mobile: 1;
+            --slide-gap: 1.5rem;
+            --current-slides-per-view: var(--slides-per-view-desktop);
+
+            display: flex;
+            overflow-x: auto;
+            gap: var(--slide-gap);
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+            border: 2px solid #ccc;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .slider-container .slide {
+            flex: 0 0 calc((100% - (var(--current-slides-per-view) - 1) * var(--slide-gap)) / var(--current-slides-per-view));
+            min-width: calc((100% - (var(--current-slides-per-view) - 1) * var(--slide-gap)) / var(--current-slides-per-view));
+            max-width: calc((100% - (var(--current-slides-per-view) - 1) * var(--slide-gap)) / var(--current-slides-per-view));
+            scroll-snap-align: start;
+            background: #f0f0f0;
+            padding: 1rem;
+            border: 1px solid #ddd;
+        }
+
+        .slide-content {
+            text-align: center;
+        }
+
+        [data-slider-element="list"] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Simple Data Attribute Test</h1>
+
+    <!-- Data Source -->
+    <ul data-slider-element="list" data-list-instance="test">
+        <li><strong>Item 1</strong><br>First test item</li>
+        <li><strong>Item 2</strong><br>Second test item</li>
+        <li><strong>Item 3</strong><br>Third test item</li>
+        <li><strong>Item 4</strong><br>Fourth test item</li>
+        <li><strong>Item 5</strong><br>Fifth test item</li>
+    </ul>
+
+    <!-- Slider Target -->
+    <div data-slider-element="slider" data-slides-per-view="3" data-slides-per-view-tablet="2"
+        data-slides-per-view-mobile="1" data-gap="1rem" data-list-instance="test">
+    </div>
+
+    <script>
+        // Debug version of the slider system
+        class ResponsiveSlider {
+            constructor() {
+                this.dataSources = new Map();
+                this.sliderConfigs = [];
+                console.log('ResponsiveSlider initialized');
+            }
+
+            init() {
+                console.log('Starting initialization...');
+                this.detectDataSources();
+                this.detectSliderTargets();
+                this.generateSliders();
+                console.log('Initialization complete');
+            }
+
+            detectDataSources() {
+                const listElements = document.querySelectorAll('[data-slider-element="list"]');
+                console.log('Found list elements:', listElements.length);
+
+                listElements.forEach(listElement => {
+                    const listInstance = listElement.dataset.listInstance;
+                    console.log('Processing list instance:', listInstance);
+
+                    if (!listInstance) {
+                        console.warn('List element missing data-list-instance attribute:', listElement);
+                        return;
+                    }
+
+                    const items = this.extractListItems(listElement);
+                    console.log('Extracted items:', items.length);
+
+                    this.dataSources.set(listInstance, {
+                        element: listElement,
+                        items: items
+                    });
+                });
+
+                console.log('Data sources:', this.dataSources);
+            }
+
+            extractListItems(listElement) {
+                const items = [];
+                const children = Array.from(listElement.children);
+
+                children.forEach(child => {
+                    const clonedItem = child.cloneNode(true);
+                    items.push(clonedItem);
+                });
+
+                return items;
+            }
+
+            detectSliderTargets() {
+                const sliderElements = document.querySelectorAll('[data-slider-element="slider"]');
+                console.log('Found slider elements:', sliderElements.length);
+
+                sliderElements.forEach(sliderElement => {
+                    const config = this.parseSliderConfiguration(sliderElement);
+                    console.log('Parsed config:', config);
+
+                    if (config) {
+                        this.sliderConfigs.push(config);
+                    }
+                });
+            }
+
+            parseSliderConfiguration(sliderElement) {
+                const listInstancesAttr = sliderElement.dataset.listInstance;
+
+                if (!listInstancesAttr) {
+                    console.warn('Slider element missing data-list-instance attribute:', sliderElement);
+                    return null;
+                }
+
+                const listInstances = listInstancesAttr.split(';').map(instance => instance.trim());
+
+                const config = {
+                    element: sliderElement,
+                    listInstances: listInstances,
+                    slidesPerView: parseInt(sliderElement.dataset.slidesPerView) || 4,
+                    slidesPerViewTablet: parseInt(sliderElement.dataset.slidesPerViewTablet) || 3,
+                    slidesPerViewMobile: parseInt(sliderElement.dataset.slidesPerViewMobile) || 1,
+                    gap: sliderElement.dataset.gap || '1.5rem'
+                };
+
+                return config;
+            }
+
+            generateSliders() {
+                console.log('Generating sliders...');
+                this.sliderConfigs.forEach(config => {
+                    this.createSlider(config);
+                });
+            }
+
+            createSlider(config) {
+                console.log('Creating slider with config:', config);
+                const { element, listInstances, slidesPerView, slidesPerViewTablet, slidesPerViewMobile, gap } = config;
+
+                const allItems = [];
+
+                listInstances.forEach(instanceName => {
+                    const dataSource = this.dataSources.get(instanceName);
+
+                    if (!dataSource) {
+                        console.warn(`List instance "${instanceName}" not found for slider:`, element);
+                        return;
+                    }
+
+                    allItems.push(...dataSource.items);
+                });
+
+                console.log('Total items for slider:', allItems.length);
+
+                if (allItems.length === 0) {
+                    console.warn('No items found for slider:', element);
+                    return;
+                }
+
+                this.applySliderConfiguration(element, {
+                    slidesPerView,
+                    slidesPerViewTablet,
+                    slidesPerViewMobile,
+                    gap
+                });
+
+                this.generateSliderContent(element, allItems);
+                element.classList.add('slider-container');
+
+                console.log('Slider created successfully');
+            }
+
+            applySliderConfiguration(element, config) {
+                element.style.setProperty('--slides-per-view-desktop', config.slidesPerView);
+                element.style.setProperty('--slides-per-view-tablet', config.slidesPerViewTablet);
+                element.style.setProperty('--slides-per-view-mobile', config.slidesPerViewMobile);
+                element.style.setProperty('--slide-gap', config.gap);
+                console.log('Applied configuration to element');
+            }
+
+            generateSliderContent(container, items) {
+                container.innerHTML = '';
+
+                items.forEach((item, index) => {
+                    const slide = document.createElement('div');
+                    slide.classList.add('slide');
+                    slide.setAttribute('role', 'group');
+                    slide.setAttribute('aria-roledescription', 'slide');
+                    slide.setAttribute('aria-label', `Slide ${index + 1} of ${items.length}`);
+                    slide.setAttribute('tabindex', '-1');
+
+                    const slideContent = document.createElement('div');
+                    slideContent.classList.add('slide-content');
+
+                    const clonedItem = item.cloneNode(true);
+                    slideContent.appendChild(clonedItem);
+
+                    slide.appendChild(slideContent);
+                    container.appendChild(slide);
+                });
+
+                console.log('Generated slider content with', items.length, 'slides');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, initializing slider system...');
+            const sliderSystem = new ResponsiveSlider();
+            sliderSystem.init();
+        });
+    </script>
+</body>
+
+</html>
