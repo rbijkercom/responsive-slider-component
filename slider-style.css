@@ -1,0 +1,84 @@
+/* Essential slider functionality */
+.slider-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    padding: 1rem 0;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+    cursor: grab;
+    user-select: none;
+}
+
+.slider-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.slider-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.slider-container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+
+.slider-container::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+.slider-container:active {
+    cursor: grabbing;
+}
+
+.slider-container.dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+}
+
+.slider-container.dragging * {
+    pointer-events: none;
+}
+
+/* Slide layout - exactly 3 slides visible */
+.slide {
+    flex: 0 0 calc((100% - 2rem) / 3);
+    min-width: calc((100% - 2rem) / 3);
+    scroll-snap-align: start;
+}
+
+/* Responsive slider layout */
+@media (max-width: 768px) {
+    .slider-container {
+        gap: 0.75rem;
+    }
+
+    .slide {
+        flex: 0 0 calc((100% - 1.5rem) / 3);
+        min-width: calc((100% - 1.5rem) / 3);
+    }
+}
+
+@media (max-width: 480px) {
+    .slider-container {
+        gap: 0.5rem;
+        padding: 0.75rem 0;
+    }
+
+    .slide {
+        flex: 0 0 calc((100% - 1rem) / 3);
+        min-width: calc((100% - 1rem) / 3);
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .slider-container {
+        scroll-behavior: auto;
+    }
+}
