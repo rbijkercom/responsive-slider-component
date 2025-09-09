@@ -28,8 +28,11 @@ class ResponsiveSlider {
         return;
       }
 
+      // Get depth configuration (default is 2 - child of child)
+      const depth = parseInt(listElement.getAttribute('rb-slider-depth')) || 2;
+
       // Extract content from the list
-      const items = this.extractListItems(listElement);
+      const items = this.extractListItems(listElement, depth);
 
       // Check if we already have data for this instance
       if (this.dataSources.has(listInstance)) {
@@ -49,17 +52,43 @@ class ResponsiveSlider {
   }
 
   // Extract items from a list element
-  extractListItems(listElement) {
+  extractListItems(listElement, depth = 2) {
     const items = [];
     const children = Array.from(listElement.children);
 
     children.forEach((child) => {
-      // Clone the element to preserve original structure
-      const clonedItem = child.cloneNode(true);
-      items.push(clonedItem);
+      // Extract content at the specified depth
+      const extractedContent = this.extractContentAtDepth(child, depth);
+      if (extractedContent) {
+        items.push(extractedContent);
+      }
     });
 
     return items;
+  }
+
+  // Extract content at specified depth from an element
+  extractContentAtDepth(element, depth) {
+    let currentElement = element;
+
+    // Navigate down the specified number of levels
+    for (let i = 0; i < depth; i++) {
+      if (
+        !currentElement ||
+        !currentElement.children ||
+        currentElement.children.length === 0
+      ) {
+        // If we can't go deeper, return what we have
+        break;
+      }
+      // Take the first child at each level
+      currentElement = currentElement.children[0];
+    }
+
+    // Clone the element at the target depth
+    return currentElement
+      ? currentElement.cloneNode(true)
+      : element.cloneNode(true);
   }
 
   // Detect and parse slider target containers
@@ -105,6 +134,7 @@ class ResponsiveSlider {
       slidesPerViewMobile:
         parseInt(sliderElement.getAttribute('rb-slides-per-view-mobile')) || 1,
       gap: sliderElement.getAttribute('rb-slider-gap') || '1.5rem',
+      depth: parseInt(sliderElement.getAttribute('rb-slider-depth')) || null,
     };
 
     return config;
@@ -126,6 +156,7 @@ class ResponsiveSlider {
       slidesPerViewTablet,
       slidesPerViewMobile,
       gap,
+      depth,
     } = config;
 
     // Collect items from all specified list instances
@@ -146,8 +177,18 @@ class ResponsiveSlider {
         `Instance "${instanceName}" has ${dataSource.items.length} items from ${dataSource.elements.length} list(s)`,
       );
 
-      // Add items from this data source (now contains items from all lists with this instance name)
-      allItems.push(...dataSource.items);
+      // If slider has its own depth setting, re-extract items with that depth
+      if (depth !== null) {
+        const reExtractedItems = [];
+        dataSource.elements.forEach((listElement) => {
+          const items = this.extractListItems(listElement, depth);
+          reExtractedItems.push(...items);
+        });
+        allItems.push(...reExtractedItems);
+      } else {
+        // Use items as originally extracted with list-level depth
+        allItems.push(...dataSource.items);
+      }
     });
 
     if (allItems.length === 0) {
@@ -260,15 +301,11 @@ class ResponsiveSlider {
       slide.setAttribute('aria-label', `Slide ${index + 1} of ${items.length}`);
       slide.setAttribute('tabindex', '-1');
 
-      // Create slide content wrapper with data attribute
-      const slideContent = document.createElement('div');
-      slideContent.setAttribute('rb-slider-content', '');
-
-      // Clone and append the original item content
+      // Clone the original item content and add rb-slider-content directly to it
       const clonedItem = item.cloneNode(true);
-      slideContent.appendChild(clonedItem);
+      clonedItem.setAttribute('rb-slider-content', '');
 
-      slide.appendChild(slideContent);
+      slide.appendChild(clonedItem);
       container.appendChild(slide);
     });
   }

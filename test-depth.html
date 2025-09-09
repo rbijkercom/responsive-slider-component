@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slider Depth Test</title>
+    <link rel="stylesheet" href="base-style.css">
+    <link rel="stylesheet" href="slider-style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 2rem;
+        }
+
+        /* Hide data source lists */
+        [rb-slider-element="list"] {
+            display: none;
+        }
+
+        /* Basic styling for demo */
+        [rb-slider-element="slider"] {
+            border: 2px solid #ddd;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+
+        [rb-slide] {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 1rem;
+        }
+
+        /* Styling for nested content demo */
+        .card {
+            border: 2px solid #007bff;
+            padding: 1rem;
+            margin: 0.5rem;
+        }
+
+        .card-body {
+            background: #e3f2fd;
+            padding: 1rem;
+        }
+
+        .card-content {
+            background: #bbdefb;
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .deep-content {
+            background: #90caf9;
+            padding: 0.5rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Slider Depth Configuration Test</h1>
+
+    <h2>Test 1: Default Depth (2 - child of child)</h2>
+    <p>Should show the .card-body content</p>
+
+    <!-- Data Source with nested structure -->
+    <ul rb-slider-element="list" rb-slider-instance="nested-default">
+        <li>
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-content">
+                        <div class="deep-content">Deep Content 1</div>
+                    </div>
+                    Card Body 1 (depth 2)
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-content">
+                        <div class="deep-content">Deep Content 2</div>
+                    </div>
+                    Card Body 2 (depth 2)
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-content">
+                        <div class="deep-content">Deep Content 3</div>
+                    </div>
+                    Card Body 3 (depth 2)
+                </div>
+            </div>
+        </li>
+    </ul>
+
+    <div rb-slider-element="slider" rb-slider-instance="nested-default" rb-slides-per-view="2"></div>
+
+    <h2>Test 2: Depth 1 (direct child)</h2>
+    <p>Should show the .card content</p>
+
+    <ul rb-slider-element="list" rb-slider-instance="nested-depth1" rb-slider-depth="1">
+        <li>
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-content">
+                        <div class="deep-content">Deep Content 1</div>
+                    </div>
+                    Card Body 1 (depth 2)
+                </div>
+                Card 1 (depth 1)
+            </div>
+        </li>
+        <li>
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-content">
+                        <div class="deep-content">Deep Content 2</div>
+                    </div>
+                    Card Body 2 (depth 2)
+                </div>
+                Card 2 (depth 1)
+            </div>
+        </li>
+        <li>
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-content">
+                        <div class="deep-content">Deep Content 3</div>
+                    </div>
+                    Card Body 3 (depth 2)
+                </div>
+                Card 3 (depth 1)
+            </div>
+        </li>
+    </ul>
+
+    <div rb-slider-element="slider" rb-slider-instance="nested-depth1" rb-slides-per-view="2"></div>
+
+    <h2>Test 3: Depth 3 (child of child of child)</h2>
+    <p>Should show the .card-content</p>
+
+    <ul rb-slider-element="list" rb-slider-instance="nested-depth3" rb-slider-depth="3">
+        <li>
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-content">
+                        <div class="deep-content">Deep Content 1</div>
+                    </div>
+                    Card Content 1 (depth 3)
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-content">
+                        <div class="deep-content">Deep Content 2</div>
+                    </div>
+                    Card Content 2 (depth 3)
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-content">
+                        <div class="deep-content">Deep Content 3</div>
+                    </div>
+                    Card Content 3 (depth 3)
+                </div>
+            </div>
+        </li>
+    </ul>
+
+    <div rb-slider-element="slider" rb-slider-instance="nested-depth3" rb-slides-per-view="2"></div>
+
+    <h2>Test 4: Slider Override Depth</h2>
+    <p>List has depth 1, but slider overrides to depth 4 - should show .deep-content</p>
+
+    <ul rb-slider-element="list" rb-slider-instance="override-test" rb-slider-depth="1">
+        <li>
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-content">
+                        <div class="deep-content">Override Deep 1</div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-content">
+                        <div class="deep-content">Override Deep 2</div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-content">
+                        <div class="deep-content">Override Deep 3</div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+
+    <div rb-slider-element="slider" rb-slider-instance="override-test" rb-slides-per-view="2" rb-slider-depth="4"></div>
+
+    <script src="slider.js"></script>
+</body>
+
+</html>
