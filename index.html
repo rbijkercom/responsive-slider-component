@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Slider</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <main>
+        <h1>Responsive Slider Demo</h1>
+
+        <div class="slider-container" role="region" aria-label="Content slider with 5 slides, showing 3 at a time"
+            aria-describedby="slider-instructions" tabindex="0">
+
+            <div class="slide" role="group" aria-roledescription="slide" aria-label="Slide 1 of 5" tabindex="-1">
+                <div class="slide-content">
+                    <h2>Slide 1</h2>
+                    <p>This is the first slide with some sample content. The slider displays exactly 3 slides at once
+                        using flexible layouts.</p>
+                    <img src="https://via.placeholder.com/300x200/4CAF50/white?text=Slide+1"
+                        alt="Sample image for slide 1">
+                </div>
+            </div>
+
+            <div class="slide" role="group" aria-roledescription="slide" aria-label="Slide 2 of 5" tabindex="-1">
+                <div class="slide-content">
+                    <h2>Slide 2</h2>
+                    <p>Second slide content with different information. The width adjusts proportionally based on the
+                        container size.</p>
+                    <img src="https://via.placeholder.com/300x200/2196F3/white?text=Slide+2"
+                        alt="Sample image for slide 2">
+                </div>
+            </div>
+
+            <div class="slide" role="group" aria-roledescription="slide" aria-label="Slide 3 of 5" tabindex="-1">
+                <div class="slide-content">
+                    <h2>Slide 3</h2>
+                    <p>Third slide showcasing the responsive behavior. No fixed pixel values are used for slide widths.
+                    </p>
+                    <img src="https://via.placeholder.com/300x200/FF9800/white?text=Slide+3"
+                        alt="Sample image for slide 3">
+                </div>
+            </div>
+
+            <div class="slide" role="group" aria-roledescription="slide" aria-label="Slide 4 of 5" tabindex="-1">
+                <div class="slide-content">
+                    <h2>Slide 4</h2>
+                    <p>Fourth slide to demonstrate scrolling functionality with more than 3 slides.</p>
+                    <img src="https://via.placeholder.com/300x200/9C27B0/white?text=Slide+4"
+                        alt="Sample image for slide 4">
+                </div>
+            </div>
+
+            <div class="slide" role="group" aria-roledescription="slide" aria-label="Slide 5 of 5" tabindex="-1">
+                <div class="slide-content">
+                    <h2>Slide 5</h2>
+                    <p>Fifth slide showing support for variable number of slides while maintaining the 3-slide display.
+                    </p>
+                    <img src="https://via.placeholder.com/300x200/F44336/white?text=Slide+5"
+                        alt="Sample image for slide 5">
+                </div>
+            </div>
+        </div>
+
+        <div id="slider-instructions" class="sr-only">
+            Horizontal scrolling slider. Use Tab to focus on the slider, then use arrow keys or scroll horizontally to
+            navigate between slides.
+        </div>
+
+        <div class="keyboard-instructions" aria-live="polite">
+            <strong>Keyboard Navigation:</strong> Tab to focus slider, then use arrow keys or scroll to navigate. Tab
+            again to access individual slide content.
+        </div>
+
+        <p class="demo-info">This slider displays exactly 3 slides at once and supports horizontal scrolling for
+            additional content.</p>
+
+        <h2>Product Showcase (6 slides)</h2>
+        <div class="slider-container" role="region" aria-label="Product showcase with 6 slides, showing 3 at a time"
+            aria-describedby="product-slider-instructions" tabindex="0">
+
+            <div class="slide" role="group" aria-roledescription="slide" aria-label="Product 1 of 6" tabindex="-1">
+                <div class="slide-content">
+                    <h3>Wireless Headphones</h3>
+                    <p>Premium noise-canceling headphones with 30-hour battery life and crystal-clear audio quality.</p>
+                    <div class="price">$199.99</div>
+                    <img src="https://via.placeholder.com/300x200/1976D2/white?text=Headphones"
+                        alt="Wireless noise-canceling headphones">
+                </div>
+            </div>
+
+            <div class="slide" role="group" aria-roledescription="slide" aria-label="Product 2 of 6" tabindex="-1">
+                <div class="slide-content">
+                    <h3>Smart Watch</h3>
+                    <p>Fitness tracking, heart rate monitoring, and smartphone integration in a sleek design.</p>
+                    <div class="price">$299.99</div>
+                    <img src="https://via.placeholder.com/300x200/388E3C/white?text=Smart+Watch"
+                        alt="Smart fitness watch with heart rate monitor">
+                </div>
+            </div>
+
+            <div class="slide" role="group" aria-roledescription="slide" aria-label="Product 3 of 6" tabindex="-1">
+                <div class="slide-content">
+                    <h3>Laptop Stand</h3>
+                    <p>Ergonomic aluminum laptop stand with adjustable height and cooling ventilation.</p>
+                    <div class="price">$79.99</div>
+                    <img src="https://via.placeholder.com/300x200/F57C00/white?text=Laptop+Stand"
+                        alt="Adjustable aluminum laptop stand">
+                </div>
+            </div>
+
+            <div class="slide" role="group" aria-roledescription="slide" aria-label="Product 4 of 6" tabindex="-1">
+                <div class="slide-content">
+                    <h3>Wireless Charger</h3>
+                    <p>Fast wireless charging pad compatible with all Qi-enabled devices. LED indicator included.</p>
+                    <div class="price">$39.99</div>
+                    <img src="https://via.placeholder.com/300x200/7B1FA2/white?text=Wireless+Charger"
+                        alt="Fast wireless charging pad with LED indicator">
+                </div>
+            </div>
+
+            <div class="slide" role="group" aria-roledescription="slide" aria-label="Product 5 of 6" tabindex="-1">
+                <div class="slide-content">
+                    <h3>Bluetooth Speaker</h3>
+                    <p>Portable waterproof speaker with 360-degree sound and 12-hour battery life.</p>
+                    <div class="price">$89.99</div>
+                    <img src="https://via.placeholder.com/300x200/D32F2F/white?text=BT+Speaker"
+                        alt="Waterproof Bluetooth speaker with 360-degree sound">
+                </div>
+            </div>
+
+            <div class="slide" role="group" aria-roledescription="slide" aria-label="Product 6 of 6" tabindex="-1">
+                <div class="slide-content">
+                    <h3>USB-C Hub</h3>
+                    <p>7-in-1 USB-C hub with HDMI, USB 3.0 ports, SD card reader, and power delivery.</p>
+                    <div class="price">$49.99</div>
+                    <img src="https://via.placeholder.com/300x200/455A64/white?text=USB-C+Hub"
+                        alt="7-in-1 USB-C hub with multiple ports">
+                </div>
+            </div>
+        </div>
+
+        <div id="product-slider-instructions" class="sr-only">
+            Product showcase slider. Use arrow keys to navigate between products. Left and right arrow keys scroll
+            horizontally through the products.
+        </div>
+
+        <h2>Team Members (Exactly 3 slides)</h2>
+        <div class="slider-container" role="region" aria-label="Team members with 3 slides, all visible"
+            aria-describedby="team-slider-instructions" tabindex="0">
+
+            <div class="slide" role="group" aria-roledescription="slide" aria-label="Team member 1 of 3" tabindex="-1">
+                <div class="slide-content">
+                    <h3>Sarah Johnson</h3>
+                    <p class="role">Lead Developer</p>
+                    <p>Full-stack developer with 8 years of experience in React, Node.js, and cloud architecture.
+                        Passionate about creating accessible and performant web applications.</p>
+                    <img src="https://via.placeholder.com/300x300/E91E63/white?text=SJ"
+                        alt="Sarah Johnson, Lead Developer">
+                </div>
+            </div>
+
+            <div class="slide" role="group" aria-roledescription="slide" aria-label="Team member 2 of 3" tabindex="-1">
+                <div class="slide-content">
+                    <h3>Michael Chen</h3>
+                    <p class="role">UX Designer</p>
+                    <p>Creative designer focused on user-centered design principles. Specializes in responsive design,
+                        accessibility, and creating intuitive user experiences.</p>
+                    <img src="https://via.placeholder.com/300x300/00BCD4/white?text=MC" alt="Michael Chen, UX Designer">
+                </div>
+            </div>
+
+            <div class="slide" role="group" aria-roledescription="slide" aria-label="Team member 3 of 3" tabindex="-1">
+                <div class="slide-content">
+                    <h3>Emily Rodriguez</h3>
+                    <p class="role">Product Manager</p>
+                    <p>Strategic product manager with expertise in agile methodologies and user research. Drives product
+                        vision and ensures alignment with business goals.</p>
+                    <img src="https://via.placeholder.com/300x300/FF5722/white?text=ER"
+                        alt="Emily Rodriguez, Product Manager">
+                </div>
+            </div>
+        </div>
+
+        <div id="team-slider-instructions" class="sr-only">
+            Team members display. All 3 team members are visible at once. Use arrow keys if needed for navigation.
+        </div>
+
+        <h2>Text-Only Content (4 slides)</h2>
+        <div class="slider-container" role="region" aria-label="Text content with 4 slides, showing 3 at a time"
+            aria-describedby="text-slider-instructions" tabindex="0">
+
+            <div class="slide" role="group" aria-roledescription="slide" aria-label="Article 1 of 4" tabindex="-1">
+                <div class="slide-content text-only">
+                    <h3>Getting Started with CSS Grid</h3>
+                    <p>CSS Grid Layout is a two-dimensional layout system for the web. It lets you lay content out in
+                        rows and columns, and has many features that make building complex layouts straightforward.</p>
+                    <p>Unlike flexbox, which is largely a one-dimensional system, Grid Layout is optimized for
+                        2-dimensional layouts: those in which alignment of content is desired in both dimensions.</p>
+                    <a href="#" class="read-more" aria-label="Read more about CSS Grid">Read More →</a>
+                </div>
+            </div>
+
+            <div class="slide" role="group" aria-roledescription="slide" aria-label="Article 2 of 4" tabindex="-1">
+                <div class="slide-content text-only">
+                    <h3>Responsive Design Principles</h3>
+                    <p>Responsive web design is about creating web pages that look good on all devices. It uses only
+                        HTML and CSS, and is not a program or a JavaScript.</p>
+                    <p>The key principles include flexible grids, flexible images, and media queries. These work
+                        together to create layouts that adapt to different screen sizes.</p>
+                    <a href="#" class="read-more" aria-label="Read more about Responsive Design">Read More →</a>
+                </div>
+            </div>
+
+            <div class="slide" role="group" aria-roledescription="slide" aria-label="Article 3 of 4" tabindex="-1">
+                <div class="slide-content text-only">
+                    <h3>Web Accessibility Basics</h3>
+                    <p>Web accessibility means that websites, tools, and technologies are designed so that people with
+                        disabilities can use them effectively.</p>
+                    <p>This includes providing proper semantic HTML, ARIA labels, keyboard navigation, and ensuring
+                        sufficient color contrast for all users.</p>
+                    <a href="#" class="read-more" aria-label="Read more about Web Accessibility">Read More →</a>
+                </div>
+            </div>
+
+            <div class="slide" role="group" aria-roledescription="slide" aria-label="Article 4 of 4" tabindex="-1">
+                <div class="slide-content text-only">
+                    <h3>Modern CSS Features</h3>
+                    <p>Modern CSS includes powerful features like custom properties (CSS variables), container queries,
+                        and advanced selectors that make styling more maintainable.</p>
+                    <p>These features enable developers to create more dynamic and responsive designs with cleaner, more
+                        maintainable code.</p>
+                    <a href="#" class="read-more" aria-label="Read more about Modern CSS">Read More →</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="text-slider-instructions" class="sr-only">
+            Text articles slider. Use arrow keys to navigate between articles. Left and right arrow keys scroll
+            horizontally through the content.
+        </div>
+    </main>
+</body>
+
+</html>
