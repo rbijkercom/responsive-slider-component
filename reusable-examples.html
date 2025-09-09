@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reusable Slider Examples</title>
+    <link rel="stylesheet" href="base-style.css">
+    <link rel="stylesheet" href="slider-style.css">
+    <style>
+        .example-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .example-section h2 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .code-example {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        /* Custom styling for product cards */
+        .product-card {
+            text-align: center;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 1.1rem;
+        }
+
+        /* Testimonial styling */
+        .testimonial {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .testimonial blockquote {
+            font-style: italic;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .testimonial cite {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <h1>Reusable Slider Component Examples</h1>
+
+        <div class="example-section">
+            <h2>Example 1: Responsive Product Showcase</h2>
+            <div class="code-example">
+                &lt;div data-slider
+                data-slides-per-view="4"
+                data-slides-per-view-tablet="3"
+                data-slides-per-view-mobile="2"
+                data-gap="1.5rem"&gt;
+            </div>
+            <p><strong>Desktop:</strong> 4 slides | <strong>Tablet:</strong> 3 slides | <strong>Mobile:</strong> 2
+                slides</p>
+
+            <div data-slider data-slides-per-view="4" data-slides-per-view-tablet="3" data-slides-per-view-mobile="1"
+                data-gap="1.5rem" id="products-slider">
+                <div data-slide-item class="product-card">
+                    <img src="https://via.placeholder.com/200x150/3498db/white?text=Product+1" alt="Product 1">
+                    <h3>Wireless Headphones</h3>
+                    <p class="price">$99.99</p>
+                </div>
+                <div data-slide-item class="product-card">
+                    <img src="https://via.placeholder.com/200x150/e74c3c/white?text=Product+2" alt="Product 2">
+                    <h3>Smart Watch</h3>
+                    <p class="price">$199.99</p>
+                </div>
+                <div data-slide-item class="product-card">
+                    <img src="https://via.placeholder.com/200x150/2ecc71/white?text=Product+3" alt="Product 3">
+                    <h3>Bluetooth Speaker</h3>
+                    <p class="price">$79.99</p>
+                </div>
+                <div data-slide-item class="product-card">
+                    <img src="https://via.placeholder.com/200x150/f39c12/white?text=Product+4" alt="Product 4">
+                    <h3>Phone Case</h3>
+                    <p class="price">$24.99</p>
+                </div>
+                <div data-slide-item class="product-card">
+                    <img src="https://via.placeholder.com/200x150/9b59b6/white?text=Product+5" alt="Product 5">
+                    <h3>Laptop Stand</h3>
+                    <p class="price">$49.99</p>
+                </div>
+                <div data-slide-item class="product-card">
+                    <img src="https://via.placeholder.com/200x150/1abc9c/white?text=Product+6" alt="Product 6">
+                    <h3>USB Cable</h3>
+                    <p class="price">$12.99</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="example-section">
+            <h2>Example 2: Responsive Testimonials</h2>
+            <div class="code-example">
+                &lt;ul data-slider
+                data-slides-per-view="2"
+                data-slides-per-view-tablet="2"
+                data-slides-per-view-mobile="1"
+                data-gap="2rem"&gt;
+            </div>
+            <p><strong>Desktop/Tablet:</strong> 2 slides | <strong>Mobile:</strong> 1 slide</p>
+
+            <ul data-slider data-slides-per-view="2" data-slides-per-view-tablet="2" data-slides-per-view-mobile="1"
+                data-gap="2rem" id="testimonials-slider">
+                <li class="testimonial">
+                    <blockquote>"This product completely changed how we work. Highly recommended!"</blockquote>
+                    <cite>- Sarah Johnson, CEO</cite>
+                </li>
+                <li class="testimonial">
+                    <blockquote>"Amazing customer service and quality. Will definitely buy again."</blockquote>
+                    <cite>- Mike Chen, Developer</cite>
+                </li>
+                <li class="testimonial">
+                    <blockquote>"Fast delivery and exactly what I needed for my project."</blockquote>
+                    <cite>- Lisa Rodriguez, Designer</cite>
+                </li>
+                <li class="testimonial">
+                    <blockquote>"Great value for money. The team was very helpful throughout."</blockquote>
+                    <cite>- David Kim, Manager</cite>
+                </li>
+            </ul>
+        </div>
+
+        <div class="example-section">
+            <h2>Example 3: Image Gallery (5 slides per view)</h2>
+            <div class="code-example">
+                &lt;div data-slider data-slides-per-view="5" data-gap="0.5rem"&gt;
+            </div>
+
+            <div data-slider data-slides-per-view="5" data-gap="0.5rem" id="gallery-slider">
+                <div data-slide-item>
+                    <img src="https://via.placeholder.com/300x200/ff6b6b/white?text=Photo+1" alt="Gallery photo 1"
+                        style="width: 100%; height: 120px; object-fit: cover; border-radius: 4px;">
+                </div>
+                <div data-slide-item>
+                    <img src="https://via.placeholder.com/300x200/4ecdc4/white?text=Photo+2" alt="Gallery photo 2"
+                        style="width: 100%; height: 120px; object-fit: cover; border-radius: 4px;">
+                </div>
+                <div data-slide-item>
+                    <img src="https://via.placeholder.com/300x200/45b7d1/white?text=Photo+3" alt="Gallery photo 3"
+                        style="width: 100%; height: 120px; object-fit: cover; border-radius: 4px;">
+                </div>
+                <div data-slide-item>
+                    <img src="https://via.placeholder.com/300x200/f9ca24/white?text=Photo+4" alt="Gallery photo 4"
+                        style="width: 100%; height: 120px; object-fit: cover; border-radius: 4px;">
+                </div>
+                <div data-slide-item>
+                    <img src="https://via.placeholder.com/300x200/6c5ce7/white?text=Photo+5" alt="Gallery photo 5"
+                        style="width: 100%; height: 120px; object-fit: cover; border-radius: 4px;">
+                </div>
+                <div data-slide-item>
+                    <img src="https://via.placeholder.com/300x200/a55eea/white?text=Photo+6" alt="Gallery photo 6"
+                        style="width: 100%; height: 120px; object-fit: cover; border-radius: 4px;">
+                </div>
+                <div data-slide-item>
+                    <img src="https://via.placeholder.com/300x200/26de81/white?text=Photo+7" alt="Gallery photo 7"
+                        style="width: 100%; height: 120px; object-fit: cover; border-radius: 4px;">
+                </div>
+            </div>
+        </div>
+
+        <div class="example-section">
+            <h2>Example 4: Manual Initialization</h2>
+            <div class="code-example">
+                // Manual initialization with custom options<br>
+                const slider = new ResponsiveSlider(document.getElementById('manual-slider'));<br>
+                // or<br>
+                document.getElementById('manual-slider').dataset.slidesPerView = '3';<br>
+                new ResponsiveSlider(document.getElementById('manual-slider'));
+            </div>
+
+            <div id="manual-slider" data-auto-init="false">
+                <div class="item">
+                    <div class="slide-content">
+                        <h3>Manual Slide 1</h3>
+                        <p>This slider was initialized manually via JavaScript.</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="slide-content">
+                        <h3>Manual Slide 2</h3>
+                        <p>You have full control over initialization timing.</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="slide-content">
+                        <h3>Manual Slide 3</h3>
+                        <p>Perfect for dynamic content or complex setups.</p>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="initManualSlider()"
+                style="margin-top: 1rem; padding: 0.5rem 1rem; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                Initialize Manual Slider
+            </button>
+        </div>
+
+        <div class="example-section">
+            <h2>Usage Instructions</h2>
+            <div class="code-example">
+                <strong>Data Attributes:</strong><br>
+                • data-slider: Enables auto-initialization<br>
+                • data-slides-per-view: Number of slides visible on desktop (default: 3)<br>
+                • data-slides-per-view-tablet: Number of slides on tablet ≤768px (default: same as desktop)<br>
+                • data-slides-per-view-mobile: Number of slides on mobile ≤480px (default: min(tablet, 2))<br>
+                • data-gap: Gap between slides (default: 1rem)<br>
+                • data-auto-init: Set to "false" to prevent auto-init<br><br>
+
+                <strong>Supported HTML structures:</strong><br>
+                • &lt;div data-slider&gt;&lt;div data-slide-item&gt;...&lt;/div&gt;&lt;/div&gt;<br>
+                • &lt;ul data-slider&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ul&gt;<br>
+                • &lt;div data-slider&gt;&lt;div class="item"&gt;...&lt;/div&gt;&lt;/div&gt;<br>
+                • Any container with child elements
+            </div>
+        </div>
+    </main>
+
+    <script src="slider.js"></script>
+    <script>
+        function initManualSlider() {
+            const manualSlider = document.getElementById('manual-slider');
+            manualSlider.dataset.slidesPerView = '3';
+            manualSlider.dataset.gap = '1rem';
+            new ResponsiveSlider(manualSlider);
+
+            // Disable the button after initialization
+            event.target.disabled = true;
+            event.target.textContent = 'Slider Initialized!';
+        }
+    </script>
+</body>
+
+</html>

@@ -43,35 +43,65 @@ A fully accessible, CSS-only responsive slider component that displays exactly 3
 
 ## Usage
 
-### Basic HTML Structure
+### Quick Start (Reusable Component)
+
+Transform any list of items into a responsive slider using data attributes:
 
 ```html
+<!-- Responsive product showcase: 4 desktop, 3 tablet, 2 mobile -->
 <div
-  class="slider-container"
-  role="region"
-  aria-label="Content slider with 5 slides, showing 3 at a time"
-  aria-describedby="slider-instructions"
-  tabindex="0"
+  data-slider
+  data-slides-per-view="4"
+  data-slides-per-view-tablet="3"
+  data-slides-per-view-mobile="2"
+  data-gap="1.5rem"
 >
-  <div
-    class="slide"
-    role="group"
-    aria-roledescription="slide"
-    aria-label="Slide 1 of 5"
-    tabindex="-1"
-  >
+  <div data-slide-item>Product 1 content...</div>
+  <div data-slide-item>Product 2 content...</div>
+  <div data-slide-item>Product 3 content...</div>
+  <!-- More items... -->
+</div>
+
+<!-- Testimonials: 2 desktop/tablet, 1 mobile -->
+<ul data-slider data-slides-per-view="2" data-slides-per-view-mobile="1">
+  <li>Testimonial 1...</li>
+  <li>Testimonial 2...</li>
+  <li>Testimonial 3...</li>
+</ul>
+```
+
+### Data Attributes
+
+- `data-slider`: Enables auto-initialization
+- `data-slides-per-view`: Number of slides visible on desktop (default: 3)
+- `data-slides-per-view-tablet`: Number of slides on tablet ≤768px (default: same as desktop)
+- `data-slides-per-view-mobile`: Number of slides on mobile ≤480px (default: min(tablet, 2))
+- `data-gap`: Gap between slides (default: 1rem)
+- `data-auto-init`: Set to "false" to prevent auto-initialization
+
+### Manual Initialization
+
+```javascript
+// Initialize specific element
+const slider = new ResponsiveSlider(document.getElementById('my-slider'));
+
+// Or configure via data attributes first
+element.dataset.slidesPerView = '4';
+element.dataset.gap = '2rem';
+new ResponsiveSlider(element);
+```
+
+### Legacy HTML Structure (Still Supported)
+
+```html
+<div class="slider-container" role="region" aria-label="Content slider">
+  <div class="slide" role="group" aria-roledescription="slide">
     <div class="slide-content">
       <h3>Slide Title</h3>
       <p>Slide content goes here...</p>
     </div>
   </div>
-
   <!-- Additional slides... -->
-</div>
-
-<div id="slider-instructions" class="sr-only">
-  Horizontal scrolling slider. Use Tab to focus on the slider, then use arrow
-  keys or scroll horizontally to navigate between slides.
 </div>
 ```
 
@@ -157,9 +187,11 @@ A fully accessible, CSS-only responsive slider component that displays exactly 3
 
 ## Files
 
-- `index.html`: Main demo with various content types
-- `accessibility-demo.html`: Comprehensive accessibility demonstration
-- `styles.css`: Complete CSS implementation
+- `index.html`: Original demo with manual HTML structure
+- `reusable-examples.html`: Examples of the reusable component with data attributes
+- `base-style.css`: Core styling and accessibility features
+- `slider-style.css`: Slider-specific functionality and layout
+- `slider.js`: Reusable component class with auto-initialization
 - `README.md`: Documentation and usage guide
 
 ## Implementation Notes
