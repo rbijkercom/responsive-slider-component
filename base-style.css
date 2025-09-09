@@ -25,6 +25,7 @@ h1 {
 }
 
 /* Slide content styling */
+[data-slide],
 .slide {
     background: white;
     border-radius: 8px;
@@ -33,6 +34,7 @@ h1 {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+[data-slide]:hover,
 .slide:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
@@ -80,6 +82,7 @@ h1 {
     border: 0;
 }
 
+[data-slider-element="slider"]:focus,
 .slider-container:focus {
     outline: 3px solid #4A90E2;
     outline-offset: 2px;
@@ -155,10 +158,13 @@ h1 {
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
+
+    [data-slide],
     .slide {
         transition: none;
     }
 
+    [data-slide]:hover,
     .slide:hover {
         transform: none;
     }

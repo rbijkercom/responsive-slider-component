@@ -157,50 +157,6 @@ class ResponsiveSlider {
     this.setupDragInteraction(element);
   }
 
-  // Apply configuration via CSS custom properties
-  applySliderConfiguration(element, config) {
-    element.style.setProperty(
-      '--slides-per-view-desktop',
-      config.slidesPerView,
-    );
-    element.style.setProperty(
-      '--slides-per-view-tablet',
-      config.slidesPerViewTablet,
-    );
-    element.style.setProperty(
-      '--slides-per-view-mobile',
-      config.slidesPerViewMobile,
-    );
-    element.style.setProperty('--slide-gap', config.gap);
-  }
-
-  // Generate slider content from items
-  generateSliderContent(container, items) {
-    // Clear existing content
-    container.innerHTML = '';
-
-    items.forEach((item, index) => {
-      // Create slide wrapper with data attribute
-      const slide = document.createElement('div');
-      slide.setAttribute('data-slide', '');
-      slide.setAttribute('role', 'group');
-      slide.setAttribute('aria-roledescription', 'slide');
-      slide.setAttribute('aria-label', `Slide ${index + 1} of ${items.length}`);
-      slide.setAttribute('tabindex', '-1');
-
-      // Create slide content wrapper with data attribute
-      const slideContent = document.createElement('div');
-      slideContent.setAttribute('data-slide-content', '');
-
-      // Clone and append the original item content
-      const clonedItem = item.cloneNode(true);
-      slideContent.appendChild(clonedItem);
-
-      slide.appendChild(slideContent);
-      container.appendChild(slide);
-    });
-  }
-
   // Setup accessibility features for a slider
   setupAccessibility(container, totalSlides) {
     // Get configuration from CSS custom properties
@@ -257,6 +213,50 @@ class ResponsiveSlider {
     // Initial update and resize listener
     updateAriaLabel();
     window.addEventListener('resize', updateAriaLabel);
+  }
+
+  // Apply configuration via CSS custom properties
+  applySliderConfiguration(element, config) {
+    element.style.setProperty(
+      '--slides-per-view-desktop',
+      config.slidesPerView,
+    );
+    element.style.setProperty(
+      '--slides-per-view-tablet',
+      config.slidesPerViewTablet,
+    );
+    element.style.setProperty(
+      '--slides-per-view-mobile',
+      config.slidesPerViewMobile,
+    );
+    element.style.setProperty('--slide-gap', config.gap);
+  }
+
+  // Generate slider content from items
+  generateSliderContent(container, items) {
+    // Clear existing content
+    container.innerHTML = '';
+
+    items.forEach((item, index) => {
+      // Create slide wrapper with data attribute
+      const slide = document.createElement('div');
+      slide.setAttribute('data-slide', '');
+      slide.setAttribute('role', 'group');
+      slide.setAttribute('aria-roledescription', 'slide');
+      slide.setAttribute('aria-label', `Slide ${index + 1} of ${items.length}`);
+      slide.setAttribute('tabindex', '-1');
+
+      // Create slide content wrapper with data attribute
+      const slideContent = document.createElement('div');
+      slideContent.setAttribute('data-slide-content', '');
+
+      // Clone and append the original item content
+      const clonedItem = item.cloneNode(true);
+      slideContent.appendChild(clonedItem);
+
+      slide.appendChild(slideContent);
+      container.appendChild(slide);
+    });
   }
 
   // Setup drag interaction for a slider

@@ -1,51 +1,89 @@
 # Responsive Slider Component
 
-A fully accessible, CSS-only responsive slider component that displays exactly 3 slides at a time with smooth scroll-snap navigation.
+A reusable, accessible slider component that transforms any list of items into a configurable slider with data attributes. Features CSS-only core functionality with optional JavaScript enhancement for drag interactions.
 
 ## Features
 
-- **Pure CSS Implementation**: No JavaScript dependencies
-- **Responsive Design**: Adapts to all screen sizes using relative units
+- **Reusable Component**: Transform any list into a slider using data attributes
+- **Configurable Layout**: Set slides per view (1-10+) for different screen sizes
+- **CSS-Only Core**: Works without JavaScript, enhanced with optional JS
 - **Accessibility First**: Full WCAG 2.1 compliance with comprehensive accessibility features
-- **Flexible Content**: Supports any number of slides (minimum 3)
-- **Smooth Navigation**: CSS scroll-snap for seamless user experience
+- **Error Handling**: Robust error handling with fallback content display
 - **Cross-Browser Compatible**: Works in all modern browsers with graceful degradation
+- **Responsive Design**: Adapts to all screen sizes with configurable breakpoints
 
 ## Accessibility Features
 
 ### Screen Reader Support
 
-- Proper ARIA labels and roles for all slider components
-- Semantic HTML structure with meaningful headings
-- Screen reader instructions for navigation
-- Live regions for dynamic content announcements
+- Auto-generated ARIA labels and roles for all slider components
+- Comprehensive screen reader instructions with keyboard shortcuts
+- Live regions for scroll position announcements
+- Proper semantic structure with slide position information
 
 ### Keyboard Navigation
 
-- Full keyboard accessibility with Tab and Arrow key support
-- Logical focus order through slider and interactive content
-- Clear focus indicators meeting WCAG contrast requirements
-- Support for keyboard-only users
+- Full keyboard navigation: Arrow keys, Home/End, Page Up/Down
+- Tab focus management with clear focus indicators
+- Keyboard shortcuts announced to screen readers
+- Support for keyboard-only users with visual feedback
+
+### Error Handling & Fallback
+
+- Graceful degradation when data sources are missing
+- Error messages with proper ARIA alerts
+- Original list content preserved as fallback
+- Validation of configuration values with warnings
 
 ### Visual Accessibility
 
-- High contrast mode support
+- High contrast mode support with enhanced focus indicators
 - Respects user's reduced motion preferences
 - Scalable design that works at 200% zoom
-- Clear visual focus indicators
-
-### Assistive Technology
-
-- Compatible with screen readers (NVDA, JAWS, VoiceOver)
-- Proper semantic structure for assistive devices
-- Alternative text for all images
-- Form labels and fieldset legends where applicable
+- Clear visual focus indicators meeting WCAG contrast requirements
 
 ## Usage
 
-### Quick Start (Reusable Component)
+### Quick Start
 
-Transform any list of items into a responsive slider using data attributes:
+Transform any list into a configurable slider using data attributes:
+
+```html
+<!-- 1. Define your data source -->
+<ul data-slider-element="list" data-list-instance="products">
+  <li><strong>Product A</strong><br />Great product description</li>
+  <li><strong>Product B</strong><br />Another amazing product</li>
+  <li><strong>Product C</strong><br />Third fantastic product</li>
+  <li><strong>Product D</strong><br />Fourth incredible product</li>
+</ul>
+
+<!-- 2. Create slider with configuration -->
+<div
+  data-slider-element="slider"
+  data-slides-per-view="3"
+  data-slides-per-view-tablet="2"
+  data-slides-per-view-mobile="1"
+  data-gap="1.5rem"
+  data-list-instance="products"
+></div>
+
+<!-- 3. Include CSS and JS -->
+<link rel="stylesheet" href="base-style.css" />
+<link rel="stylesheet" href="slider-style.css" />
+<script src="slider.js"></script>
+```
+
+### Configuration Options
+
+- `data-slides-per-view`: Desktop slides (1-10+, default: 4)
+- `data-slides-per-view-tablet`: Tablet slides (1-10+, default: 3)
+- `data-slides-per-view-mobile`: Mobile slides (1-10+, default: 1)
+- `data-gap`: Space between slides (CSS length, default: 1.5rem)
+- `data-list-instance`: Reference to data source (required)
+
+### Multiple Data Sources
+
+Combine multiple lists into one slider:
 
 ```html
 <!-- Responsive product showcase: 4 desktop, 3 tablet, 2 mobile -->
