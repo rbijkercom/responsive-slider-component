@@ -29,7 +29,7 @@ class ResponsiveSlider {
       }
 
       // Get depth configuration (default is 2 - child of child)
-      const depth = parseInt(listElement.getAttribute('rb-slider-depth')) || 2;
+      const depth = parseInt(listElement.getAttribute('rb-slider-depth')) || 1;
 
       // Extract content from the list
       const items = this.extractListItems(listElement, depth);
@@ -52,7 +52,7 @@ class ResponsiveSlider {
   }
 
   // Extract items from a list element
-  extractListItems(listElement, depth = 2) {
+  extractListItems(listElement, depth = 1) {
     const items = [];
     const children = Array.from(listElement.children);
 
@@ -128,13 +128,13 @@ class ResponsiveSlider {
       element: sliderElement,
       listInstances: listInstances,
       slidesPerView:
-        parseInt(sliderElement.getAttribute('rb-slides-per-view')) || 4,
+        parseInt(sliderElement.getAttribute('rb-slides-per-view')) || 3,
       slidesPerViewTablet:
-        parseInt(sliderElement.getAttribute('rb-slides-per-view-tablet')) || 3,
+        parseInt(sliderElement.getAttribute('rb-slides-per-view-tablet')) || 2,
       slidesPerViewMobile:
         parseInt(sliderElement.getAttribute('rb-slides-per-view-mobile')) || 1,
-      gap: sliderElement.getAttribute('rb-slider-gap') || '1.5rem',
-      depth: parseInt(sliderElement.getAttribute('rb-slider-depth')) || null,
+      gap: sliderElement.getAttribute('rb-slider-gap') || '1rem',
+      depth: parseInt(sliderElement.getAttribute('rb-slider-depth')) || 1,
     };
 
     return config;
