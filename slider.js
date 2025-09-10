@@ -420,7 +420,7 @@ class ResponsiveSlider {
     // Look for controls in both the slider container and its wrapper
     const wrapper = sliderContainer.parentElement;
     const searchContainer =
-      wrapper && wrapper.hasAttribute('rb-slider-wrapper')
+      wrapper && wrapper.getAttribute('rb-slider-element') === 'wrapper'
         ? wrapper
         : sliderContainer;
 
@@ -451,9 +451,9 @@ class ResponsiveSlider {
       // Create wrapper if it doesn't exist
       let sliderWrapper = sliderContainer.parentElement;
 
-      if (!sliderWrapper.hasAttribute('rb-slider-wrapper')) {
+      if (sliderWrapper.getAttribute('rb-slider-element') !== 'wrapper') {
         sliderWrapper = document.createElement('div');
-        sliderWrapper.setAttribute('rb-slider-wrapper', '');
+        sliderWrapper.setAttribute('rb-slider-element', 'wrapper');
         sliderWrapper.style.position = 'relative';
 
         sliderContainer.parentNode.insertBefore(sliderWrapper, sliderContainer);
@@ -473,10 +473,10 @@ class ResponsiveSlider {
     let sliderWrapper = sliderContainer.parentElement;
 
     // Check if the parent is already a navigation wrapper
-    if (!sliderWrapper.hasAttribute('rb-slider-wrapper')) {
+    if (sliderWrapper.getAttribute('rb-slider-element') !== 'wrapper') {
       // Create a new wrapper
       sliderWrapper = document.createElement('div');
-      sliderWrapper.setAttribute('rb-slider-wrapper', '');
+      sliderWrapper.setAttribute('rb-slider-element', 'wrapper');
       sliderWrapper.style.position = 'relative';
 
       // Insert wrapper before slider and move slider into wrapper

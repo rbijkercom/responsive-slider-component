@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three Types of Sliders Test</title>
+    <link rel="stylesheet" href="base-style.css">
+    <link rel="stylesheet" href="slider-style.css">
+    <style>
+        /* Hide data source lists */
+        [rb-slider-element="list"] {
+            display: none;
+        }
+
+        /* Basic styling for demo */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .test-section {
+            background: white;
+            margin: 2rem 0;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .test-section h2 {
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Type 1: Product Gallery Styling */
+        .product-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .product-card h3 {
+            margin: 0 0 0.5rem 0;
+            color: #007bff;
+        }
+
+        .product-card .price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        /* Type 2: Testimonial Styling */
+        .testimonial {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .testimonial blockquote {
+            margin: 0 0 1rem 0;
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+
+        .testimonial .author {
+            font-weight: bold;
+            opacity: 0.9;
+        }
+
+        /* Type 3: Image Gallery Styling */
+        .image-card {
+            background: #333;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            position: relative;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .image-card .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.5rem;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <h1>Three Types of Sliders Test</h1>
+        <p>This test demonstrates three different types of sliders using the data attribute system with different
+            configurations and styling approaches.</p>
+
+        <!-- Data Sources -->
+
+        <!-- Products Data Source -->
+        <ul rb-slider-element="list" rb-slider-instance="products">
+            <li>
+                <div class="product-card">
+                    <h3>Wireless Headphones</h3>
+                    <p>Premium sound quality with noise cancellation</p>
+                    <div class="price">$199.99</div>
+                </div>
+            </li>
+            <li>
+                <div class="product-card">
+                    <h3>Smart Watch</h3>
+                    <p>Track your fitness and stay connected</p>
+                    <div class="price">$299.99</div>
+                </div>
+            </li>
+            <li>
+                <div class="product-card">
+                    <h3>Bluetooth Speaker</h3>
+                    <p>Portable speaker with 360° sound</p>
+                    <div class="price">$89.99</div>
+                </div>
+            </li>
+            <li>
+                <div class="product-card">
+                    <h3>Laptop Stand</h3>
+                    <p>Ergonomic aluminum laptop stand</p>
+                    <div class="price">$49.99</div>
+                </div>
+            </li>
+            <li>
+                <div class="product-card">
+                    <h3>USB-C Hub</h3>
+                    <p>7-in-1 connectivity hub for laptops</p>
+                    <div class="price">$79.99</div>
+                </div>
+            </li>
+            <li>
+                <div class="product-card">
+                    <h3>Wireless Charger</h3>
+                    <p>Fast wireless charging pad</p>
+                    <div class="price">$39.99</div>
+                </div>
+            </li>
+        </ul>
+
+        <!-- Testimonials Data Source -->
+        <div rb-slider-element="list" rb-slider-instance="testimonials">
+            <div class="testimonial">
+                <blockquote>"This product completely transformed our workflow. Highly recommended!"</blockquote>
+                <div class="author">- Sarah Johnson, CEO</div>
+            </div>
+            <div class="testimonial">
+                <blockquote>"Outstanding customer service and amazing results. Five stars!"</blockquote>
+                <div class="author">- Mike Chen, Developer</div>
+            </div>
+            <div class="testimonial">
+                <blockquote>"The best investment we've made for our business this year."</blockquote>
+                <div class="author">- Lisa Rodriguez, Manager</div>
+            </div>
+            <div class="testimonial">
+                <blockquote>"Simple to use, powerful features, and great value for money."</blockquote>
+                <div class="author">- David Kim, Designer</div>
+            </div>
+            <div class="testimonial">
+                <blockquote>"Exceeded all our expectations. The team loves using it daily."</blockquote>
+                <div class="author">- Emma Thompson, Director</div>
+            </div>
+        </div>
+
+        <!-- Gallery Data Source -->
+        <ul rb-slider-element="list" rb-slider-instance="gallery">
+            <li>
+                <div class="image-card">
+                    <div class="image-placeholder">Image 1</div>
+                    <div class="caption">Beautiful Landscape</div>
+                </div>
+            </li>
+            <li>
+                <div class="image-card">
+                    <div class="image-placeholder">Image 2</div>
+                    <div class="caption">City Architecture</div>
+                </div>
+            </li>
+            <li>
+                <div class="image-card">
+                    <div class="image-placeholder">Image 3</div>
+                    <div class="caption">Nature Photography</div>
+                </div>
+            </li>
+            <li>
+                <div class="image-card">
+                    <div class="image-placeholder">Image 4</div>
+                    <div class="caption">Abstract Art</div>
+                </div>
+            </li>
+            <li>
+                <div class="image-card">
+                    <div class="image-placeholder">Image 5</div>
+                    <div class="caption">Street Photography</div>
+                </div>
+            </li>
+            <li>
+                <div class="image-card">
+                    <div class="image-placeholder">Image 6</div>
+                    <div class="caption">Portrait Session</div>
+                </div>
+            </li>
+            <li>
+                <div class="image-card">
+                    <div class="image-placeholder">Image 7</div>
+                    <div class="caption">Travel Memories</div>
+                </div>
+            </li>
+        </ul>
+
+        <!-- Type 1: Product Gallery Slider -->
+        <div class="test-section">
+            <h2>Type 1: Product Gallery Slider</h2>
+            <p>A responsive product showcase with 4 products on desktop, 2 on tablet, and 1 on mobile. Features default
+                navigation controls.</p>
+
+            <div rb-slider-element="slider" rb-slider-instance="products" rb-slides-per-view="4"
+                rb-slides-per-view-tablet="2" rb-slides-per-view-mobile="1" rb-slider-gap="1.5rem">
+            </div>
+        </div>
+
+        <!-- Type 2: Testimonial Carousel -->
+        <div class="test-section">
+            <h2>Type 2: Testimonial Carousel</h2>
+            <p>A single testimonial display that shows one testimonial at a time across all devices. Navigation disabled
+                for a cleaner look.</p>
+
+            <div rb-slider-element="slider" rb-slider-instance="testimonials" rb-slides-per-view="1"
+                rb-slides-per-view-tablet="1" rb-slides-per-view-mobile="1" rb-slider-gap="2rem"
+                rb-slider-navigation="false">
+            </div>
+        </div>
+
+        <!-- Type 3: Image Gallery with Custom Navigation -->
+        <div class="test-section">
+            <h2>Type 3: Image Gallery with Custom Navigation</h2>
+            <p>A flexible image gallery showing 3 images on desktop, 2 on tablet, and 1 on mobile. Features
+                custom-styled navigation buttons.</p>
+
+            <!-- Wrapper with custom navigation positioned outside -->
+            <div rb-slider-element="wrapper" style="position: relative; padding: 0 60px; margin: 20px 0;">
+                <div rb-slider-element="slider" rb-slider-instance="gallery" rb-slides-per-view="3"
+                    rb-slides-per-view-tablet="2" rb-slides-per-view-mobile="1" rb-slider-gap="1rem">
+                </div>
+
+                <!-- Custom Navigation Buttons positioned outside slider -->
+                <button rb-slider-element="previous" style="
+                    position: absolute;
+                    left: 10px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    background: #007bff;
+                    color: white;
+                    border: none;
+                    border-radius: 6px;
+                    padding: 12px 16px;
+                    font-size: 16px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    z-index: 10;
+                    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+                    transition: all 0.2s ease;
+                ">← Prev</button>
+
+                <button rb-slider-element="next" style="
+                    position: absolute;
+                    right: 10px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    background: #007bff;
+                    color: white;
+                    border: none;
+                    border-radius: 6px;
+                    padding: 12px 16px;
+                    font-size: 16px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    z-index: 10;
+                    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+                    transition: all 0.2s ease;
+                ">Next →</button>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>Testing Instructions</h2>
+            <ul>
+                <li><strong>Type 1 (Product Gallery):</strong> Test responsive behavior by resizing the window.
+                    Navigation should work smoothly.</li>
+                <li><strong>Type 2 (Testimonials):</strong> No navigation buttons - test by dragging/swiping or using
+                    keyboard navigation.</li>
+                <li><strong>Type 3 (Image Gallery):</strong> Custom navigation buttons positioned outside the slider
+                    area.</li>
+                <li><strong>Accessibility:</strong> Test keyboard navigation with Tab and arrow keys.</li>
+                <li><strong>Mobile:</strong> Test touch/swipe gestures on mobile devices.</li>
+            </ul>
+        </div>
+    </main>
+
+    <script src="slider.js"></script>
+</body>
+
+</html>

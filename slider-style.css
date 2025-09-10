@@ -11,7 +11,7 @@
 }
 
 /* Slider Wrapper for Navigation Positioning */
-[rb-slider-wrapper] {
+[rb-slider-element="wrapper"] {
     position: relative;
 }
 
