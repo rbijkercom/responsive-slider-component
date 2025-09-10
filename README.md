@@ -1,4 +1,4 @@
-# Responsive Slider Component
+# rb-slider
 
 A reusable, accessible slider component that transforms any list of items into a configurable slider with data attributes. Features CSS-only core functionality with optional JavaScript enhancement for drag interactions.
 
@@ -68,7 +68,6 @@ Transform any list into a configurable slider using data attributes:
 ></div>
 
 <!-- 3. Include CSS and JS -->
-<link rel="stylesheet" href="base-style.css" />
 <link rel="stylesheet" href="slider-style.css" />
 <script src="slider.js"></script>
 ```
@@ -123,8 +122,6 @@ Create sliders directly from container children:
 - `rb-slider-element="slider"`: Marks container as slider (enables auto-initialization)
 - `rb-slider-element="list"`: Marks elements as data sources
 - `rb-slider-instance`: Links data sources to sliders (required for data source pattern)
-
-> **Migration Note**: The `rb-slider` attribute is no longer supported. Use `rb-slider-element="slider"` instead.
 
 **Configuration Attributes:**
 
@@ -249,7 +246,6 @@ new ResponsiveSlider().init();
 
 - `index.html`: Original demo with manual HTML structure
 - `reusable-examples.html`: Examples of the reusable component with data attributes
-- `base-style.css`: Core styling and accessibility features
 - `slider-style.css`: Slider-specific functionality and layout
 - `slider.js`: Reusable component class with auto-initialization
 - `README.md`: Documentation and usage guide
