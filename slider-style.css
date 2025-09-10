@@ -10,6 +10,11 @@
     --current-slides-per-view: var(--slides-per-view-desktop);
 }
 
+/* Slider Wrapper for Navigation Positioning */
+[rb-slider-wrapper] {
+    position: relative;
+}
+
 /* Base Slider Container Styles */
 [rb-slider-element="slider"] {
     display: flex;
@@ -41,6 +46,68 @@
     user-select: none;
 }
 
+/* Navigation Button Base Styles */
+[rb-slider-element="previous"],
+[rb-slider-element="next"] {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Previous Button Positioning */
+[rb-slider-element="previous"] {
+    left: 10px;
+}
+
+/* Next Button Positioning */
+[rb-slider-element="next"] {
+    right: 10px;
+}
+
+/* Navigation Button Hover States */
+[rb-slider-element="previous"]:hover:not(:disabled),
+[rb-slider-element="next"]:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.9);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Navigation Button Focus States */
+[rb-slider-element="previous"]:focus,
+[rb-slider-element="next"]:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+/* Navigation Button Disabled States */
+[rb-slider-element="previous"]:disabled,
+[rb-slider-element="next"]:disabled {
+    background: rgba(0, 0, 0, 0.3);
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* Navigation Button Active States */
+[rb-slider-element="previous"]:active:not(:disabled),
+[rb-slider-element="next"]:active:not(:disabled) {
+    transform: translateY(-50%) scale(0.95);
+}
+
 /* Screen Reader Only Content */
 [data-sr-only] {
     position: absolute;
@@ -70,5 +137,22 @@
 @media (max-width: 767px) {
     [rb-slider-element="slider"] {
         --current-slides-per-view: var(--slides-per-view-mobile);
+    }
+
+    /* Smaller navigation buttons on mobile */
+    [rb-slider-element="previous"],
+    [rb-slider-element="next"] {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+
+    /* Adjust positioning for smaller buttons */
+    [rb-slider-element="previous"] {
+        left: 5px;
+    }
+
+    [rb-slider-element="next"] {
+        right: 5px;
     }
 }

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Controls Test</title>
+    <link rel="stylesheet" href="base-style.css">
+    <link rel="stylesheet" href="slider-style.css">
+    <style>
+        /* Hide data source lists */
+        [rb-slider-element="list"] {
+            display: none;
+        }
+
+        /* Basic styling for demo */
+        [rb-slider-element="slider"] {
+            border: 2px solid #ddd;
+            margin: 2rem 0;
+            min-height: 200px;
+        }
+
+        /* Custom navigation button styling for demonstration */
+        .custom-nav {
+            position: static !important;
+            background: #007bff !important;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 5px !important;
+            cursor: pointer;
+            width: auto !important;
+            height: auto !important;
+            transform: none !important;
+        }
+
+        .custom-nav:hover {
+            background: #0056b3 !important;
+        }
+
+        .custom-nav:disabled {
+            background: #ccc !important;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <h1>Navigation Controls Test</h1>
+
+        <!-- Data Source -->
+        <ul rb-slider-element="list" rb-slider-instance="products">
+            <li><strong>Product 1</strong><br>Description for product 1</li>
+            <li><strong>Product 2</strong><br>Description for product 2</li>
+            <li><strong>Product 3</strong><br>Description for product 3</li>
+            <li><strong>Product 4</strong><br>Description for product 4</li>
+            <li><strong>Product 5</strong><br>Description for product 5</li>
+            <li><strong>Product 6</strong><br>Description for product 6</li>
+            <li><strong>Product 7</strong><br>Description for product 7</li>
+            <li><strong>Product 8</strong><br>Description for product 8</li>
+        </ul>
+
+        <!-- Test 1: Slider with default navigation (auto-created) -->
+        <h2>Test 1: Default Navigation (Auto-created)</h2>
+        <div rb-slider-element="slider" rb-slides-per-view="3" rb-slides-per-view-tablet="2"
+            rb-slides-per-view-mobile="1" rb-slider-gap="1rem" rb-slider-instance="products">
+        </div>
+
+        <!-- Test 2: Slider with custom navigation buttons -->
+        <h2>Test 2: Custom Navigation Buttons</h2>
+        <div rb-slider-element="slider" rb-slides-per-view="3" rb-slides-per-view-tablet="2"
+            rb-slides-per-view-mobile="1" rb-slider-gap="1rem" rb-slider-instance="products">
+            <button rb-slider-element="previous" class="custom-nav">← Previous</button>
+            <button rb-slider-element="next" class="custom-nav">Next →</button>
+        </div>
+
+        <!-- Test 3: Slider with navigation disabled -->
+        <h2>Test 3: Navigation Disabled</h2>
+        <div rb-slider-element="slider" rb-slides-per-view="3" rb-slides-per-view-tablet="2"
+            rb-slides-per-view-mobile="1" rb-slider-gap="1rem" rb-slider-instance="products"
+            rb-slider-navigation="false">
+        </div>
+
+        <!-- Test 4: Multiple navigation controls -->
+        <h2>Test 4: Multiple Navigation Controls</h2>
+        <div rb-slider-element="slider" rb-slides-per-view="2" rb-slides-per-view-tablet="2"
+            rb-slides-per-view-mobile="1" rb-slider-gap="1rem" rb-slider-instance="products">
+            <button rb-slider-element="previous" class="custom-nav">← Prev</button>
+            <button rb-slider-element="next" class="custom-nav">Next →</button>
+            <button rb-slider-element="previous" class="custom-nav">‹ Back</button>
+            <button rb-slider-element="next" class="custom-nav">Forward ›</button>
+        </div>
+    </main>
+
+    <script src="slider.js"></script>
+</body>
+
+</html>
+</script>

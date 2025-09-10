@@ -210,6 +210,7 @@ class ResponsiveSlider {
     // Setup additional functionality
     this.setupAccessibility(element, allItems.length);
     this.setupDragInteraction(element);
+    this.setupNavigationControls(element);
   }
 
   // Setup accessibility features for a slider
@@ -368,10 +369,282 @@ class ResponsiveSlider {
       } else {
         container.style.scrollSnapType = 'x mandatory';
         container.style.scrollBehavior = 'smooth';
+        // Update navigation states after scroll snap restoration
+        this.updateNavigationStates(container);
       }
     };
 
     requestAnimationFrame(animateScroll);
+  }
+
+  // Setup navigation controls for a slider container
+  setupNavigationControls(sliderContainer) {
+    // Check if navigation is disabled
+    if (this.isNavigationDisabled(sliderContainer)) {
+      return;
+    }
+
+    // Move any existing navigation controls from slider to wrapper
+    this.moveNavigationControlsToWrapper(sliderContainer);
+
+    // Detect existing navigation controls
+    const navigationControls = this.detectNavigationControls(sliderContainer);
+
+    // Create default navigation if none exist
+    if (
+      navigationControls.previous.length === 0 &&
+      navigationControls.next.length === 0
+    ) {
+      this.createDefaultNavigationControls(sliderContainer);
+      // Re-detect after creating defaults
+      const updatedControls = this.detectNavigationControls(sliderContainer);
+      this.bindNavigationControls(sliderContainer, updatedControls);
+    } else {
+      this.bindNavigationControls(sliderContainer, navigationControls);
+    }
+
+    // Setup accessibility for navigation controls
+    this.setupNavigationAccessibility(sliderContainer);
+
+    // Initial state update
+    this.updateNavigationStates(sliderContainer);
+
+    // Add scroll listener to update navigation states
+    sliderContainer.addEventListener('scroll', () => {
+      this.updateNavigationStates(sliderContainer);
+    });
+  }
+
+  // Detect navigation controls within a slider container and its wrapper
+  detectNavigationControls(sliderContainer) {
+    // Look for controls in both the slider container and its wrapper
+    const wrapper = sliderContainer.parentElement;
+    const searchContainer =
+      wrapper && wrapper.hasAttribute('rb-slider-wrapper')
+        ? wrapper
+        : sliderContainer;
+
+    const previousControls = searchContainer.querySelectorAll(
+      '[rb-slider-element="previous"]',
+    );
+    const nextControls = searchContainer.querySelectorAll(
+      '[rb-slider-element="next"]',
+    );
+
+    return {
+      previous: Array.from(previousControls),
+      next: Array.from(nextControls),
+    };
+  }
+
+  // Move existing navigation controls from slider container to wrapper
+  moveNavigationControlsToWrapper(sliderContainer) {
+    // Find existing navigation controls in the slider container
+    const existingPrevious = sliderContainer.querySelectorAll(
+      '[rb-slider-element="previous"]',
+    );
+    const existingNext = sliderContainer.querySelectorAll(
+      '[rb-slider-element="next"]',
+    );
+
+    if (existingPrevious.length > 0 || existingNext.length > 0) {
+      // Create wrapper if it doesn't exist
+      let sliderWrapper = sliderContainer.parentElement;
+
+      if (!sliderWrapper.hasAttribute('rb-slider-wrapper')) {
+        sliderWrapper = document.createElement('div');
+        sliderWrapper.setAttribute('rb-slider-wrapper', '');
+        sliderWrapper.style.position = 'relative';
+
+        sliderContainer.parentNode.insertBefore(sliderWrapper, sliderContainer);
+        sliderWrapper.appendChild(sliderContainer);
+      }
+
+      // Move existing controls to wrapper
+      [...existingPrevious, ...existingNext].forEach((control) => {
+        sliderWrapper.appendChild(control);
+      });
+    }
+  }
+
+  // Create default navigation controls if none exist
+  createDefaultNavigationControls(sliderContainer) {
+    // Create a wrapper for the slider if it doesn't already have one
+    let sliderWrapper = sliderContainer.parentElement;
+
+    // Check if the parent is already a navigation wrapper
+    if (!sliderWrapper.hasAttribute('rb-slider-wrapper')) {
+      // Create a new wrapper
+      sliderWrapper = document.createElement('div');
+      sliderWrapper.setAttribute('rb-slider-wrapper', '');
+      sliderWrapper.style.position = 'relative';
+
+      // Insert wrapper before slider and move slider into wrapper
+      sliderContainer.parentNode.insertBefore(sliderWrapper, sliderContainer);
+      sliderWrapper.appendChild(sliderContainer);
+
+      console.log('Created navigation wrapper for slider:', sliderContainer);
+    }
+
+    // Create previous button
+    const prevButton = document.createElement('button');
+    prevButton.setAttribute('rb-slider-element', 'previous');
+    prevButton.setAttribute('type', 'button');
+    prevButton.setAttribute('aria-label', 'Previous slides');
+    prevButton.textContent = '‹';
+
+    // Create next button
+    const nextButton = document.createElement('button');
+    nextButton.setAttribute('rb-slider-element', 'next');
+    nextButton.setAttribute('type', 'button');
+    nextButton.setAttribute('aria-label', 'Next slides');
+    nextButton.textContent = '›';
+
+    // Append buttons to the wrapper, not the slider container
+    sliderWrapper.appendChild(prevButton);
+    sliderWrapper.appendChild(nextButton);
+
+    console.log('Added navigation buttons to wrapper:', sliderWrapper);
+  }
+
+  // Bind event handlers to navigation controls
+  bindNavigationControls(sliderContainer, navigationControls) {
+    // Bind previous controls
+    navigationControls.previous.forEach((control) => {
+      control.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.handlePreviousNavigation(sliderContainer);
+      });
+    });
+
+    // Bind next controls
+    navigationControls.next.forEach((control) => {
+      control.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.handleNextNavigation(sliderContainer);
+      });
+    });
+  }
+
+  // Calculate scroll distance based on current slides-per-view
+  calculateScrollDistance(sliderContainer) {
+    const slides = sliderContainer.querySelectorAll('[rb-slide]');
+    if (slides.length === 0) return 0;
+
+    const slideWidth = slides[0].offsetWidth;
+    const gap = parseInt(getComputedStyle(sliderContainer).gap) || 16;
+
+    // Get current slides per view based on viewport
+    let slidesPerView =
+      parseInt(
+        sliderContainer.style.getPropertyValue('--slides-per-view-desktop'),
+      ) || 3;
+
+    if (window.matchMedia('(max-width: 480px)').matches) {
+      slidesPerView =
+        parseInt(
+          sliderContainer.style.getPropertyValue('--slides-per-view-mobile'),
+        ) || 1;
+    } else if (window.matchMedia('(max-width: 768px)').matches) {
+      slidesPerView =
+        parseInt(
+          sliderContainer.style.getPropertyValue('--slides-per-view-tablet'),
+        ) || 2;
+    }
+
+    return (slideWidth + gap) * slidesPerView;
+  }
+
+  // Handle previous navigation action
+  handlePreviousNavigation(sliderContainer) {
+    const scrollDistance = this.calculateScrollDistance(sliderContainer);
+    const currentScroll = sliderContainer.scrollLeft;
+    const targetScroll = Math.max(0, currentScroll - scrollDistance);
+
+    // Use smooth scrolling
+    sliderContainer.style.scrollBehavior = 'smooth';
+    sliderContainer.scrollLeft = targetScroll;
+
+    // Update navigation states after a brief delay to allow scroll to complete
+    setTimeout(() => {
+      this.updateNavigationStates(sliderContainer);
+    }, 100);
+  }
+
+  // Handle next navigation action
+  handleNextNavigation(sliderContainer) {
+    const scrollDistance = this.calculateScrollDistance(sliderContainer);
+    const currentScroll = sliderContainer.scrollLeft;
+    const maxScroll = sliderContainer.scrollWidth - sliderContainer.clientWidth;
+    const targetScroll = Math.min(maxScroll, currentScroll + scrollDistance);
+
+    // Use smooth scrolling
+    sliderContainer.style.scrollBehavior = 'smooth';
+    sliderContainer.scrollLeft = targetScroll;
+
+    // Update navigation states after a brief delay to allow scroll to complete
+    setTimeout(() => {
+      this.updateNavigationStates(sliderContainer);
+    }, 100);
+  }
+
+  // Update navigation control states (enabled/disabled)
+  updateNavigationStates(sliderContainer) {
+    const navigationControls = this.detectNavigationControls(sliderContainer);
+    const currentScroll = sliderContainer.scrollLeft;
+    const maxScroll = sliderContainer.scrollWidth - sliderContainer.clientWidth;
+
+    // Update previous controls
+    navigationControls.previous.forEach((control) => {
+      const isAtStart = currentScroll <= 0;
+      control.disabled = isAtStart;
+      control.setAttribute('aria-disabled', isAtStart.toString());
+    });
+
+    // Update next controls
+    navigationControls.next.forEach((control) => {
+      const isAtEnd = currentScroll >= maxScroll - 1; // Allow for small rounding errors
+      control.disabled = isAtEnd;
+      control.setAttribute('aria-disabled', isAtEnd.toString());
+    });
+  }
+
+  // Setup navigation accessibility features
+  setupNavigationAccessibility(sliderContainer) {
+    const navigationControls = this.detectNavigationControls(sliderContainer);
+
+    // Ensure navigation controls are keyboard focusable and have proper ARIA attributes
+    [...navigationControls.previous, ...navigationControls.next].forEach(
+      (control) => {
+        if (!control.hasAttribute('tabindex')) {
+          control.setAttribute('tabindex', '0');
+        }
+
+        // Add keyboard support
+        control.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            control.click();
+          }
+        });
+      },
+    );
+
+    // Update slider instructions to mention navigation buttons
+    const sliderId = sliderContainer.id;
+    if (sliderId) {
+      const instructions = document.getElementById(`${sliderId}-instructions`);
+      if (instructions) {
+        instructions.textContent =
+          'Horizontal scrolling slider with navigation buttons. Use Tab to focus on the slider or navigation buttons, then use arrow keys, scroll horizontally, or click navigation buttons to navigate between slides.';
+      }
+    }
+  }
+
+  // Check if navigation is disabled for a slider
+  isNavigationDisabled(sliderContainer) {
+    const navigationAttr = sliderContainer.getAttribute('rb-slider-navigation');
+    return navigationAttr === 'false';
   }
 }
 

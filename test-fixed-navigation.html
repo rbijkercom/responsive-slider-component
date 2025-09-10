@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixed Navigation Test</title>
+    <link rel="stylesheet" href="base-style.css">
+    <link rel="stylesheet" href="slider-style.css">
+    <style>
+        /* Hide data source lists */
+        [rb-slider-element="list"] {
+            display: none;
+        }
+
+        /* Basic styling for demo */
+        [rb-slider-element="slider"] {
+            border: 2px solid #ddd;
+            margin: 2rem 0;
+            min-height: 200px;
+            background: #f9f9f9;
+        }
+
+        /* Make slides more visible */
+        [rb-slide] {
+            background: white;
+            border: 1px solid #ccc;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        /* Highlight wrapper for debugging */
+        [rb-slider-wrapper] {
+            border: 2px dashed #007bff;
+            padding: 5px;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <h1>Fixed Navigation Position Test</h1>
+        <p>The navigation buttons should stay in fixed positions and not move when scrolling the slider content.</p>
+
+        <!-- Data Source -->
+        <ul rb-slider-element="list" rb-slider-instance="products">
+            <li><strong>Product 1</strong><br>This is a longer description for product 1 to make the slides wider and
+                test scrolling behavior</li>
+            <li><strong>Product 2</strong><br>This is a longer description for product 2 to make the slides wider and
+                test scrolling behavior</li>
+            <li><strong>Product 3</strong><br>This is a longer description for product 3 to make the slides wider and
+                test scrolling behavior</li>
+            <li><strong>Product 4</strong><br>This is a longer description for product 4 to make the slides wider and
+                test scrolling behavior</li>
+            <li><strong>Product 5</strong><br>This is a longer description for product 5 to make the slides wider and
+                test scrolling behavior</li>
+            <li><strong>Product 6</strong><br>This is a longer description for product 6 to make the slides wider and
+                test scrolling behavior</li>
+            <li><strong>Product 7</strong><br>This is a longer description for product 7 to make the slides wider and
+                test scrolling behavior</li>
+            <li><strong>Product 8</strong><br>This is a longer description for product 8 to make the slides wider and
+                test scrolling behavior</li>
+        </ul>
+
+        <!-- Test: Slider with default navigation (should create wrapper automatically) -->
+        <h2>Auto-created Navigation (Should Stay Fixed)</h2>
+        <div rb-slider-element="slider" rb-slides-per-view="2" rb-slides-per-view-tablet="2"
+            rb-slides-per-view-mobile="1" rb-slider-gap="1rem" rb-slider-instance="products">
+        </div>
+
+        <!-- Test: Slider with pre-existing navigation (should move to wrapper) -->
+        <h2>Pre-existing Navigation (Should Move to Wrapper)</h2>
+        <div rb-slider-element="slider" rb-slides-per-view="2" rb-slides-per-view-tablet="2"
+            rb-slides-per-view-mobile="1" rb-slider-gap="1rem" rb-slider-instance="products">
+            <button rb-slider-element="previous">← Prev</button>
+            <button rb-slider-element="next">Next →</button>
+        </div>
+
+        <p><strong>Instructions:</strong> Try scrolling the sliders manually or using the navigation buttons. The
+            buttons should remain in fixed positions relative to the slider container.</p>
+    </main>
+
+    <script src="slider.js"></script>
+</body>
+
+</html>
