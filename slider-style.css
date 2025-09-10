@@ -5,6 +5,8 @@
     --slides-per-view-tablet: 3;
     --slides-per-view-mobile: 1;
     --slide-gap: 1.5rem;
+    --show-scrollbar: auto;
+    /* Default scrollbar behavior */
 
     /* Current active slides per view (updated by media queries) */
     --current-slides-per-view: var(--slides-per-view-desktop);
@@ -25,8 +27,40 @@
     -webkit-overflow-scrolling: touch;
 }
 
+/* Scrollbar Control Styles */
+[rb-slider-element="slider"]::-webkit-scrollbar {
+    height: 8px;
+}
+
+[rb-slider-element="slider"]::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+[rb-slider-element="slider"]::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+}
+
+[rb-slider-element="slider"]::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* Hide scrollbar when show-scrollbar is set to hidden */
+[rb-slider-element="slider"][style*="--show-scrollbar: hidden"] {
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+}
+
+[rb-slider-element="slider"][style*="--show-scrollbar: hidden"]::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera */
+}
+
 /* Slide Layout with Dynamic Width Calculations */
-[rb-slider-element="slider"] [rb-slide] {
+[rb-slider-element="slider"] [rb-slider-element="slide"] {
     flex: 0 0 calc((100% - (var(--current-slides-per-view) - 1) * var(--slide-gap)) / var(--current-slides-per-view));
     min-width: calc((100% - (var(--current-slides-per-view) - 1) * var(--slide-gap)) / var(--current-slides-per-view));
     max-width: calc((100% - (var(--current-slides-per-view) - 1) * var(--slide-gap)) / var(--current-slides-per-view));

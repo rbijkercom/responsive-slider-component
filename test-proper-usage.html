@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proper Usage Test</title>
+    <link rel="stylesheet" href="base-style.css">
+    <link rel="stylesheet" href="slider-style.css">
+    <style>
+        .slide-content {
+            background: #e3f2fd;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            min-height: 150px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section {
+            margin: 3rem 0;
+        }
+
+        .test-info {
+            background: #f0f8ff;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            border-left: 4px solid #007bff;
+        }
+
+        .error-info {
+            background: #fff5f5;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            border-left: 4px solid #dc3545;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Proper Usage Test</h1>
+
+        <div class="test-info">
+            <strong>✓ Correct Usage:</strong> Only <code>rb-slider-element="slider"</code> should work
+        </div>
+
+        <section>
+            <h2>✓ Correct: rb-slider-element="slider" with Direct Children</h2>
+            <div rb-slider-element="slider" rb-slides-per-view="3" rb-slides-per-view-mobile="1"
+                rb-slider-show-scrollbar="false">
+                <div class="slide-content">
+                    <h3>Slide 1</h3>
+                    <p>This should work - using rb-slider-element="slider"</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 2</h3>
+                    <p>Navigation buttons should appear</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 3</h3>
+                    <p>Scrollbar should be hidden</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 4</h3>
+                    <p>Drag and scroll should work</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 5</h3>
+                    <p>All functionality preserved</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>✓ Correct: rb-slider-element="slider" with Data Source</h2>
+            <ul rb-slider-element="list" rb-slider-instance="products" style="display: none;">
+                <li>
+                    <div class="slide-content">
+                        <h3>Product 1</h3>
+                        <p>Data source product</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="slide-content">
+                        <h3>Product 2</h3>
+                        <p>Another product</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="slide-content">
+                        <h3>Product 3</h3>
+                        <p>Third product</p>
+                    </div>
+                </li>
+            </ul>
+
+            <div rb-slider-element="slider" rb-slider-instance="products" rb-slides-per-view="2"
+                rb-slides-per-view-mobile="1" rb-slider-show-scrollbar="true">
+            </div>
+        </section>
+
+        <div class="error-info">
+            <strong>✗ Removed:</strong> <code>rb-slider</code> attribute no longer works (functionality removed)
+        </div>
+
+        <section>
+            <h2>✗ Should NOT Work: rb-slider attribute (removed functionality)</h2>
+            <div rb-slider rb-slides-per-view="3" rb-slides-per-view-mobile="1">
+                <div class="slide-content">
+                    <h3>Slide 1</h3>
+                    <p>This should NOT work - rb-slider functionality removed</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 2</h3>
+                    <p>No slider functionality should be applied</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 3</h3>
+                    <p>These should remain as regular divs</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="slider.js"></script>
+</body>
+
+</html>

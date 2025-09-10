@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrollbar Control Test - ResponsiveSlider</title>
+    <link rel="stylesheet" href="base-style.css">
+    <link rel="stylesheet" href="slider-style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Scrollbar Control Test</h1>
+
+        <section>
+            <h2>Default Scrollbar (auto)</h2>
+            <div rb-slider-element="slider" rb-slides-per-view="3" rb-slides-per-view-mobile="1">
+                <div class="slide-content">
+                    <h3>Slide 1</h3>
+                    <p>Default scrollbar behavior - scrollbar visible when needed</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 2</h3>
+                    <p>This slider shows scrollbars by default</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 3</h3>
+                    <p>You can scroll horizontally to see more slides</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 4</h3>
+                    <p>Navigation buttons are also available</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 5</h3>
+                    <p>Both scrollbar and navigation work together</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Hidden Scrollbar (rb-slider-show-scrollbar="false")</h2>
+            <div rb-slider-element="slider" rb-slides-per-view="3" rb-slides-per-view-mobile="1"
+                rb-slider-show-scrollbar="false">
+                <div class="slide-content">
+                    <h3>Slide 1</h3>
+                    <p>Scrollbar is hidden - use navigation buttons or touch/drag</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 2</h3>
+                    <p>Clean look without visible scrollbar</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 3</h3>
+                    <p>Still scrollable, just no visible scrollbar</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 4</h3>
+                    <p>Navigation buttons provide clear interaction</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 5</h3>
+                    <p>Perfect for clean, minimal designs</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Explicit Scrollbar (rb-slider-show-scrollbar="true")</h2>
+            <div rb-slider-element="slider" rb-slides-per-view="3" rb-slides-per-view-mobile="1"
+                rb-slider-show-scrollbar="true">
+                <div class="slide-content">
+                    <h3>Slide 1</h3>
+                    <p>Scrollbar explicitly enabled</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 2</h3>
+                    <p>Ensures scrollbar is always visible when content overflows</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 3</h3>
+                    <p>Good for desktop interfaces</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 4</h3>
+                    <p>Provides clear visual indication of scrollable content</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Data Source with Hidden Scrollbar</h2>
+            <ul rb-slider-element="list" rb-slider-instance="products" style="display: none;">
+                <li>
+                    <div class="slide-content">
+                        <h3>Product 1</h3>
+                        <p>Amazing product with great features</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="slide-content">
+                        <h3>Product 2</h3>
+                        <p>Another fantastic product</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="slide-content">
+                        <h3>Product 3</h3>
+                        <p>The best product in our lineup</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="slide-content">
+                        <h3>Product 4</h3>
+                        <p>Premium quality product</p>
+                    </div>
+                </li>
+            </ul>
+
+            <div rb-slider-element="slider" rb-slider-instance="products" rb-slides-per-view="2"
+                rb-slides-per-view-mobile="1" rb-slider-show-scrollbar="false"></div>
+        </section>
+    </div>
+
+    <script src="slider.js"></script>
+</body>
+
+</html>

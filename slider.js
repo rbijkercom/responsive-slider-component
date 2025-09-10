@@ -10,27 +10,7 @@ class ResponsiveSlider {
   init() {
     this.detectDataSources();
     this.detectSliderTargets();
-    this.detectAutoInitSliders(); // Add support for rb-slider attribute
     this.generateSliders();
-  }
-
-  // Detect elements with rb-slider attribute for auto-initialization
-  detectAutoInitSliders() {
-    const autoInitElements = document.querySelectorAll('[rb-slider]');
-
-    autoInitElements.forEach((element) => {
-      // Skip if auto-init is disabled
-      if (element.getAttribute('data-auto-init') === 'false') {
-        return;
-      }
-
-      const config = this.parseSliderConfiguration(element);
-      if (config) {
-        // Mark as auto-init slider
-        config.isAutoInit = true;
-        this.sliderConfigs.push(config);
-      }
-    });
   }
 
   // Detect and parse rb-slider-element="list" elements
@@ -131,25 +111,38 @@ class ResponsiveSlider {
   // Parse slider configuration from data attributes
   parseSliderConfiguration(sliderElement) {
     const listInstancesAttr = sliderElement.getAttribute('rb-slider-instance');
-    const hasRbSlider = sliderElement.hasAttribute('rb-slider');
 
-    // For auto-init sliders, rb-slider-instance is optional
-    if (!listInstancesAttr && !hasRbSlider) {
-      console.warn(
-        'Slider element missing rb-slider-instance or rb-slider attribute:',
-        sliderElement,
-      );
-      return null;
-    }
+    // For sliders without data sources, rb-slider-instance is optional
+    // They will use their direct children as slides
+    const hasDirectChildren = sliderElement.children.length > 0;
 
     // Support multiple list instances (semicolon-separated values)
     const listInstances = listInstancesAttr
       ? listInstancesAttr.split(';').map((instance) => instance.trim())
       : [];
 
+    // Slider must either have data sources or direct children
+    if (!listInstancesAttr && !hasDirectChildren) {
+      console.warn(
+        'Slider element must have either rb-slider-instance or direct children:',
+        sliderElement,
+      );
+      return null;
+    }
+
     // Parse configuration with consistent defaults
     const slidesPerView =
       parseInt(sliderElement.getAttribute('rb-slides-per-view')) || 3;
+    const showScrollbarAttr = sliderElement.getAttribute(
+      'rb-slider-show-scrollbar',
+    );
+    const showScrollbar =
+      showScrollbarAttr === 'true'
+        ? true
+        : showScrollbarAttr === 'false'
+        ? false
+        : null;
+
     const config = {
       element: sliderElement,
       listInstances: listInstances,
@@ -161,6 +154,9 @@ class ResponsiveSlider {
         parseInt(sliderElement.getAttribute('rb-slides-per-view-mobile')) || 1,
       gap: sliderElement.getAttribute('rb-slider-gap') || '1rem',
       depth: parseInt(sliderElement.getAttribute('rb-slider-depth')) || 1,
+      showScrollbar: showScrollbar,
+      // Mark as direct children slider if no data sources
+      isDirectChildrenSlider: !listInstancesAttr && hasDirectChildren,
     };
 
     return config;
@@ -183,13 +179,14 @@ class ResponsiveSlider {
       slidesPerViewMobile,
       gap,
       depth,
-      isAutoInit,
+      isDirectChildrenSlider,
+      showScrollbar,
     } = config;
 
     let allItems = [];
 
-    // Handle auto-init sliders (rb-slider attribute)
-    if (isAutoInit) {
+    // Handle direct children sliders (no data sources)
+    if (isDirectChildrenSlider) {
       // Use direct children as slides
       const children = Array.from(element.children);
       allItems = children.map((child) => child.cloneNode(true));
@@ -232,6 +229,7 @@ class ResponsiveSlider {
       slidesPerViewTablet,
       slidesPerViewMobile,
       gap,
+      showScrollbar,
     });
 
     // Generate slider content
@@ -327,6 +325,14 @@ class ResponsiveSlider {
       config.slidesPerViewMobile,
     );
     element.style.setProperty('--slide-gap', config.gap);
+
+    // Apply scrollbar visibility configuration
+    if (config.showScrollbar !== null) {
+      element.style.setProperty(
+        '--show-scrollbar',
+        config.showScrollbar ? 'auto' : 'hidden',
+      );
+    }
   }
 
   // Generate slider content from items
@@ -337,7 +343,7 @@ class ResponsiveSlider {
     items.forEach((item, index) => {
       // Create slide wrapper with data attribute
       const slide = document.createElement('div');
-      slide.setAttribute('rb-slide', '');
+      slide.setAttribute('rb-slider-element', 'slide');
       slide.setAttribute('role', 'group');
       slide.setAttribute('aria-roledescription', 'slide');
       slide.setAttribute('aria-label', `Slide ${index + 1} of ${items.length}`);
@@ -388,7 +394,7 @@ class ResponsiveSlider {
 
   // Restore scroll snap behavior after drag interaction
   restoreScrollSnap(container) {
-    const firstSlide = container.querySelector('[rb-slide]');
+    const firstSlide = container.querySelector('[rb-slider-element="slide"]');
     if (!firstSlide) return;
 
     const slideWidth = firstSlide.offsetWidth;
@@ -589,7 +595,9 @@ class ResponsiveSlider {
 
   // Calculate scroll distance for single slide navigation
   calculateScrollDistance(sliderContainer) {
-    const slides = sliderContainer.querySelectorAll('[rb-slide]');
+    const slides = sliderContainer.querySelectorAll(
+      '[rb-slider-element="slide"]',
+    );
     if (slides.length === 0) return 0;
 
     const firstSlide = slides[0];

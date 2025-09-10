@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Test - ResponsiveSlider</title>
+    <link rel="stylesheet" href="base-style.css">
+    <link rel="stylesheet" href="slider-style.css">
+    <style>
+        .debug-info {
+            background: #f0f0f0;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        .slide-content {
+            background: #e3f2fd;
+            padding: 1rem;
+            border-radius: 4px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Debug Test</h1>
+
+        <div class="debug-info" id="debug-info">
+            Debug info will appear here...
+        </div>
+
+        <section>
+            <h2>Test Slider with Hidden Scrollbar</h2>
+            <div id="test-slider" rb-slider-element="slider" rb-slides-per-view="3" rb-slides-per-view-mobile="1"
+                rb-slider-show-scrollbar="false">
+                <div class="slide-content">
+                    <h3>Slide 1</h3>
+                    <p>First slide content</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 2</h3>
+                    <p>Second slide content</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 3</h3>
+                    <p>Third slide content</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 4</h3>
+                    <p>Fourth slide content</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 5</h3>
+                    <p>Fifth slide content</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="slider.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const debugInfo = document.getElementById('debug-info');
+            const testSlider = document.getElementById('test-slider');
+
+            // Debug information
+            setTimeout(() => {
+                const hasSliderElement = testSlider.hasAttribute('rb-slider-element');
+                const sliderElementValue = testSlider.getAttribute('rb-slider-element');
+                const computedStyles = getComputedStyle(testSlider);
+                const showScrollbarProperty = testSlider.style.getPropertyValue('--show-scrollbar');
+                const hasSlides = testSlider.querySelectorAll('[rb-slider-element="slide"]').length;
+
+                debugInfo.innerHTML = `
+                    <strong>Debug Information:</strong><br>
+                    Has rb-slider-element: ${hasSliderElement}<br>
+                    rb-slider-element value: "${sliderElementValue}"<br>
+                    --show-scrollbar property: "${showScrollbarProperty}"<br>
+                    Number of slides: ${hasSlides}<br>
+                    Overflow-x: ${computedStyles.overflowX}<br>
+                    Display: ${computedStyles.display}<br>
+                    Gap: ${computedStyles.gap}<br>
+                    Scroll behavior: ${computedStyles.scrollBehavior}
+                `;
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>

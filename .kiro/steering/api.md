@@ -6,13 +6,6 @@ The ResponsiveSlider component uses a data attribute API for configuration and a
 
 ## Core Attributes
 
-### `rb-slider`
-
-- **Purpose**: Enables auto-initialization on any HTML container
-- **Usage**: `<div rb-slider>...</div>`
-- **Behavior**: Transforms all direct children into slides
-- **Supported Elements**: Any container element (div, ul, section, etc.)
-
 ### `rb-slides-per-view`
 
 - **Purpose**: Sets number of slides visible on desktop (≥1024px)
@@ -41,6 +34,14 @@ The ResponsiveSlider component uses a data attribute API for configuration and a
 - **Format**: Any valid CSS length value
 - **Usage**: `rb-slider-gap="1.5rem"` or `rb-slider-gap="20px"`
 
+### `rb-slider-show-scrollbar`
+
+- **Purpose**: Controls scrollbar visibility for the slider
+- **Default**: Browser default (auto)
+- **Values**: `"true"` (show scrollbar), `"false"` (hide scrollbar)
+- **Usage**: `rb-slider-show-scrollbar="false"` to hide scrollbar
+- **Behavior**: When set to `"false"`, hides scrollbar while maintaining scroll functionality
+
 ## Data Source System
 
 ### `rb-slider-element="list"`
@@ -51,9 +52,10 @@ The ResponsiveSlider component uses a data attribute API for configuration and a
 
 ### `rb-slider-element="slider"`
 
-- **Purpose**: Marks empty containers as slider targets
-- **Usage**: `<div rb-slider-element="slider" rb-slider-instance="products"></div>`
-- **Behavior**: Populated with content from matching data sources
+- **Purpose**: Marks containers as slider targets
+- **Usage**: `<div rb-slider-element="slider" rb-slider-instance="products"></div>` (with data sources)
+- **Usage**: `<div rb-slider-element="slider"><div>Slide 1</div><div>Slide 2</div></div>` (direct children)
+- **Behavior**: Either populated with content from matching data sources or uses direct children as slides
 
 ### `rb-slider-instance`
 
@@ -99,7 +101,7 @@ The ResponsiveSlider component uses a data attribute API for configuration and a
 
 ## Content Attributes
 
-### `rb-slide`
+### `rb-slider-element="slide"`
 
 - **Purpose**: Marks individual slide elements (auto-applied)
 - **Usage**: Auto-generated during slider creation
@@ -113,10 +115,10 @@ The ResponsiveSlider component uses a data attribute API for configuration and a
 
 ## Configuration Examples
 
-### Basic Auto-Initialization
+### Basic Direct Children Slider
 
 ```html
-<div rb-slider>
+<div rb-slider-element="slider">
   <div>Slide 1</div>
   <div>Slide 2</div>
   <div>Slide 3</div>
@@ -127,11 +129,12 @@ The ResponsiveSlider component uses a data attribute API for configuration and a
 
 ```html
 <div
-  rb-slider
+  rb-slider-element="slider"
   rb-slides-per-view="4"
   rb-slides-per-view-tablet="3"
   rb-slides-per-view-mobile="1"
   rb-slider-gap="1.5rem"
+  rb-slider-show-scrollbar="false"
 >
   <!-- Content -->
 </div>
@@ -182,13 +185,37 @@ The ResponsiveSlider component uses a data attribute API for configuration and a
 ### Manual JavaScript Init
 
 ```javascript
-// Initialize specific element
+// Initialize the slider system
 const slider = new ResponsiveSlider();
 slider.init();
 
-// Or target specific elements
-document.getElementById('my-slider').dataset.slidesPerView = '4';
+// Or configure and initialize
+const element = document.getElementById('my-slider');
+element.setAttribute('rb-slider-element', 'slider');
+element.setAttribute('rb-slides-per-view', '4');
 new ResponsiveSlider().init();
+```
+
+### Scrollbar Control Examples
+
+```html
+<!-- Hide scrollbar for clean design -->
+<div rb-slider-element="slider" rb-slider-show-scrollbar="false">
+  <div>Slide 1</div>
+  <div>Slide 2</div>
+</div>
+
+<!-- Explicitly show scrollbar -->
+<div rb-slider-element="slider" rb-slider-show-scrollbar="true">
+  <div>Slide 1</div>
+  <div>Slide 2</div>
+</div>
+
+<!-- Default behavior (browser auto) -->
+<div rb-slider-element="slider">
+  <div>Slide 1</div>
+  <div>Slide 2</div>
+</div>
 ```
 
 ## CSS Custom Properties Integration
@@ -199,6 +226,7 @@ The data attributes automatically set CSS custom properties:
 - `--slides-per-view-tablet`: From `rb-slides-per-view-tablet`
 - `--slides-per-view-mobile`: From `rb-slides-per-view-mobile`
 - `--slide-gap`: From `rb-slider-gap`
+- `--show-scrollbar`: From `rb-slider-show-scrollbar` (auto/hidden)
 - `--current-slides-per-view`: Updated by media queries
 
 These properties enable dynamic CSS calculations for responsive layouts.

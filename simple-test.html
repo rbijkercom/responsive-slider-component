@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Test</title>
+    <link rel="stylesheet" href="base-style.css">
+    <link rel="stylesheet" href="slider-style.css">
+    <style>
+        .slide-content {
+            background: #e3f2fd;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            min-height: 150px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section {
+            margin: 3rem 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Simple Scrollbar Test</h1>
+
+        <section>
+            <h2>Default Scrollbar</h2>
+            <div rb-slider-element="slider" rb-slides-per-view="3" rb-slides-per-view-mobile="1">
+                <div class="slide-content">
+                    <h3>Slide 1</h3>
+                    <p>Default scrollbar behavior</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 2</h3>
+                    <p>Should show scrollbar</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 3</h3>
+                    <p>When content overflows</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 4</h3>
+                    <p>Navigation buttons available</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 5</h3>
+                    <p>Scroll to see more</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Hidden Scrollbar</h2>
+            <div rb-slider-element="slider" rb-slides-per-view="3" rb-slides-per-view-mobile="1"
+                rb-slider-show-scrollbar="false">
+                <div class="slide-content">
+                    <h3>Slide 1</h3>
+                    <p>Hidden scrollbar</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 2</h3>
+                    <p>No visible scrollbar</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 3</h3>
+                    <p>Use navigation buttons</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 4</h3>
+                    <p>Or drag to scroll</p>
+                </div>
+                <div class="slide-content">
+                    <h3>Slide 5</h3>
+                    <p>Clean minimal design</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="slider.js"></script>
+</body>
+
+</html>
