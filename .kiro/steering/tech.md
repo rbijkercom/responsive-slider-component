@@ -64,7 +64,7 @@ php -S localhost:8000
 
 ## Data Attribute System
 
-- `rb-slider` - Auto-initialization trigger
+- Auto-initialization via `rb-slider-element="slider"` detection
 - `rb-slider-element` - Component element identification
 - `rb-slider-instance` - Data source linking
 - `rb-slides-per-view-*` - Responsive configuration

@@ -4,7 +4,7 @@ This is a **Responsive Slider Component** - a reusable component that transforms
 
 ## Key Features
 
-- **Auto-initialization** via `rb-slider` data attribute on any HTML element
+- **Auto-initialization** via `rb-slider-element="slider"` detection on DOM ready
 - **Flexible data sources** with `rb-slider-element="list"` and `rb-slider-instance` system
 - **Configurable slide count** (1-10+ slides per view) for desktop, tablet, and mobile
 - **Automatic navigation controls** with previous/next buttons and keyboard support
@@ -18,7 +18,7 @@ This is a **Responsive Slider Component** - a reusable component that transforms
 
 ### Data Attribute System
 
-- `rb-slider`: Enables auto-initialization on any container
+- `rb-slider-element="slider"`: Marks containers as sliders for auto-initialization
 - `rb-slides-per-view`: Desktop slide count (default: 3)
 - `rb-slides-per-view-tablet`: Tablet slide count (≤768px)
 - `rb-slides-per-view-mobile`: Mobile slide count (≤480px)

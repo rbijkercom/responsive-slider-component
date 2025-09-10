@@ -43,7 +43,7 @@
 
 ### Data Attribute System
 
-- `rb-slider` - Auto-initialization on any container
+- `rb-slider-element="slider"` - Marks containers as sliders for auto-initialization
 - `rb-slider-element` - Component identification ("slider", "list", "previous", "next")
 - `rb-slider-instance` - Links data sources to slider targets
 - `rb-slides-per-view-*` - Responsive configuration (desktop, tablet, mobile)
@@ -62,7 +62,11 @@
 #### Modern Data Attribute Pattern
 
 ```html
-<div rb-slider rb-slides-per-view="4" rb-slides-per-view-mobile="1">
+<div
+  rb-slider-element="slider"
+  rb-slides-per-view="4"
+  rb-slides-per-view-mobile="1"
+>
   <div>Content 1</div>
   <div>Content 2</div>
 </div>
@@ -104,7 +108,7 @@
 
 ## Component Lifecycle
 
-1. **Detection Phase**: Scan for `rb-slider-element="list"` and `rb-slider` attributes
+1. **Detection Phase**: Scan for `rb-slider-element="list"` and `rb-slider-element="slider"` attributes
 2. **Configuration Phase**: Parse data attributes and apply CSS custom properties
 3. **Generation Phase**: Create slider HTML structure and navigation controls
 4. **Enhancement Phase**: Add accessibility features, drag interactions, and event handlers

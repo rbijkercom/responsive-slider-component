@@ -81,52 +81,74 @@ Transform any list into a configurable slider using data attributes:
 - `rb-slider-gap`: Space between slides (CSS length, default: 1.5rem)
 - `rb-slider-instance`: Reference to data source (required)
 
-### Multiple Data Sources
+### Direct Children Slider
 
-Combine multiple lists into one slider:
+Create sliders directly from container children:
 
 ```html
 <!-- Responsive product showcase: 4 desktop, 3 tablet, 2 mobile -->
 <div
-  rb-slider
+  rb-slider-element="slider"
   rb-slides-per-view="4"
   rb-slides-per-view-tablet="3"
   rb-slides-per-view-mobile="2"
   rb-slider-gap="1.5rem"
 >
-  <div rb-slider-item>Product 1 content...</div>
-  <div rb-slider-item>Product 2 content...</div>
-  <div rb-slider-item>Product 3 content...</div>
+  <div>Product 1 content...</div>
+  <div>Product 2 content...</div>
+  <div>Product 3 content...</div>
   <!-- More items... -->
 </div>
 
-<!-- Testimonials: 2 desktop/tablet, 1 mobile -->
-<ul rb-slider rb-slides-per-view="2" rb-slides-per-view-mobile="1">
-  <li>Testimonial 1...</li>
-  <li>Testimonial 2...</li>
-  <li>Testimonial 3...</li>
+<!-- Multiple data sources combined -->
+<ul rb-slider-element="list" rb-slider-instance="content">
+  <li>Item 1</li>
+  <li>Item 2</li>
 </ul>
+<div rb-slider-element="list" rb-slider-instance="content">
+  <div>Item 3</div>
+  <div>Item 4</div>
+</div>
+<div
+  rb-slider-element="slider"
+  rb-slider-instance="content"
+  rb-slides-per-view="2"
+></div>
 ```
 
 ### Data Attributes
 
-- `rb-slider`: Enables auto-initialization
+**Core Attributes:**
+
+- `rb-slider-element="slider"`: Marks container as slider (enables auto-initialization)
+- `rb-slider-element="list"`: Marks elements as data sources
+- `rb-slider-instance`: Links data sources to sliders (required for data source pattern)
+
+> **Migration Note**: The `rb-slider` attribute is no longer supported. Use `rb-slider-element="slider"` instead.
+
+**Configuration Attributes:**
+
 - `rb-slides-per-view`: Number of slides visible on desktop (default: 3)
 - `rb-slides-per-view-tablet`: Number of slides on tablet ≤768px (default: same as desktop)
-- `rb-slides-per-view-mobile`: Number of slides on mobile ≤480px (default: min(tablet, 2))
+- `rb-slides-per-view-mobile`: Number of slides on mobile ≤480px (default: 1)
 - `rb-slider-gap`: Gap between slides (default: 1rem)
+- `rb-slider-show-scrollbar`: Show/hide scrollbar ("true"/"false", default: "false")
+- `rb-slider-navigation`: Enable/disable navigation buttons ("true"/"false", default: "true")
 - `data-auto-init`: Set to "false" to prevent auto-initialization
 
 ### Manual Initialization
 
 ```javascript
-// Initialize specific element
-const slider = new ResponsiveSlider(document.getElementById('my-slider'));
+// Initialize the slider system manually
+const slider = new ResponsiveSlider();
+slider.init();
 
-// Or configure via data attributes first
-element.dataset.slidesPerView = '4';
-element.dataset.gap = '2rem';
-new ResponsiveSlider(element);
+// Or configure an element and initialize
+const element = document.getElementById('my-slider');
+element.setAttribute('rb-slider-element', 'slider');
+element.setAttribute('rb-slides-per-view', '4');
+element.setAttribute('rb-slider-gap', '2rem');
+new ResponsiveSlider().init();
 ```
 
 ### Legacy HTML Structure (Still Supported)

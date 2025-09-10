@@ -2,7 +2,9 @@
 
 ## Auto-Initialization System
 
-The ResponsiveSlider component uses a data attribute API for configuration and auto-initialization.
+The ResponsiveSlider component uses a data attribute API for configuration and auto-initialization. Sliders automatically initialize when the DOM loads by detecting elements with `rb-slider-element="slider"`.
+
+> **Migration Note**: The `rb-slider` attribute is no longer supported. Use `rb-slider-element="slider"` instead for auto-initialization.
 
 ## Core Attributes
 
@@ -177,7 +179,7 @@ The ResponsiveSlider component uses a data attribute API for configuration and a
 ### Preventing Auto-Init
 
 ```html
-<div rb-slider data-auto-init="false">
+<div rb-slider-element="slider" data-auto-init="false">
   <!-- Content -->
 </div>
 ```
@@ -185,11 +187,11 @@ The ResponsiveSlider component uses a data attribute API for configuration and a
 ### Manual JavaScript Init
 
 ```javascript
-// Initialize the slider system
+// Initialize the slider system manually
 const slider = new ResponsiveSlider();
 slider.init();
 
-// Or configure and initialize
+// Or configure an element and initialize
 const element = document.getElementById('my-slider');
 element.setAttribute('rb-slider-element', 'slider');
 element.setAttribute('rb-slides-per-view', '4');
