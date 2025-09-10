@@ -2,13 +2,35 @@ class ResponsiveSlider {
   constructor() {
     this.dataSources = new Map(); // Store list instances
     this.sliderConfigs = []; // Store slider configurations
+    this.eventListeners = new Map(); // Track event listeners for cleanup
+    this.navigationCache = new WeakMap(); // Cache navigation controls
   }
 
   // Initialize the slider system by detecting and processing data attributes
   init() {
     this.detectDataSources();
     this.detectSliderTargets();
+    this.detectAutoInitSliders(); // Add support for rb-slider attribute
     this.generateSliders();
+  }
+
+  // Detect elements with rb-slider attribute for auto-initialization
+  detectAutoInitSliders() {
+    const autoInitElements = document.querySelectorAll('[rb-slider]');
+
+    autoInitElements.forEach((element) => {
+      // Skip if auto-init is disabled
+      if (element.getAttribute('data-auto-init') === 'false') {
+        return;
+      }
+
+      const config = this.parseSliderConfiguration(element);
+      if (config) {
+        // Mark as auto-init slider
+        config.isAutoInit = true;
+        this.sliderConfigs.push(config);
+      }
+    });
   }
 
   // Detect and parse rb-slider-element="list" elements
@@ -28,7 +50,7 @@ class ResponsiveSlider {
         return;
       }
 
-      // Get depth configuration (default is 2 - child of child)
+      // Get depth configuration (default is 1 - direct children)
       const depth = parseInt(listElement.getAttribute('rb-slider-depth')) || 1;
 
       // Extract content from the list
@@ -109,10 +131,12 @@ class ResponsiveSlider {
   // Parse slider configuration from data attributes
   parseSliderConfiguration(sliderElement) {
     const listInstancesAttr = sliderElement.getAttribute('rb-slider-instance');
+    const hasRbSlider = sliderElement.hasAttribute('rb-slider');
 
-    if (!listInstancesAttr) {
+    // For auto-init sliders, rb-slider-instance is optional
+    if (!listInstancesAttr && !hasRbSlider) {
       console.warn(
-        'Slider element missing rb-slider-instance attribute:',
+        'Slider element missing rb-slider-instance or rb-slider attribute:',
         sliderElement,
       );
       return null;
@@ -120,17 +144,19 @@ class ResponsiveSlider {
 
     // Support multiple list instances (semicolon-separated values)
     const listInstances = listInstancesAttr
-      .split(';')
-      .map((instance) => instance.trim());
+      ? listInstancesAttr.split(';').map((instance) => instance.trim())
+      : [];
 
-    // Parse configuration with defaults
+    // Parse configuration with consistent defaults
+    const slidesPerView =
+      parseInt(sliderElement.getAttribute('rb-slides-per-view')) || 3;
     const config = {
       element: sliderElement,
       listInstances: listInstances,
-      slidesPerView:
-        parseInt(sliderElement.getAttribute('rb-slides-per-view')) || 3,
+      slidesPerView: slidesPerView,
       slidesPerViewTablet:
-        parseInt(sliderElement.getAttribute('rb-slides-per-view-tablet')) || 2,
+        parseInt(sliderElement.getAttribute('rb-slides-per-view-tablet')) ||
+        slidesPerView,
       slidesPerViewMobile:
         parseInt(sliderElement.getAttribute('rb-slides-per-view-mobile')) || 1,
       gap: sliderElement.getAttribute('rb-slider-gap') || '1rem',
@@ -157,39 +183,43 @@ class ResponsiveSlider {
       slidesPerViewMobile,
       gap,
       depth,
+      isAutoInit,
     } = config;
 
-    // Collect items from all specified list instances
-    const allItems = [];
+    let allItems = [];
 
-    listInstances.forEach((instanceName) => {
-      const dataSource = this.dataSources.get(instanceName);
+    // Handle auto-init sliders (rb-slider attribute)
+    if (isAutoInit) {
+      // Use direct children as slides
+      const children = Array.from(element.children);
+      allItems = children.map((child) => child.cloneNode(true));
+    } else {
+      // Collect items from specified list instances
+      listInstances.forEach((instanceName) => {
+        const dataSource = this.dataSources.get(instanceName);
 
-      if (!dataSource) {
-        console.warn(
-          `List instance "${instanceName}" not found for slider:`,
-          element,
-        );
-        return;
-      }
+        if (!dataSource) {
+          console.warn(
+            `List instance "${instanceName}" not found for slider:`,
+            element,
+          );
+          return;
+        }
 
-      console.log(
-        `Instance "${instanceName}" has ${dataSource.items.length} items from ${dataSource.elements.length} list(s)`,
-      );
-
-      // If slider has its own depth setting, re-extract items with that depth
-      if (depth !== null) {
-        const reExtractedItems = [];
-        dataSource.elements.forEach((listElement) => {
-          const items = this.extractListItems(listElement, depth);
-          reExtractedItems.push(...items);
-        });
-        allItems.push(...reExtractedItems);
-      } else {
-        // Use items as originally extracted with list-level depth
-        allItems.push(...dataSource.items);
-      }
-    });
+        // If slider has its own depth setting, re-extract items with that depth
+        if (depth !== null) {
+          const reExtractedItems = [];
+          dataSource.elements.forEach((listElement) => {
+            const items = this.extractListItems(listElement, depth);
+            reExtractedItems.push(...items);
+          });
+          allItems.push(...reExtractedItems);
+        } else {
+          // Use items as originally extracted with list-level depth
+          allItems.push(...dataSource.items);
+        }
+      });
+    }
 
     if (allItems.length === 0) {
       console.warn('No items found for slider:', element);
@@ -215,13 +245,13 @@ class ResponsiveSlider {
 
   // Setup accessibility features for a slider
   setupAccessibility(container, totalSlides) {
-    // Get configuration from CSS custom properties
+    // Get configuration from CSS custom properties with consistent defaults
     const slidesPerViewDesktop =
       parseInt(container.style.getPropertyValue('--slides-per-view-desktop')) ||
-      4;
+      3;
     const slidesPerViewTablet =
       parseInt(container.style.getPropertyValue('--slides-per-view-tablet')) ||
-      3;
+      slidesPerViewDesktop;
     const slidesPerViewMobile =
       parseInt(container.style.getPropertyValue('--slides-per-view-mobile')) ||
       1;
@@ -266,8 +296,19 @@ class ResponsiveSlider {
       );
     };
 
-    // Initial update and resize listener
+    // Initial update and resize listener with cleanup tracking
     updateAriaLabel();
+
+    // Store listener for cleanup
+    if (!this.eventListeners.has(container)) {
+      this.eventListeners.set(container, []);
+    }
+    this.eventListeners.get(container).push({
+      element: window,
+      event: 'resize',
+      handler: updateAriaLabel,
+    });
+
     window.addEventListener('resize', updateAriaLabel);
   }
 
@@ -347,7 +388,10 @@ class ResponsiveSlider {
 
   // Restore scroll snap behavior after drag interaction
   restoreScrollSnap(container) {
-    const slideWidth = container.querySelector('[rb-slide]').offsetWidth;
+    const firstSlide = container.querySelector('[rb-slide]');
+    if (!firstSlide) return;
+
+    const slideWidth = firstSlide.offsetWidth;
     const gap = parseInt(getComputedStyle(container).gap) || 16;
     const slideStep = slideWidth + gap;
     const nearestIndex = Math.round(container.scrollLeft / slideStep);
@@ -409,14 +453,28 @@ class ResponsiveSlider {
     // Initial state update
     this.updateNavigationStates(sliderContainer);
 
-    // Add scroll listener to update navigation states
-    sliderContainer.addEventListener('scroll', () => {
-      this.updateNavigationStates(sliderContainer);
+    // Add scroll listener to update navigation states with cleanup tracking
+    const scrollHandler = () => this.updateNavigationStates(sliderContainer);
+
+    if (!this.eventListeners.has(sliderContainer)) {
+      this.eventListeners.set(sliderContainer, []);
+    }
+    this.eventListeners.get(sliderContainer).push({
+      element: sliderContainer,
+      event: 'scroll',
+      handler: scrollHandler,
     });
+
+    sliderContainer.addEventListener('scroll', scrollHandler);
   }
 
   // Detect navigation controls within a slider container and its wrapper
   detectNavigationControls(sliderContainer) {
+    // Use cache to avoid repeated DOM queries
+    if (this.navigationCache.has(sliderContainer)) {
+      return this.navigationCache.get(sliderContainer);
+    }
+
     // Look for controls in both the slider container and its wrapper
     const wrapper = sliderContainer.parentElement;
     const searchContainer =
@@ -431,10 +489,14 @@ class ResponsiveSlider {
       '[rb-slider-element="next"]',
     );
 
-    return {
+    const controls = {
       previous: Array.from(previousControls),
       next: Array.from(nextControls),
     };
+
+    // Cache the result
+    this.navigationCache.set(sliderContainer, controls);
+    return controls;
   }
 
   // Move existing navigation controls from slider container to wrapper
@@ -464,6 +526,9 @@ class ResponsiveSlider {
       [...existingPrevious, ...existingNext].forEach((control) => {
         sliderWrapper.appendChild(control);
       });
+
+      // Clear navigation cache since controls moved
+      this.navigationCache.delete(sliderContainer);
     }
   }
 
@@ -486,25 +551,19 @@ class ResponsiveSlider {
       console.log('Created navigation wrapper for slider:', sliderContainer);
     }
 
-    // Create previous button
-    const prevButton = document.createElement('button');
-    prevButton.setAttribute('rb-slider-element', 'previous');
-    prevButton.setAttribute('type', 'button');
-    prevButton.setAttribute('aria-label', 'Previous slides');
-    prevButton.innerHTML =
-      '<svg rb-slider-element="nav-icon" width="100%" height="100%" viewBox="0 0 13 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.1798 0.259699C12.526 0.605964 12.526 1.16737 12.1798 1.51363L2.14006 11.5533L12.1798 21.593C12.526 21.9393 12.526 22.5007 12.1798 22.847C11.8335 23.1932 11.2721 23.1932 10.9258 22.847L0.259152 12.1803C-0.0871138 11.834 -0.0871138 11.2726 0.259152 10.9264L10.9258 0.259699C11.2721 -0.0865662 11.8335 -0.0865662 12.1798 0.259699Z" fill="currentColor"/></svg>';
-
-    // Create next button
-    const nextButton = document.createElement('button');
-    nextButton.setAttribute('rb-slider-element', 'next');
-    nextButton.setAttribute('type', 'button');
-    nextButton.setAttribute('aria-label', 'Next slides');
-    nextButton.innerHTML =
-      '<svg rb-slider-element="nav-icon" width="100%" height="100%" viewBox="0 0 13 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.259699 0.259699C-0.0865662 0.605964 -0.0865663 1.16737 0.259699 1.51363L10.2994 11.5533L0.259698 21.593C-0.0865672 21.9393 -0.0865672 22.5007 0.259698 22.847C0.605963 23.1932 1.16737 23.1932 1.51363 22.847L12.1803 12.1803C12.5266 11.834 12.5266 11.2726 12.1803 10.9264L1.51363 0.259699C1.16737 -0.0865662 0.605964 -0.0865662 0.259699 0.259699Z" fill="currentColor"/></svg>';
+    // Create navigation buttons with cleaner icon approach
+    const prevButton = this.createNavigationButton(
+      'previous',
+      'Previous slides',
+    );
+    const nextButton = this.createNavigationButton('next', 'Next slides');
 
     // Append buttons to the wrapper, not the slider container
     sliderWrapper.appendChild(prevButton);
     sliderWrapper.appendChild(nextButton);
+
+    // Clear navigation cache since we added new controls
+    this.navigationCache.delete(sliderContainer);
 
     console.log('Added navigation buttons to wrapper:', sliderWrapper);
   }
@@ -533,8 +592,12 @@ class ResponsiveSlider {
     const slides = sliderContainer.querySelectorAll('[rb-slide]');
     if (slides.length === 0) return 0;
 
-    const slideWidth = slides[0].offsetWidth;
-    const gap = parseInt(getComputedStyle(sliderContainer).gap) || 16;
+    const firstSlide = slides[0];
+    if (!firstSlide) return 0;
+
+    const slideWidth = firstSlide.offsetWidth;
+    const containerStyles = getComputedStyle(sliderContainer);
+    const gap = parseInt(containerStyles.gap) || 16;
 
     // Always scroll one slide at a time regardless of slides-per-view
     return slideWidth + gap;
@@ -630,6 +693,48 @@ class ResponsiveSlider {
   isNavigationDisabled(sliderContainer) {
     const navigationAttr = sliderContainer.getAttribute('rb-slider-navigation');
     return navigationAttr === 'false';
+  }
+
+  // Create a navigation button with consistent structure
+  createNavigationButton(type, ariaLabel) {
+    const button = document.createElement('button');
+    button.setAttribute('rb-slider-element', type);
+    button.setAttribute('type', 'button');
+    button.setAttribute('aria-label', ariaLabel);
+
+    // Use original SVG icons for proper visual consistency
+    if (type === 'previous') {
+      button.innerHTML =
+        '<svg rb-slider-element="nav-icon" width="100%" height="100%" viewBox="0 0 13 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.1798 0.259699C12.526 0.605964 12.526 1.16737 12.1798 1.51363L2.14006 11.5533L12.1798 21.593C12.526 21.9393 12.526 22.5007 12.1798 22.847C11.8335 23.1932 11.2721 23.1932 10.9258 22.847L0.259152 12.1803C-0.0871138 11.834 -0.0871138 11.2726 0.259152 10.9264L10.9258 0.259699C11.2721 -0.0865662 11.8335 -0.0865662 12.1798 0.259699Z" fill="currentColor"/></svg>';
+    } else {
+      button.innerHTML =
+        '<svg rb-slider-element="nav-icon" width="100%" height="100%" viewBox="0 0 13 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.259699 0.259699C-0.0865662 0.605964 -0.0865663 1.16737 0.259699 1.51363L10.2994 11.5533L0.259698 21.593C-0.0865672 21.9393 -0.0865672 22.5007 0.259698 22.847C0.605963 23.1932 1.16737 23.1932 1.51363 22.847L12.1803 12.1803C12.5266 11.834 12.5266 11.2726 12.1803 10.9264L1.51363 0.259699C1.16737 -0.0865662 0.605964 -0.0865662 0.259699 0.259699Z" fill="currentColor"/></svg>';
+    }
+
+    return button;
+  }
+
+  // Cleanup method to remove event listeners and prevent memory leaks
+  cleanup(container) {
+    if (this.eventListeners.has(container)) {
+      const listeners = this.eventListeners.get(container);
+      listeners.forEach(({ element, event, handler }) => {
+        element.removeEventListener(event, handler);
+      });
+      this.eventListeners.delete(container);
+    }
+
+    // Clear navigation cache
+    this.navigationCache.delete(container);
+  }
+
+  // Destroy all sliders and cleanup
+  destroy() {
+    this.eventListeners.forEach((listeners, container) => {
+      this.cleanup(container);
+    });
+    this.dataSources.clear();
+    this.sliderConfigs.length = 0;
   }
 }
 
