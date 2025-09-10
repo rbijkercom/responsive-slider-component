@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Cleanup Test</title>
+    <link rel="stylesheet" href="base-style.css">
+    <link rel="stylesheet" href="slider-style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+        }
+
+        [rb-slider-element="list"] {
+            background: #ffcdd2;
+            border: 2px solid #f44336;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        [rb-slider-element="slider"] {
+            background: #c8e6c9;
+            border: 2px solid #4caf50;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        #status {
+            background: #fff3e0;
+            border: 1px solid #ff9800;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Simple Cleanup Test</h1>
+
+    <div id="status">Initializing...</div>
+
+    <ul rb-slider-element="list" rb-slider-instance="test">
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+    </ul>
+
+    <div rb-slider-element="slider" rb-slider-instance="test" rb-slides-per-view="2"></div>
+
+    <script src="slider.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const status = document.getElementById('status');
+
+            // Check initial state
+            status.innerHTML = 'DOM loaded. Initial state:<br>';
+            status.innerHTML += `Source lists: ${document.querySelectorAll('[rb-slider-element="list"]').length}<br>`;
+            status.innerHTML += `Sliders: ${document.querySelectorAll('[rb-slider-element="slider"]').length}<br>`;
+
+            // Check after a delay to allow initialization
+            setTimeout(() => {
+                const sourceLists = document.querySelectorAll('[rb-slider-element="list"]').length;
+                const sliders = document.querySelectorAll('[rb-slider-element="slider"]').length;
+
+                status.innerHTML += '<br>After initialization:<br>';
+                status.innerHTML += `Source lists: ${sourceLists}<br>`;
+                status.innerHTML += `Sliders: ${sliders}<br>`;
+
+                if (sourceLists === 0) {
+                    status.innerHTML += '<br><strong style="color: green;">✅ SUCCESS: Source list removed!</strong>';
+                } else {
+                    status.innerHTML += '<br><strong style="color: red;">❌ FAIL: Source list still visible</strong>';
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Cleanup</title>
+    <link rel="stylesheet" href="base-style.css">
+    <link rel="stylesheet" href="slider-style.css">
+    <style>
+        [rb-slider-element="list"] {
+            background: red;
+            color: white;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        [rb-slider-element="slider"] {
+            background: green;
+            color: white;
+            padding: 10px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Debug Cleanup</h1>
+
+    <ul rb-slider-element="list" rb-slider-instance="test">
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+    </ul>
+
+    <div rb-slider-element="slider" rb-slider-instance="test" rb-slides-per-view="2"></div>
+
+    <script src="slider.js"></script>
+
+    <script>
+        // Manual debugging
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, checking elements...');
+
+            setTimeout(() => {
+                console.log('After timeout:');
+                console.log('Source lists:', document.querySelectorAll('[rb-slider-element="list"]').length);
+                console.log('Sliders:', document.querySelectorAll('[rb-slider-element="slider"]').length);
+            }, 500);
+        });
+    </script>
+</body>
+
+</html>

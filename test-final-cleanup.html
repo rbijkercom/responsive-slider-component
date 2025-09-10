@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Cleanup Test</title>
+    <link rel="stylesheet" href="base-style.css">
+    <link rel="stylesheet" href="slider-style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+        }
+
+        [rb-slider-element="list"] {
+            background: #ffcdd2;
+            border: 2px solid #f44336;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        [rb-slider-element="list"]::before {
+            content: "🔴 SOURCE LIST - This should disappear";
+            display: block;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Final Cleanup Test</h1>
+
+    <ul rb-slider-element="list" rb-slider-instance="test">
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+    </ul>
+
+    <div rb-slider-element="slider" rb-slider-instance="test" rb-slides-per-view="2"></div>
+
+    <script src="slider.js"></script>
+</body>
+
+</html>

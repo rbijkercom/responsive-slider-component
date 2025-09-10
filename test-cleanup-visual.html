@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Cleanup Test</title>
+    <link rel="stylesheet" href="base-style.css">
+    <link rel="stylesheet" href="slider-style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+        }
+
+        .source-list {
+            background: #ffcdd2;
+            border: 2px solid #f44336;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .source-list::before {
+            content: "🔴 SOURCE LIST (should disappear)";
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        [rb-slider-element="slider"] {
+            background: #c8e6c9;
+            border: 2px solid #4caf50;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        [rb-slider-element="slider"]::before {
+            content: "🟢 SLIDER (generated)";
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        #log {
+            background: #f5f5f5;
+            border: 1px solid #ccc;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Visual Cleanup Test</h1>
+    <p>The red source list should disappear after initialization, leaving only the green slider.</p>
+
+    <div id="log">Waiting for initialization...\n</div>
+
+    <ul class="source-list" rb-slider-element="list" rb-slider-instance="test">
+        <li>Item 1 - Should disappear</li>
+        <li>Item 2 - Should disappear</li>
+        <li>Item 3 - Should disappear</li>
+    </ul>
+
+    <div rb-slider-element="slider" rb-slider-instance="test" rb-slides-per-view="2"></div>
+
+    <script>
+        // Override console.log to show on page
+        const logDiv = document.getElementById('log');
+        const originalLog = console.log;
+        console.log = function (...args) {
+            originalLog.apply(console, args);
+            logDiv.textContent += args.join(' ') + '\n';
+            logDiv.scrollTop = logDiv.scrollHeight;
+        };
+    </script>
+
+    <script src="slider.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('=== DOM LOADED ===');
+
+            // Check every 100ms for changes
+            let checkCount = 0;
+            const checkInterval = setInterval(() => {
+                checkCount++;
+                const sourceLists = document.querySelectorAll('[rb-slider-element="list"]').length;
+                const sliders = document.querySelectorAll('[rb-slider-element="slider"]').length;
+
+                console.log(`Check ${checkCount}: Sources=${sourceLists}, Sliders=${sliders}`);
+
+                if (sourceLists === 0) {
+                    console.log('✅ SUCCESS: Source list removed!');
+                    clearInterval(checkInterval);
+                } else if (checkCount > 50) { // Stop after 5 seconds
+                    console.log('❌ TIMEOUT: Source list still visible after 5 seconds');
+                    clearInterval(checkInterval);
+                }
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>
