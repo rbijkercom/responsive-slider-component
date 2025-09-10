@@ -526,7 +526,7 @@ class ResponsiveSlider {
     });
   }
 
-  // Calculate scroll distance based on current slides-per-view
+  // Calculate scroll distance for single slide navigation
   calculateScrollDistance(sliderContainer) {
     const slides = sliderContainer.querySelectorAll('[rb-slide]');
     if (slides.length === 0) return 0;
@@ -534,25 +534,8 @@ class ResponsiveSlider {
     const slideWidth = slides[0].offsetWidth;
     const gap = parseInt(getComputedStyle(sliderContainer).gap) || 16;
 
-    // Get current slides per view based on viewport
-    let slidesPerView =
-      parseInt(
-        sliderContainer.style.getPropertyValue('--slides-per-view-desktop'),
-      ) || 3;
-
-    if (window.matchMedia('(max-width: 480px)').matches) {
-      slidesPerView =
-        parseInt(
-          sliderContainer.style.getPropertyValue('--slides-per-view-mobile'),
-        ) || 1;
-    } else if (window.matchMedia('(max-width: 768px)').matches) {
-      slidesPerView =
-        parseInt(
-          sliderContainer.style.getPropertyValue('--slides-per-view-tablet'),
-        ) || 2;
-    }
-
-    return (slideWidth + gap) * slidesPerView;
+    // Always scroll one slide at a time regardless of slides-per-view
+    return slideWidth + gap;
   }
 
   // Handle previous navigation action
