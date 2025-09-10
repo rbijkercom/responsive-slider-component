@@ -37,10 +37,10 @@ The ResponsiveSlider component uses a data attribute API for configuration and a
 ### `rb-slider-show-scrollbar`
 
 - **Purpose**: Controls scrollbar visibility for the slider
-- **Default**: Browser default (auto)
+- **Default**: false (hidden scrollbar)
 - **Values**: `"true"` (show scrollbar), `"false"` (hide scrollbar)
-- **Usage**: `rb-slider-show-scrollbar="false"` to hide scrollbar
-- **Behavior**: When set to `"false"`, hides scrollbar while maintaining scroll functionality
+- **Usage**: `rb-slider-show-scrollbar="true"` to show scrollbar
+- **Behavior**: When set to `"false"` (default), hides scrollbar while maintaining scroll functionality
 
 ## Data Source System
 
@@ -199,20 +199,20 @@ new ResponsiveSlider().init();
 ### Scrollbar Control Examples
 
 ```html
-<!-- Hide scrollbar for clean design -->
+<!-- Default behavior (hidden scrollbar) -->
+<div rb-slider-element="slider">
+  <div>Slide 1</div>
+  <div>Slide 2</div>
+</div>
+
+<!-- Explicitly hide scrollbar (same as default) -->
 <div rb-slider-element="slider" rb-slider-show-scrollbar="false">
   <div>Slide 1</div>
   <div>Slide 2</div>
 </div>
 
-<!-- Explicitly show scrollbar -->
+<!-- Show scrollbar -->
 <div rb-slider-element="slider" rb-slider-show-scrollbar="true">
-  <div>Slide 1</div>
-  <div>Slide 2</div>
-</div>
-
-<!-- Default behavior (browser auto) -->
-<div rb-slider-element="slider">
   <div>Slide 1</div>
   <div>Slide 2</div>
 </div>

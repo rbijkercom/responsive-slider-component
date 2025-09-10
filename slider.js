@@ -141,7 +141,7 @@ class ResponsiveSlider {
         ? true
         : showScrollbarAttr === 'false'
         ? false
-        : null;
+        : false; // Default to false (hidden scrollbar)
 
     const config = {
       element: sliderElement,
@@ -326,13 +326,11 @@ class ResponsiveSlider {
     );
     element.style.setProperty('--slide-gap', config.gap);
 
-    // Apply scrollbar visibility configuration
-    if (config.showScrollbar !== null) {
-      element.style.setProperty(
-        '--show-scrollbar',
-        config.showScrollbar ? 'auto' : 'hidden',
-      );
-    }
+    // Apply scrollbar visibility configuration (always set, default is false/hidden)
+    element.style.setProperty(
+      '--show-scrollbar',
+      config.showScrollbar ? 'auto' : 'hidden',
+    );
   }
 
   // Generate slider content from items
