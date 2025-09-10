@@ -491,14 +491,16 @@ class ResponsiveSlider {
     prevButton.setAttribute('rb-slider-element', 'previous');
     prevButton.setAttribute('type', 'button');
     prevButton.setAttribute('aria-label', 'Previous slides');
-    prevButton.textContent = '‹';
+    prevButton.innerHTML =
+      '<svg rb-slider-element="nav-icon" width="100%" height="100%" viewBox="0 0 13 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.1798 0.259699C12.526 0.605964 12.526 1.16737 12.1798 1.51363L2.14006 11.5533L12.1798 21.593C12.526 21.9393 12.526 22.5007 12.1798 22.847C11.8335 23.1932 11.2721 23.1932 10.9258 22.847L0.259152 12.1803C-0.0871138 11.834 -0.0871138 11.2726 0.259152 10.9264L10.9258 0.259699C11.2721 -0.0865662 11.8335 -0.0865662 12.1798 0.259699Z" fill="currentColor"/></svg>';
 
     // Create next button
     const nextButton = document.createElement('button');
     nextButton.setAttribute('rb-slider-element', 'next');
     nextButton.setAttribute('type', 'button');
     nextButton.setAttribute('aria-label', 'Next slides');
-    nextButton.textContent = '›';
+    nextButton.innerHTML =
+      '<svg rb-slider-element="nav-icon" width="100%" height="100%" viewBox="0 0 13 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.259699 0.259699C-0.0865662 0.605964 -0.0865663 1.16737 0.259699 1.51363L10.2994 11.5533L0.259698 21.593C-0.0865672 21.9393 -0.0865672 22.5007 0.259698 22.847C0.605963 23.1932 1.16737 23.1932 1.51363 22.847L12.1803 12.1803C12.5266 11.834 12.5266 11.2726 12.1803 10.9264L1.51363 0.259699C1.16737 -0.0865662 0.605964 -0.0865662 0.259699 0.259699Z" fill="currentColor"/></svg>';
 
     // Append buttons to the wrapper, not the slider container
     sliderWrapper.appendChild(prevButton);

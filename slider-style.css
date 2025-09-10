@@ -59,14 +59,17 @@
     border-radius: 50%;
     width: 40px;
     height: 40px;
-    font-size: 18px;
-    font-weight: bold;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    padding: 12px;
+}
+
+[rb-slider-element="nav-icon"] {
+    position: relative;
 }
 
 /* Previous Button Positioning */
@@ -74,9 +77,17 @@
     left: 10px;
 }
 
+[rb-slider-element="previous"] [rb-slider-element="nav-icon"] {
+    right: 1px;
+}
+
 /* Next Button Positioning */
 [rb-slider-element="next"] {
     right: 10px;
+}
+
+[rb-slider-element="next"] [rb-slider-element="nav-icon"] {
+    left: 1px;
 }
 
 /* Navigation Button Hover States */
@@ -144,7 +155,7 @@
     [rb-slider-element="next"] {
         width: 32px;
         height: 32px;
-        font-size: 14px;
+        padding: 10px;
     }
 
     /* Adjust positioning for smaller buttons */
