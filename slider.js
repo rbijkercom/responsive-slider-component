@@ -62,8 +62,27 @@ class ResponsiveSlider {
       if (dataSource) {
         dataSource.elements.forEach((listElement) => {
           // Remove the source list element from the DOM
-          if (listElement && listElement.parentNode) {
-            listElement.parentNode.removeChild(listElement);
+          if (listElement && listElement.isConnected) {
+            try {
+              listElement.remove();
+            } catch (error) {
+              // Fallback to removeChild if remove() fails
+              console.warn(
+                'Failed to remove source list element with remove(), trying removeChild:',
+                error,
+              );
+              try {
+                if (listElement.parentNode) {
+                  listElement.parentNode.removeChild(listElement);
+                }
+              } catch (fallbackError) {
+                console.error(
+                  'Failed to remove source list element:',
+                  fallbackError,
+                  listElement,
+                );
+              }
+            }
           }
         });
       }
