@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Source List Cleanup Test</title>
+    <link rel="stylesheet" href="base-style.css">
+    <link rel="stylesheet" href="slider-style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+        }
+
+        /* Style source lists to make them visible before cleanup */
+        [rb-slider-element="list"] {
+            background: #ffebee;
+            border: 2px solid #f44336;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        [rb-slider-element="list"]::before {
+            content: "SOURCE LIST (should disappear after init)";
+            display: block;
+            font-weight: bold;
+            color: #f44336;
+            margin-bottom: 0.5rem;
+        }
+
+        [rb-slider-element="slider"] {
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Source List Cleanup Test</h1>
+    <p>The red source lists should disappear after the slider initializes, leaving only the green slider.</p>
+
+    <!-- Source lists that should be removed -->
+    <ul rb-slider-element="list" rb-slider-instance="products">
+        <li>Product A - Amazing item</li>
+        <li>Product B - Great quality</li>
+        <li>Product C - Best seller</li>
+        <li>Product D - Customer favorite</li>
+    </ul>
+
+    <ul rb-slider-element="list" rb-slider-instance="prod">
+        <li>Product E - New arrival</li>
+        <li>Product F - Limited edition</li>
+    </ul>
+
+    <!-- Slider target -->
+    <div rb-slider-element="slider" rb-slider-instance="products" rb-slides-per-view="3" rb-slides-per-view-mobile="1">
+    </div>
+
+    <script src="slider.js"></script>
+
+    <script>
+        // Log what happens during initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Before init - Source lists:', document.querySelectorAll('[rb-slider-element="list"]').length);
+
+            setTimeout(() => {
+                console.log('After init - Source lists:', document.querySelectorAll('[rb-slider-element="list"]').length);
+                console.log('Sliders:', document.querySelectorAll('[rb-slider-element="slider"]').length);
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>

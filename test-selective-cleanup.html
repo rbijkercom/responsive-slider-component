@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selective Source List Cleanup Test</title>
+    <link rel="stylesheet" href="base-style.css">
+    <link rel="stylesheet" href="slider-style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+        }
+
+        /* Style source lists to make them visible */
+        [rb-slider-element="list"] {
+            background: #ffebee;
+            border: 2px solid #f44336;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        [rb-slider-element="list"]::before {
+            content: "SOURCE LIST - Instance: " attr(rb-slider-instance);
+            display: block;
+            font-weight: bold;
+            color: #f44336;
+            margin-bottom: 0.5rem;
+        }
+
+        [rb-slider-element="slider"] {
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .status {
+            background: #fff3e0;
+            border: 1px solid #ff9800;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Selective Source List Cleanup Test</h1>
+
+    <div class="status">
+        <strong>Expected behavior:</strong>
+        <ul>
+            <li>✅ "products" source lists should disappear (used by slider)</li>
+            <li>✅ "unused" source list should remain (not used by any slider)</li>
+        </ul>
+    </div>
+
+    <!-- Source lists for "products" - SHOULD BE REMOVED -->
+    <ul rb-slider-element="list" rb-slider-instance="products">
+        <li>Product A - Should disappear</li>
+        <li>Product B - Should disappear</li>
+        <li>Product C - Should disappear</li>
+    </ul>
+
+    <ul rb-slider-element="list" rb-slider-instance="products">
+        <li>Product D - Should disappear</li>
+        <li>Product E - Should disappear</li>
+    </ul>
+
+    <!-- Source list for "unused" - SHOULD REMAIN -->
+    <ul rb-slider-element="list" rb-slider-instance="unused">
+        <li>Unused Item 1 - Should stay visible</li>
+        <li>Unused Item 2 - Should stay visible</li>
+        <li>Unused Item 3 - Should stay visible</li>
+    </ul>
+
+    <!-- Only create slider for "products" -->
+    <div rb-slider-element="slider" rb-slider-instance="products" rb-slides-per-view="2" rb-slides-per-view-mobile="1">
+    </div>
+
+    <script src="slider.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('=== BEFORE INIT ===');
+            console.log('Products lists:', document.querySelectorAll('[rb-slider-instance="products"]').length);
+            console.log('Unused lists:', document.querySelectorAll('[rb-slider-instance="unused"]').length);
+            console.log('Total source lists:', document.querySelectorAll('[rb-slider-element="list"]').length);
+
+            setTimeout(() => {
+                console.log('=== AFTER INIT ===');
+                console.log('Products lists:', document.querySelectorAll('[rb-slider-instance="products"]').length);
+                console.log('Unused lists:', document.querySelectorAll('[rb-slider-instance="unused"]').length);
+                console.log('Total source lists:', document.querySelectorAll('[rb-slider-element="list"]').length);
+                console.log('Sliders:', document.querySelectorAll('[rb-slider-element="slider"]').length);
+
+                // Verify expected behavior
+                const unusedLists = document.querySelectorAll('[rb-slider-instance="unused"]');
+                const productLists = document.querySelectorAll('[rb-slider-instance="products"]');
+
+                if (unusedLists.length === 1 && productLists.length === 0) {
+                    console.log('✅ SUCCESS: Only consumed source lists were removed!');
+                } else {
+                    console.log('❌ FAIL: Unexpected cleanup behavior');
+                }
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>

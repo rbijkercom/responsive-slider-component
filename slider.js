@@ -4,6 +4,7 @@ class ResponsiveSlider {
     this.sliderConfigs = []; // Store slider configurations
     this.eventListeners = new Map(); // Track event listeners for cleanup
     this.navigationCache = new WeakMap(); // Cache navigation controls
+    this.consumedDataSources = new Set(); // Track which data sources were actually used
   }
 
   // Initialize the slider system by detecting and processing data attributes
@@ -11,6 +12,7 @@ class ResponsiveSlider {
     this.detectDataSources();
     this.detectSliderTargets();
     this.generateSliders();
+    this.cleanupDataSources();
   }
 
   // Detect and parse rb-slider-element="list" elements
@@ -48,6 +50,21 @@ class ResponsiveSlider {
         this.dataSources.set(listInstance, {
           elements: [listElement],
           items: items,
+        });
+      }
+    });
+  }
+
+  // Remove source list elements that were actually consumed by sliders
+  cleanupDataSources() {
+    this.consumedDataSources.forEach((instanceName) => {
+      const dataSource = this.dataSources.get(instanceName);
+      if (dataSource) {
+        dataSource.elements.forEach((listElement) => {
+          // Remove the source list element from the DOM
+          if (listElement && listElement.parentNode) {
+            listElement.parentNode.removeChild(listElement);
+          }
         });
       }
     });
@@ -202,6 +219,9 @@ class ResponsiveSlider {
           );
           return;
         }
+
+        // Mark this data source as consumed
+        this.consumedDataSources.add(instanceName);
 
         // If slider has its own depth setting, re-extract items with that depth
         if (depth !== null) {
