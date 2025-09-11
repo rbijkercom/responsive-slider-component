@@ -1,4 +1,4 @@
-# Contributing to Responsive Slider Component
+# Contributing to rb-slider
 
 Thank you for your interest in contributing! This project welcomes contributions from everyone.
 
@@ -17,8 +17,8 @@ This is a vanilla JavaScript project with no build system required:
 
 ```bash
 # Clone the repository
-git clone https://github.com/rbijkercom/responsive-slider-component.git
-cd responsive-slider-component
+git clone https://github.com/rbijkercom/rb-slider.git
+cd rb-slider
 
 # Serve locally (choose one)
 python -m http.server 8000
